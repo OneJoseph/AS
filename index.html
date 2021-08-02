@@ -6,32 +6,156 @@
 
     <!-- CSS -->
     <link href="src/bulma.min.css" rel="stylesheet" >
-    <title>OneApp</title>
+    <title>AS</title>
   </head>
   <body>
     <br />
-   <div class="container is-fluid">
-     <div class="columns is-mobile">
-       <div class="column">
-         <article class="panel is-info">
-  <p class="panel-heading">
-    Marginación
-  </p>
+      <div class="container is-fluid">
+        <div class="columns is-mobile">
+          <div class="column">
+              <article class="panel is-info">
+                <div class="panel-block">
+                  <input type="checkbox" id="dgt"/>
+                  <label class="checkbox" for="dgt">Expediente en DGT</label>
+                </div>
+                <div class="panel-block">
+                  <input type="checkbox" id="resol"/>
+                  <label class="checkbox" for="resol">Resoluciones (tasacion, multa)</label>
+                  <!--aca ira un form para agregar las resoluciones-->
+                </div>
+                <div class="panel-block">
+                  <input type="checkbox" id="iva"/>
+                  <label class="checkbox" for="iva">Inscrito en IVA</label>
+                </div>
+                <div class="panel-block">
+                  <div class="columns is-mobile">
+                    <div class="column is-two-thirds">
+                      <input type="checkbox" id="prevm"/>
+                      <label class="checkbox" for="prevm">Previa Marginacion</label>
+                    </div>
+                    <!--aca ira una condicional para mostrar esta otra columan-->
+                    <div class="column">
+                      <input class="input is-small" type="text" id="prevrta" placeholder="hasta 2020">
+                    </div>
+                    <!--fin condional-->
+                  </div>
+                </div>
+                <!--esta panel f06 se ocultara si iva no esta marcado-->
+                <div class="panel-block">
+                  <div class="columns is-mobile">
+                    <div class="column is-one-quarter">
+                      <input type="checkbox" id="f06"/>
+                      <label class="checkbox" for="f06">F06</label>
+                    </div>
+                    <!--aca ira el condicional inicial para mostrar la otra columna-->
+                    <div class="column">
+                      <input type="checkbox" id="omiso6"/>
+                      <label class="checkbox" for="omiso6">Omiso</label>
+                    </div>
+                    <!--aca ira la siguiente condicional para mostrar esta otra columan-->
+                    <div class="column">
+                      <input class="input is-small" type="text" id="p6omiso" placeholder="06/2021">
+                    </div>
+                    <!--fin condional-->
+                  </div>
+                </div>
+                <!--esta panel f07 se ocultara si iva no esta marcado-->
+                <div class="panel-block">
+                  <div class="columns is-mobile">
+                    <div class="column is-one-quarter">
+                      <input type="checkbox" id="f07"/>
+                      <label class="checkbox" for="f07">F07</label>
+                    </div>
+                    <!--aca ira el condicional inicial para mostrar la otra columna-->
+                    <div class="column">
+                      <input type="checkbox" id="omiso7"/>
+                      <label class="checkbox" for="omiso7">Omiso</label>
+                    </div>
+                    <!--aca ira la siguiente condicional para mostrar esta otra columan-->
+                    <div class="column">
+                      <input class="input is-small" type="text" id="p7omiso" placeholder="06/2021">
+                    </div>
+                    <!--fin condional-->
+                  </div>
+                </div>
+                <!--fin panel a ocultar si iva no esta marcado-->
+                <div class="panel-block">
+                  <div class="columns is-mobile">
+                    <div class="column is-one-quarter">
+                      <input type="checkbox" id="f14"/>
+                      <label class="checkbox" for="f14">F14</label>
+                    </div>
+                    <!--esta columna se ocultara si f14 marcado-->
+                    <div class="column">
+                      <input class="input is-small" type="text" id="acteco" placeholder="Otros">
+                    </div>
+                    <!--aca ira el condicional inicial para mostrar la otra columna-->
+                    <div class="column">
+                      <input type="checkbox" id="omiso14"/>
+                      <label class="checkbox" for="omiso14">Omiso</label>
+                    </div>
+                    <!--aca ira la siguiente condicional para mostrar esta otra columan-->
+                    <div class="column">
+                      <input class="input is-small" type="text" id="p14omiso" placeholder="06/2021">
+                    </div>
+                    <!--fin condional-->
+                  </div>
+                </div>
+                <div class="panel-block">
+                  <div class="columns is-mobile">
+                    <div class="column is-two-thirds">
+                      <input type="checkbox" id="amp"/>
+                      <label class="checkbox" for="amp">Declaraciones Amparadas</label>
+                    </div>
+                    <!--aca ira una condicional para mostrar esta otra columan-->
+                    <div class="column">
+                      <input class="input is-small" type="text" id="dlamp" placeholder="521/2019" value="521/2019">
+                    </div>
+                    <!--fin condional-->
+                  </div>
+                </div>
+                <div class="panel-block">
+                  <div class="columns is-mobile">
+                    <div class="column is-one-fifth">
+                      <input type="checkbox" id="f09"/>
+                      <label class="checkbox" for="f09">F09</label>
+                    </div>
+                    <!--aca ira una condicional para mostrar esta otra columan-->
+                    <div class="column">
+                      <input class="input is-small" type="text" id="p09" placeholder="01/2021">
+                    </div>
+                    <!--fin condional-->
+                    <div class="column">
+                      <div class="select is-small">
+                        <select >
+                          <option>Cancelada</option>
+                          <option>Pendiente</option>
+                        </select>
+                      </div>
+                    </div>
+                    <!--aca ira una condicional para mostrar esta otra columan-->
+                    <div class="column">
+                      <input class="input is-small" type="text" id="fc09" placeholder="01/01/2021">
+                    </div>
+                    <!--fin condional-->
+                  </div>
+                </div>
+                
 
-  <div class="panel-block">
-    <input type="checkbox"/>
-  </div>
-  <div class="panel-block">
-    <input type="checkbox"/>
-  </div>
-
-</article>
-       </div>
-       <div class="column">
-         <div class="notification is-link is-light"></div>
-       </div>
-     </div>
-   </div>
+              </article>
+          </div>
+          <div class="column">
+            <div class="notification is-info is-light">Resoluciones</div>
+            <div class="notification is-link is-light">Rentas</div>
+            <div class="notification is-success is-light">Omisos F06-07-14</div>
+            <div class="notification is-warning is-light">Declaraciones Amparadas</div>
+            <div class="notification is-warning is-light">TBR</div>
+          </div>
+          <div class="column">
+            <div class="notification">Marginacion</div>
+          </div>
+        </div>
+      </div>
    
    <script src="src/vue.global.prod.js" type="text/javascript" charset="utf-8"></script>
   </body>
