@@ -83,6 +83,26 @@ const AsistenOne = {
               rta: [],
             },
           },
+          input: {
+            decreto: {
+              selected: 'D1',
+                options: [
+                      { estado: '2019', value: 'D1' },
+                      { estado: '2018', value: 'D2' },
+                      { estado: '2017', value: 'D3' },
+                      { estado: '2015', value: 'D4' },
+                    ],
+            },
+            f: {
+              selected: 'D1',
+                options: [
+                      { estado: 'Renta', value: 'RT' },
+                      { estado: 'F06', value: 'F6' },
+                      { estado: 'F07', value: 'F7' },
+                      { estado: 'F14', value: 'F4' },
+                    ],
+            },
+          },
         },
         vmt: {
           esq: false, //esquelas
