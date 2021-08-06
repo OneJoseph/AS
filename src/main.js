@@ -57,8 +57,32 @@ const AsistenOne = {
         },
         amp: {
           present: false,
-          dl: '2019',
-          periodos: [],
+          decla: {
+            decre1: {
+              f06: [],
+              f07: [],
+              f14: [],
+              rta: [],
+            },
+            decre2: {
+              f06: [],
+              f07: [],
+              f14: [],
+              rta: [],
+            },
+            decre3: {
+              f06: [],
+              f07: [],
+              f14: [],
+              rta: [],
+            },
+            decre4: {
+              f06: [],
+              f07: [],
+              f14: [],
+              rta: [],
+            },
+          },
         },
         vmt: {
           esq: false, //esquelas
