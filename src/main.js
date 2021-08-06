@@ -449,6 +449,9 @@ const AsistenOne = {
       rtapte: function() {
         return this.rta.input.mont - this.rta.input.abo
       },
+      amps: function() {
+        return this.amp.decla.decre1.rta.length + this.amp.decla.decre1.f06.length + this.amp.decla.decre1.f07.length + this.amp.decla.decre1.f14.length + this.amp.decla.decre2.rta.length + this.amp.decla.decre2.f06.length + this.amp.decla.decre2.f07.length + this.amp.decla.decre2.f14.length + this.amp.decla.decre3.rta.length + this.amp.decla.decre3.f06.length + this.amp.decla.decre3.f07.length + this.amp.decla.decre3.f14.length + this.amp.decla.decre4.rta.length + this.amp.decla.decre4.f06.length + this.amp.decla.decre4.f07.length + this.amp.decla.decre4.f14.length
+      },
     }
   }
 

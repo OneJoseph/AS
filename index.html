@@ -389,7 +389,7 @@
                   <h1 v-for="(rta, index) in rta.ejer.pte.abo">{{ index }} {{ rta.ejer }} {{ rta.mont }} {{ rta.abo }} {{ rta.pte }}</h1>
                 </div>
                 <div v-if="omif" class="notification is-success is-light">Omisos F06-07-14</div>
-                <div v-if="amp.periodos.length" class="notification is-warning is-light">Declaraciones Amparadas</div>
+                <div v-if="amps" class="notification is-warning is-light">Declaraciones Amparadas</div>
                 <div v-if="f.f09.periodos.length" class="notification is-warning is-light">TBR</div>
               </div>
               <div class="column">
