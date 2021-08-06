@@ -11,7 +11,7 @@
   <body>
     <br />
       <div id="app" class="container is-fluid">
-        <div class="columns is-mobile">
+        <div class="columns  ">
           <div class="column is-4">
               <article class="panel is-info">
                 <div class="panel-block">
@@ -19,13 +19,13 @@
                   <label class="checkbox" for="dgt">Expediente en DGT</label>
                 </div>
                 <div class="panel-block">
-                  <div class="columns is-mobile">
+                  <div class="columns  ">
                     <div class="column">
-                      <input type="checkbox" id="resol" v-model="rsol"/>
+                      <input type="checkbox" id="resol" v-model="rsol.posee"/>
                       <label class="checkbox" for="resol">Resoluciones (tasacion, multa)</label>
                     </div>
                     <!--aca ira un boton para agregar las resoluciones-->
-                    <div class="column is-one-fifth">
+                    <div v-if="rsol.posee" class="column is-one-fifth">
                       <button class="button is-small is-success is-outlined">Agregar</button>
                     </div>
                     <!--fin condional-->
@@ -33,42 +33,46 @@
                 </div>
                 <div class="panel-block">
                   
-                  <div class="columns is-mobile">
+                  <div class="columns  ">
                     <div class="column">
-                      <input type="checkbox" id="iva"/>
+                      <input type="checkbox" id="iva" v-model="iva.inscrito"/>
                       <label class="checkbox" for="iva">Inscrito IVA </label>
                     </div>
                     <!--aca ira una condicional para mostrar esta otra columan-->
-                    <div class="column is-4">
-                      <input class="input is-small" type="text" id="fechains" placeholder="01/01/2020">
-                    </div>
-                    <!--fin condional-->
-                    <div class="column is-4">
-                      <input type="checkbox" id="diva"/>
-                      <label class="checkbox" for="diva">Desinscrito</label>
-                    </div>
+                    <template v-if="iva.inscrito">
+                      <div class="column is-4">
+                        <input class="input is-small" type="text" id="fechains" placeholder="01/01/2020" v-model="iva.fecha">
+                      </div>
+                      <div class="column is-4">
+                       <input type="checkbox" id="diva" v-model="iva.desinscrito"/>
+                        <label class="checkbox" for="diva">Desinscrito</label>
+                      </div>
+                    </template>
                   </div>
                 </div>
                 <div class="panel-block">
-                  <div class="columns is-mobile">
+                  <div class="columns  ">
                     <div class="column">
-                      <input type="checkbox" id="prevm"/>
+                      <input @click="rta.input.show.anti = false" type="checkbox" id="prevm" v-model="prevr.rta"/>
                       <label class="checkbox" for="prevm">Renta Previa</label>
                     </div>
                     <!--aca ira una condicional para mostrar esta otra columan-->
-                    <div class="column is-4">
-                      <input class="input is-small" type="text" id="prevrta" placeholder="hasta 2020">
+                    <div v-if="prevr.rta" class="column is-4">
+                      <input class="input is-small" type="text" id="prevrta" placeholder="2020" v-model="prevr.ejer">
+                    </div>
+                    <div v-if="!prevr.rta" class="column is-4">
+                      <button @click="ShowRantInput" class="button is-small is-success is-outlined">+Antiguas</button>
                     </div>
                     <!--fin condional-->
                     <div class="column is-one-fifth">
-                      <button class="button is-small is-success is-outlined">+Renta</button>
+                      <button  @click="ShowRtaInput" class="button is-small is-success is-outlined">+Renta</button>
                     </div>
                   </div>
                 </div>
 
                 <div class="panel-block">
                   <div class="container is-fluid">
-                    <div class="columns is-mobile">
+                    <div class="columns  ">
                       <div class="column">
                         <button class="button is-small is-info is-outlined">Agregar F910 vs F11</button>
                       </div>
@@ -76,113 +80,98 @@
                         <button class="button is-small is-link is-outlined">Agregar F910 vs F14</button>
                       </div>
                     </div>
-
                   </div>
-                  
                 </div>
                 
                 <div class="panel-block">
                   <div class="container is-fluid">
-                    <div class="columns is-mobile">
+                    <div class="columns  ">
                       <!--esta panel f07 se ocultara si iva no esta marcado-->
                       <div class="column is-4">
-                        <input type="checkbox" id="f06"/>
+                        <input @click="f.input.show.f06 = false" type="checkbox" id="f06" v-model="f.f06.oblig" true-value="1" false-value="0"/>
                         <label class="checkbox" for="f06">F06</label>
                         <!--si esta marcado se muestra este boton-->
-                        <button class="button is-small is-danger is-outlined">+Omiso</button>
+                        <button v-if="f.f06.oblig == 1" @click="Showfo6Input" class="button is-small is-danger is-outlined">+Omiso</button>
                       </div>
                       <!--esta panel f07 se ocultara si iva no esta marcado-->
                       <div class="column is-4">
-                        <input type="checkbox" id="f07"/>
+                        <input @click="f.input.show.f07 = false" type="checkbox" id="f07" v-model="f.f07.oblig" true-value="1" false-value="0"/>
                         <label class="checkbox" for="f07">F07</label>
                         <!--si esta marcado se muestra este boton-->
-                        <button class="button is-small is-danger is-outlined">+Omiso</button>
+                        <button v-if="f.f07.oblig == 1" @click="Showfo7Input" class="button is-small is-danger is-outlined">+Omiso</button>
                       </div>
                       <div class="column is-4">
-                        <input type="checkbox" id="f14"/>
+                        <input @click="f.input.show.f14 = false" type="checkbox" id="f14" v-model="f.f14.oblig" true-value="1" false-value="0"/>
                         <label class="checkbox" for="f14">F14</label>
                         <!--si no esta marcado se muestra la actividad economica otros-->
-                        <input class="input is-small" type="text" id="acteco" placeholder="Otros">
+                        <input v-if="f.f14.oblig == 0" class="input is-small" type="text" id="acteco" placeholder="Otros" v-model="f.f14.act" />
                         <!--si esta marcado se muestra este boton-->
-                        <button class="button is-small is-danger is-outlined">+Omiso</button>
+                        <button v-else-if="f.f14.oblig == 1" @click="Showf14Input" class="button is-small is-danger is-outlined">+Omiso</button>
                       </div>
-                      
-                      <!-- se cambia por el boton agregar omiso esto pasa a la segunda columna
-                                        
-                      <div class="column">
-                        <input class="input is-small" type="text" id="p6omiso" placeholder="06/2021">
-                      </div>
-                        fin -->
                     </div>
                   </div>
-
-                  </div>
+                </div>
                   
                 <!-- este panel sera visible solo si esta activo algun f.-->
-                <div class="panel-block">
-                  <div class="columns is-mobile">
+                <div v-if="nfv" class="panel-block">
+                  <div class="columns  ">
                     <div class="column">
                       <label>F. verificados hasta </label>
                     </div>
                     <div class="column is-4">
-                      <input class="input is-small" type="text" id="p7verf" placeholder="06/2021">
+                      <input class="input is-small" type="text" id="p7verf" placeholder="06/2021" v-model="f.verf" />
                     </div>
                   </div>
                 </div>
                 <div class="panel-block">
-                  <div class="columns is-mobile">
+                  <div class="columns  ">
                     <div class="column">
-                      <input type="checkbox" id="amp"/>
+                      <input type="checkbox" id="amp" v-model="amp.present" />
                       <label class="checkbox" for="amp">Declaracion Amparada</label>
                     </div>
                     <!--si esta marcada amp se mostrar este boton-->
-                    <div class="column is-one-fifth">
+                    <div v-if="amp.present" class="column is-one-fifth">
                       <button class="button is-small is-success is-outlined">Agregar</button>
                     </div>
                     <!--fin condional-->
                   </div>
                 </div>
                 <div class="panel-block">
-                  <div class="columns is-mobile">
+                  <div class="columns  ">
                     <div class="column">
-                      <input type="checkbox" id="f09"/>
+                      <input type="checkbox" id="f09" v-model="f.f09.present" />
                       <label class="checkbox" for="f09">F09</label>
                     </div>
                     <!--si esta marcada amp se mostrar este boton-->
-                    <div class="column is-one-fifth">
+                    <div v-if="f.f09.present" class="column is-one-fifth">
                       <button class="button is-small is-success is-outlined">Agregar</button>
                     </div>
-                    <!--fin condional-->
-                    <!-- esto se mostrara como formulario para agregar f09
                     
-                   -->
                   </div>
                 </div>                
                 <div class="panel-block">
-                  <div class="columns is-mobile">
+                  <div class="columns  ">
                     <div class="column">
-                      <input type="checkbox" id="vmt"/>
+                      <input type="checkbox" id="vmt" v-model="vmt.esq" />
                       <label class="checkbox" for="vmt">Esquelas</label>
                     </div>
-                    <div class="column is-4">
-                      <input class="input is-small" type="text" id="vmt" placeholder="0.00">
+                    <div v-if="vmt.esq" class="column is-4">
+                      <input class="input is-small" type="text" id="vmt" placeholder="0.00" v-model="vmt.montoesq" >
                     </div>
                   </div>
                 </div>
 
                 <div class="panel-block">
-                  <div class="columns is-mobile">
+                  <div class="columns  ">
                     <div class="column">
                       <label>Estado Contribuyente</label>
                     </div>
                     <div class="column">
                       <div class="select is-small">
-                        <select >
-                          <option>Solvente</option>
-                          <option>No Contribuyente</option>
-                          <option>Insolvente Omiso</option>
-                          <option>Insolvente Moroso Omiso</option>
-                          <option>Insolvente Moroso</option>
+                        <select v-model="contri.selected">
+                          <option v-for="opt in contri.options" :value="opt.value" >
+                            {{ opt.estado }}
+                          </option>
                         </select>
                       </div>
                     </div>
@@ -192,71 +181,216 @@
           </div>
 
           <div class="column">
-            <article class="panel">
+            <article v-if="rta.input.show.rt" class="panel">
               <div class="panel-block">
                 <label >Agregar Renta</label>
               </div>
               
               <div class="panel-block">
-                <div class="columns is-mobile">
-                  <div class="column">
-                    <label>Renta</label>
-                    <input class="input is-small" type="text" id="rta" placeholder="2020" value="2020">
-                  </div>
+                <div class="columns  ">
                   <div class="column">
                     <label>Estado</label>
                     <div class="select is-small">
-                      <select >
-                        <option>Sin saldo</option>
-                        <option>Devolucion</option>
-                        <option>Cancelada</option>
-                        <option>Pendiente Pago</option>
-                        <option>Omisa Diversas</option>
-                        <option>Omisa IVA</option>
-                        <option>Pago a Plazo</option>
-                        <option>Cuota vencida</option>
-                        <option>No procede</option>                         
+                      <select v-model="rta.input.estado.selected" >
+                        <option v-for="opts in rta.input.estado.options" :value="opts.value">
+                          {{ opts.estado }}
+                        </option>
                       </select>
                     </div>
                   </div>
                   <div class="column">
-                    <label>Monto</label>
-                    <input class="input is-small" type="text" id="mrta" placeholder="0.00" value="">
+                    <label>Ejercicio</label>
+                    <input class="input is-small" type="text" id="ejer" placeholder="2020" v-model="rta.input.ejer" />
                   </div>
-                  <div class="column">
-                    <label>Fecha C.</label>
-                    <input class="input is-small" type="text" id="fcda" placeholder="30/04/2021" value="">
-                  </div>
-                  <div class="column">
-                    <label>Abono</label>
-                    <input class="input is-small" type="text" id="abo" placeholder="0.00" value="">
-                  </div>
-                  <div class="column">
-                    <label>#Resol</label>
-                    <input class="input is-small" type="text" id="resol" placeholder="334422" value="">
-                  </div>
-                  <div class="column">
-                    <label>Fecha P.</label>
-                    <input class="input is-small" type="text" id="fprox" placeholder="31/08/2021" value="">
-                  </div>
-                  <div class="column">
-                    <label>#Folio</label>
-                    <input class="input is-small" type="text" id="folio" placeholder="3344221521" value="">
-                  </div>
+                  <template v-if="rta.input.estado.selected === 'CDA' ">
+                    <div class="column">
+                        <option>Cancelada</option>
+                      <input class="input is-small" type="text" id="mont" placeholder="0.00" v-model="rta.input.mont" >
+                    </div>
+                    <div class="column">
+                      <label>Fecha C.</label>
+                      <input class="input is-small" type="text" id="fcda" placeholder="30/04/2021" v-model="rta.input.fcda">
+                    </div>
+                  </template>
+                  <template v-if="rta.input.estado.selected === 'PTE' ">
+                    <div class="column">
+                      <label>Monto</label>
+                      <input class="input is-small" type="text" id="mont" placeholder="0.00" v-model="rta.input.mont">
+                    </div>
+                  </template>
+                  <template v-if="rta.input.estado.selected === 'ABP' ">
+                    <div class="column">
+                      <label>Monto</label>
+                      <input class="input is-small" type="text" id="mont" placeholder="0.00" v-model="rta.input.mont">
+                    </div>
+                    <div class="column">
+                      <label>Abono</label>
+                      <input class="input is-small" type="text" id="abo" placeholder="0.00" v-model="rta.input.abo">
+                    </div>
+                  </template>
+                  <template v-if="rta.input.estado.selected === 'VIG' ">
+                    <div class="column">
+                      <label>Monto</label>
+                      <input class="input is-small" type="text" id="mont" placeholder="0.00" v-model="rta.input.mont">
+                    </div>
+                    <div class="column">
+                      <label>Abono</label>
+                      <input class="input is-small" type="text" id="abo" placeholder="0.00" v-model="rta.input.abo">
+                    </div>
+                    <div class="column">
+                      <label>#Resol</label>
+                      <input class="input is-small" type="text" id="resol" placeholder="334422" v-model="rta.input.resol">
+                    </div>
+                    <div class="column">
+                      <label>Fecha P.</label>
+                      <input class="input is-small" type="text" id="fprox" placeholder="31/08/2021" v-model="rta.input.fprox">
+                    </div>
+                  </template>
+                  <template v-if="rta.input.estado.selected === 'VEN' ">
+                    <div class="column">
+                      <label>Monto</label>
+                      <input class="input is-small" type="text" id="mont" placeholder="0.00" v-model="rta.input.mont">
+                    </div>
+                    <div class="column">
+                      <label>Abono</label>
+                      <input class="input is-small" type="text" id="abo" placeholder="0.00" v-model="rta.input.abo">
+                    </div>
+                    <div class="column">
+                      <label>#Resol</label>
+                      <input class="input is-small" type="text" id="resol" placeholder="334422" v-model="rta.input.resol">
+                    </div>
+                  </template>
+                  <template v-if="rta.input.estado.selected === 'NPR' ">
+                    <div class="column">
+                      <label>Monto</label>
+                      <input class="input is-small" type="text" id="mont" placeholder="0.00" v-model="rta.input.mont">
+                    </div>
+                    <div class="column">
+                      <label>#Folio</label>
+                      <input class="input is-small" type="text" id="foli" placeholder="3344221521" v-model="rta.input.foli">
+                    </div>
+                  </template>
                   <div class="column">
                     <br>
-                    <button class="button is-small is-success is-outlined">Agregar</button>
+                    <button @click="AddRta" class="button is-small is-success is-outlined">Agregar</button>
                   </div>
                 </div>
               </div>
             </article>
-            <div class="columns is-mobile">
+            <article v-if="rta.input.show.anti" class="panel">
+              <div class="panel-block">
+                <label >Agregar Renta Antigua</label>
+              </div>
+              
+              <div class="panel-block">
+                <div class="columns  ">
+                  <div class="column">
+                    <label>Estado</label>
+                    <div class="select is-small">
+                      <select v-model="rta.input.estadoanti.selected" >
+                        <option v-for="opts in rta.input.estadoanti.options" :value="opts.value">
+                          {{ opts.estado }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="column">
+                    <label>Ejercicio</label>
+                    <input class="input is-small" type="text" id="ejer" placeholder="2020" v-model="rta.input.ejer" />
+                  </div>
+                  <template v-if="rta.input.estadoanti.selected === 'CDA' ">
+                    <div class="column">
+                        <option>Cancelada</option>
+                      <input class="input is-small" type="text" id="mont" placeholder="0.00" v-model="rta.input.mont" >
+                    </div>
+                    <div class="column">
+                      <label>Fecha C.</label>
+                      <input class="input is-small" type="text" id="fcda" placeholder="30/04/2021" v-model="rta.input.fcda">
+                    </div>
+                  </template>
+                  <template v-if="rta.input.estadoanti.selected === 'PTE' ">
+                    <div class="column">
+                      <label>Monto</label>
+                      <input class="input is-small" type="text" id="mont" placeholder="0.00" v-model="rta.input.mont">
+                    </div>
+                  </template>
+                  <template v-if="rta.input.estadoanti.selected === 'ABP' ">
+                    <div class="column">
+                      <label>Monto</label>
+                      <input class="input is-small" type="text" id="mont" placeholder="0.00" v-model="rta.input.mont">
+                    </div>
+                    <div class="column">
+                      <label>Abono</label>
+                      <input class="input is-small" type="text" id="abo" placeholder="0.00" v-model="rta.input.abo">
+                    </div>
+                  </template>
+                  <div class="column">
+                    <br>
+                    <button @click="AddRanti" class="button is-small is-success is-outlined">Agregar</button>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article v-if="f.input.show.f06" class="panel">
+              <div class="panel-block">
+                <label >Agregar Omisos de F06</label>
+              </div>
+              <div class="panel-block">
+                <div class="columns  ">
+                  <div class="column">
+                    <label>Periodo</label>
+                    <input class="input is-small" type="text" id="ejer" placeholder="06/2021" v-model="f.input.periodo" />
+                  </div>
+                  <div class="column">
+                    <br>
+                    <button @click="AddFomiso" class="button is-small is-success is-outlined">Agregar</button>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article v-if="f.input.show.f07" class="panel">
+              <div class="panel-block">
+                <label>Agregar Omisos de F07</label>
+              </div>
+              <div class="panel-block">
+                <div class="columns  ">
+                  <div class="column">
+                    <label>Periodo</label>
+                    <input class="input is-small" type="text" id="ejer" placeholder="06/2021" v-model="f.input.periodo" />
+                  </div>
+                  <div class="column">
+                    <br>
+                    <button @click="AddFomiso" class="button is-small is-success is-outlined">Agregar</button>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article v-if="f.input.show.f14" class="panel">
+              <div class="panel-block">
+                <label>Agregar Omisos de F14</label>
+              </div>
+              <div class="panel-block">
+                <div class="columns  ">
+                  <div class="column">
+                    <label>Periodo</label>
+                    <input class="input is-small" type="text" id="ejer" placeholder="06/2021" v-model="f.input.periodo" />
+                  </div>
+                  <div class="column">
+                    <br>
+                    <button @click="AddFomiso" class="button is-small is-success is-outlined">Agregar</button>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <div class="columns  ">
               <div class="column">
-                <div class="notification is-info is-light">Resoluciones</div>
-                <div class="notification is-link is-light">Rentas</div>
-                <div class="notification is-success is-light">Omisos F06-07-14</div>
-                <div class="notification is-warning is-light">Declaraciones Amparadas</div>
-                <div class="notification is-warning is-light">TBR</div>
+                <div v-if="rsol.resoluciones.length" class="notification is-info is-light">Resoluciones</div>
+                <div v-if="rtaz" class="notification is-link is-light">Rentas
+                  <h1 v-for="(rta, index) in rta.ejer.pte.abo">{{ index }} {{ rta.ejer }} {{ rta.mont }} {{ rta.abo }} {{ rta.pte }}</h1>
+                </div>
+                <div v-if="omif" class="notification is-success is-light">Omisos F06-07-14</div>
+                <div v-if="amp.periodos.length" class="notification is-warning is-light">Declaraciones Amparadas</div>
+                <div v-if="f.f09.periodos.length" class="notification is-warning is-light">TBR</div>
               </div>
               <div class="column">
                 <div class="notification">Marginacion</div>
