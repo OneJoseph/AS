@@ -84,6 +84,7 @@ const AsistenOne = {
             },
           },
           input: {
+            show: false,
             decreto: {
               selected: 'D1',
                 options: [
@@ -94,7 +95,7 @@ const AsistenOne = {
                     ],
             },
             f: {
-              selected: 'D1',
+              selected: 'F7',
                 options: [
                       { estado: 'Renta', value: 'RT' },
                       { estado: 'F06', value: 'F6' },
