@@ -59,32 +59,152 @@ const AsistenOne = {
           present: false,
           decla: {
             decre1: {
-              f06: [],
-              f07: [],
-              f14: [],
+              f06: {
+                cda: [],
+                pte: {
+                  t: [],
+                  abo: [],
+                },
+                plazo: {
+                  vigente: [],
+                  vencida: [],
+                },
+              },
+              f07: {
+                cda: [],
+                pte: {
+                  t: [],
+                  abo: [],
+                },
+                plazo: {
+                  vigente: [],
+                  vencida: [],
+                },
+              },
+              f14: {
+                cda: [],
+                pte: {
+                  t: [],
+                  abo: [],
+                },
+                plazo: {
+                  vigente: [],
+                  vencida: [],
+                },
+              },
               rta: [],
             },
             decre2: {
-              f06: [],
-              f07: [],
-              f14: [],
+              f06: {
+                cda: [],
+                pte: {
+                  t: [],
+                  abo: [],
+                },
+                plazo: {
+                  vigente: [],
+                  vencida: [],
+                },
+              },
+              f07: {
+                cda: [],
+                pte: {
+                  t: [],
+                  abo: [],
+                },
+                plazo: {
+                  vigente: [],
+                  vencida: [],
+                },
+              },
+              f14: {
+                cda: [],
+                pte: {
+                  t: [],
+                  abo: [],
+                },
+                plazo: {
+                  vigente: [],
+                  vencida: [],
+                },
+              },
               rta: [],
             },
             decre3: {
-              f06: [],
-              f07: [],
-              f14: [],
+              f06: {
+                cda: [],
+                pte: {
+                  t: [],
+                  abo: [],
+                },
+                plazo: {
+                  vigente: [],
+                  vencida: [],
+                },
+              },
+              f07: {
+                cda: [],
+                pte: {
+                  t: [],
+                  abo: [],
+                },
+                plazo: {
+                  vigente: [],
+                  vencida: [],
+                },
+              },
+              f14: {
+                cda: [],
+                pte: {
+                  t: [],
+                  abo: [],
+                },
+                plazo: {
+                  vigente: [],
+                  vencida: [],
+                },
+              },
               rta: [],
             },
             decre4: {
-              f06: [],
-              f07: [],
-              f14: [],
+              f06: {
+                cda: [],
+                pte: {
+                  t: [],
+                  abo: [],
+                },
+                plazo: {
+                  vigente: [],
+                  vencida: [],
+                },
+              },
+              f07: {
+                cda: [],
+                pte: {
+                  t: [],
+                  abo: [],
+                },
+                plazo: {
+                  vigente: [],
+                  vencida: [],
+                },
+              },
+              f14: {
+                cda: [],
+                pte: {
+                  t: [],
+                  abo: [],
+                },
+                plazo: {
+                  vigente: [],
+                  vencida: [],
+                },
+              },
               rta: [],
             },
           },
           input: {
-            show: false,
+            show: true,
             decreto: {
               selected: 'D1',
                 options: [
@@ -103,6 +223,23 @@ const AsistenOne = {
                       { estado: 'F14', value: 'F4' },
                     ],
             },
+            estado: {
+              selected: 'CDA',
+              options: [
+                { estado: 'Cancelada', value: 'CDA' },
+                { estado: 'Pendiente de pago', value: 'PTE' },
+                { estado: 'Pendiente de pago con abono', value: 'ABP' },
+                { estado: 'Pago a plazo Vigente', value: 'VIG' },
+                { estado: 'Cuota vencida', value: 'VEN' },
+              ],
+            },
+            ejer: '',
+            mont: '',
+            fcda: '',
+            abo: '',
+            resol: '',
+            fprox: '',
+            foli: '',
           },
         },
         vmt: {
@@ -251,13 +388,22 @@ const AsistenOne = {
           this.OcultarInput()
         }
       },
+      ShowAmpInput() {
+        if (!this.amp.input.show) {
+          this.OcultarInput(),
+            this.amp.input.show = true
+        } else {
+          this.OcultarInput()
+        }
+      },
       OcultarInput(){
         this.rta.input.show.rt = false,
         this.rta.input.show.anti =false,
         this.f.input.show.f06 = false,
         this.f.input.show.f07 = false,
         this.f.input.show.f14 = false,
-        this.f.input.show.f09 = false
+        this.f.input.show.f09 = false,
+        this.amp.input.show = false
       },
       AddRta(){
         switch (this.rta.input.estado.selected) {
@@ -422,6 +568,616 @@ const AsistenOne = {
           this.ClearInputs()
         }
       },
+      AddAmp(){
+        if (this.amp.input.decreto.selected === 'D1' && this.amp.input.f.selected === 'F6') {
+          switch (this.amp.input.estado.selected) {
+            case 'CDA':
+            this.amp.decla.decre1.f06.cda.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                fcda: this.amp.input.fcda,
+              }),
+              this.ClearInputs()
+              break;
+            case 'PTE':
+            this.amp.decla.decre1.f06.pte.t.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont
+              }),
+              this.ClearInputs()
+              break;
+            case 'ABP':
+            this.amp.decla.decre1.f06.pte.abo.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte
+              }),
+              this.ClearInputs()
+              break;
+            case 'VIG':
+            this.amp.decla.decre1.f06.plazo.vigente.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte,
+                resol: this.amp.input.resol,
+                fprox: this.amp.input.fprox
+              }),
+              this.ClearInputs()
+              break;
+            case 'VEN':
+            this.amp.decla.decre1.f06.plazo.vencida.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte,
+                resol: this.amp.input.resol
+              }),
+              this.ClearInputs()
+              break;
+          }
+        }
+        if (this.amp.input.decreto.selected === 'D1' && this.amp.input.f.selected === 'F7') {
+          switch (this.amp.input.estado.selected) {
+            case 'CDA':
+            this.amp.decla.decre1.f07.cda.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                fcda: this.amp.input.fcda,
+              }),
+              this.ClearInputs()
+              break;
+            case 'PTE':
+            this.amp.decla.decre1.f07.pte.t.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont
+              }),
+              this.ClearInputs()
+              break;
+            case 'ABP':
+            this.amp.decla.decre1.f07.pte.abo.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte
+              }),
+              this.ClearInputs()
+              break;
+            case 'VIG':
+            this.amp.decla.decre1.f07.plazo.vigente.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte,
+                resol: this.amp.input.resol,
+                fprox: this.amp.input.fprox
+              }),
+              this.ClearInputs()
+              break;
+            case 'VEN':
+            this.amp.decla.decre1.f07.plazo.vencida.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte,
+                resol: this.amp.input.resol
+              }),
+              this.ClearInputs()
+              break;
+          }
+        }
+        if (this.amp.input.decreto.selected === 'D1' && this.amp.input.f.selected === 'F4') {
+          switch (this.amp.input.estado.selected) {
+            case 'CDA':
+            this.amp.decla.decre1.f14.cda.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                fcda: this.amp.input.fcda,
+              }),
+              this.ClearInputs()
+              break;
+            case 'PTE':
+            this.amp.decla.decre1.f14.pte.t.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont
+              }),
+              this.ClearInputs()
+              break;
+            case 'ABP':
+            this.amp.decla.decre1.f14.pte.abo.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte
+              }),
+              this.ClearInputs()
+              break;
+            case 'VIG':
+            this.amp.decla.decre1.f14.plazo.vigente.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte,
+                resol: this.amp.input.resol,
+                fprox: this.amp.input.fprox
+              }),
+              this.ClearInputs()
+              break;
+            case 'VEN':
+            this.amp.decla.decre1.f14.plazo.vencida.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte,
+                resol: this.amp.input.resol
+              }),
+              this.ClearInputs()
+              break;
+          }
+        }
+        if (this.amp.input.decreto.selected === 'D1' && this.amp.input.f.selected === 'RT') {
+          this.amp.decla.decre1.rta.push({
+            ejer: this.amp.input.ejer
+          })
+        }
+        if (this.amp.input.decreto.selected === 'D2' && this.amp.input.f.selected === 'F6') {
+          switch (this.amp.input.estado.selected) {
+            case 'CDA':
+            this.amp.decla.decre2.f06.cda.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                fcda: this.amp.input.fcda,
+              }),
+              this.ClearInputs()
+              break;
+            case 'PTE':
+            this.amp.decla.decre2.f06.pte.t.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont
+              }),
+              this.ClearInputs()
+              break;
+            case 'ABP':
+            this.amp.decla.decre2.f06.pte.abo.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte
+              }),
+              this.ClearInputs()
+              break;
+            case 'VIG':
+            this.amp.decla.decre2.f06.plazo.vigente.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte,
+                resol: this.amp.input.resol,
+                fprox: this.amp.input.fprox
+              }),
+              this.ClearInputs()
+              break;
+            case 'VEN':
+            this.amp.decla.decre2.f06.plazo.vencida.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte,
+                resol: this.amp.input.resol
+              }),
+              this.ClearInputs()
+              break;
+          }
+        }
+        if (this.amp.input.decreto.selected === 'D2' && this.amp.input.f.selected === 'F7') {
+          switch (this.amp.input.estado.selected) {
+            case 'CDA':
+            this.amp.decla.decre2.f07.cda.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                fcda: this.amp.input.fcda,
+              }),
+              this.ClearInputs()
+              break;
+            case 'PTE':
+            this.amp.decla.decre2.f07.pte.t.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont
+              }),
+              this.ClearInputs()
+              break;
+            case 'ABP':
+            this.amp.decla.decre2.f07.pte.abo.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte
+              }),
+              this.ClearInputs()
+              break;
+            case 'VIG':
+            this.amp.decla.decre2.f07.plazo.vigente.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte,
+                resol: this.amp.input.resol,
+                fprox: this.amp.input.fprox
+              }),
+              this.ClearInputs()
+              break;
+            case 'VEN':
+            this.amp.decla.decre2.f07.plazo.vencida.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte,
+                resol: this.amp.input.resol
+              }),
+              this.ClearInputs()
+              break;
+          }
+        }
+        if (this.amp.input.decreto.selected === 'D2' && this.amp.input.f.selected === 'F4') {
+          switch (this.amp.input.estado.selected) {
+            case 'CDA':
+            this.amp.decla.decre2.f14.cda.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                fcda: this.amp.input.fcda,
+              }),
+              this.ClearInputs()
+              break;
+            case 'PTE':
+            this.amp.decla.decre2.f14.pte.t.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont
+              }),
+              this.ClearInputs()
+              break;
+            case 'ABP':
+            this.amp.decla.decre2.f14.pte.abo.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte
+              }),
+              this.ClearInputs()
+              break;
+            case 'VIG':
+            this.amp.decla.decre2.f14.plazo.vigente.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte,
+                resol: this.amp.input.resol,
+                fprox: this.amp.input.fprox
+              }),
+              this.ClearInputs()
+              break;
+            case 'VEN':
+            this.amp.decla.decre2.f14.plazo.vencida.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte,
+                resol: this.amp.input.resol
+              }),
+              this.ClearInputs()
+              break;
+          }
+        }
+        if (this.amp.input.decreto.selected === 'D2' && this.amp.input.f.selected === 'RT') {
+          this.amp.decla.decre2.rta.push({
+            ejer: this.amp.input.ejer
+          })
+        }
+        if (this.amp.input.decreto.selected === 'D3' && this.amp.input.f.selected === 'F6') {
+          switch (this.amp.input.estado.selected) {
+            case 'CDA':
+            this.amp.decla.decre3.f06.cda.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                fcda: this.amp.input.fcda,
+              }),
+              this.ClearInputs()
+              break;
+            case 'PTE':
+            this.amp.decla.decre3.f06.pte.t.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont
+              }),
+              this.ClearInputs()
+              break;
+            case 'ABP':
+            this.amp.decla.decre3.f06.pte.abo.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte
+              }),
+              this.ClearInputs()
+              break;
+            case 'VIG':
+            this.amp.decla.decre3.f06.plazo.vigente.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte,
+                resol: this.amp.input.resol,
+                fprox: this.amp.input.fprox
+              }),
+              this.ClearInputs()
+              break;
+            case 'VEN':
+            this.amp.decla.decre3.f06.plazo.vencida.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte,
+                resol: this.amp.input.resol
+              }),
+              this.ClearInputs()
+              break;
+          }
+        }
+        if (this.amp.input.decreto.selected === 'D3' && this.amp.input.f.selected === 'F7') {
+          switch (this.amp.input.estado.selected) {
+            case 'CDA':
+            this.amp.decla.decre3.f07.cda.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                fcda: this.amp.input.fcda,
+              }),
+              this.ClearInputs()
+              break;
+            case 'PTE':
+            this.amp.decla.decre3.f07.pte.t.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont
+              }),
+              this.ClearInputs()
+              break;
+            case 'ABP':
+            this.amp.decla.decre3.f07.pte.abo.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte
+              }),
+              this.ClearInputs()
+              break;
+            case 'VIG':
+            this.amp.decla.decre3.f07.plazo.vigente.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte,
+                resol: this.amp.input.resol,
+                fprox: this.amp.input.fprox
+              }),
+              this.ClearInputs()
+              break;
+            case 'VEN':
+            this.amp.decla.decre3.f07.plazo.vencida.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte,
+                resol: this.amp.input.resol
+              }),
+              this.ClearInputs()
+              break;
+          }
+        }
+        if (this.amp.input.decreto.selected === 'D3' && this.amp.input.f.selected === 'F4') {
+          switch (this.amp.input.estado.selected) {
+            case 'CDA':
+            this.amp.decla.decre3.f14.cda.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                fcda: this.amp.input.fcda,
+              }),
+              this.ClearInputs()
+              break;
+            case 'PTE':
+            this.amp.decla.decre3.f14.pte.t.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont
+              }),
+              this.ClearInputs()
+              break;
+            case 'ABP':
+            this.amp.decla.decre3.f14.pte.abo.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte
+              }),
+              this.ClearInputs()
+              break;
+            case 'VIG':
+            this.amp.decla.decre3.f14.plazo.vigente.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte,
+                resol: this.amp.input.resol,
+                fprox: this.amp.input.fprox
+              }),
+              this.ClearInputs()
+              break;
+            case 'VEN':
+            this.amp.decla.decre3.f14.plazo.vencida.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte,
+                resol: this.amp.input.resol
+              }),
+              this.ClearInputs()
+              break;
+          }
+        }
+        if (this.amp.input.decreto.selected === 'D3' && this.amp.input.f.selected === 'RT') {
+          this.amp.decla.decre3.rta.push({
+            ejer: this.amp.input.ejer
+          })
+        }
+        if (this.amp.input.decreto.selected === 'D4' && this.amp.input.f.selected === 'F6') {
+          switch (this.amp.input.estado.selected) {
+            case 'CDA':
+            this.amp.decla.decre4.f06.cda.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                fcda: this.amp.input.fcda,
+              }),
+              this.ClearInputs()
+              break;
+            case 'PTE':
+            this.amp.decla.decre4.f06.pte.t.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont
+              }),
+              this.ClearInputs()
+              break;
+            case 'ABP':
+            this.amp.decla.decre4.f06.pte.abo.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte
+              }),
+              this.ClearInputs()
+              break;
+            case 'VIG':
+            this.amp.decla.decre4.f06.plazo.vigente.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte,
+                resol: this.amp.input.resol,
+                fprox: this.amp.input.fprox
+              }),
+              this.ClearInputs()
+              break;
+            case 'VEN':
+            this.amp.decla.decre4.f06.plazo.vencida.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte,
+                resol: this.amp.input.resol
+              }),
+              this.ClearInputs()
+              break;
+          }
+        }
+        if (this.amp.input.decreto.selected === 'D4' && this.amp.input.f.selected === 'F7') {
+          switch (this.amp.input.estado.selected) {
+            case 'CDA':
+            this.amp.decla.decre4.f07.cda.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                fcda: this.amp.input.fcda,
+              }),
+              this.ClearInputs()
+              break;
+            case 'PTE':
+            this.amp.decla.decre4.f07.pte.t.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont
+              }),
+              this.ClearInputs()
+              break;
+            case 'ABP':
+            this.amp.decla.decre4.f07.pte.abo.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte
+              }),
+              this.ClearInputs()
+              break;
+            case 'VIG':
+            this.amp.decla.decre4.f07.plazo.vigente.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte,
+                resol: this.amp.input.resol,
+                fprox: this.amp.input.fprox
+              }),
+              this.ClearInputs()
+              break;
+            case 'VEN':
+            this.amp.decla.decre4.f07.plazo.vencida.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte,
+                resol: this.amp.input.resol
+              }),
+              this.ClearInputs()
+              break;
+          }
+        }
+        if (this.amp.input.decreto.selected === 'D4' && this.amp.input.f.selected === 'F4') {
+          switch (this.amp.input.estado.selected) {
+            case 'CDA':
+            this.amp.decla.decre4.f14.cda.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                fcda: this.amp.input.fcda,
+              }),
+              this.ClearInputs()
+              break;
+            case 'PTE':
+            this.amp.decla.decre4.f14.pte.t.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont
+              }),
+              this.ClearInputs()
+              break;
+            case 'ABP':
+            this.amp.decla.decre4.f14.pte.abo.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte
+              }),
+              this.ClearInputs()
+              break;
+            case 'VIG':
+            this.amp.decla.decre4.f14.plazo.vigente.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte,
+                resol: this.amp.input.resol,
+                fprox: this.amp.input.fprox
+              }),
+              this.ClearInputs()
+              break;
+            case 'VEN':
+            this.amp.decla.decre4.f14.plazo.vencida.push({
+                ejer: this.amp.input.ejer,
+                mont: this.amp.input.mont,
+                abo: this.amp.input.abo,
+                pte: this.rtapte,
+                resol: this.amp.input.resol
+              }),
+              this.ClearInputs()
+              break;
+          }
+        }
+        if (this.amp.input.decreto.selected === 'D4' && this.amp.input.f.selected === 'RT') {
+          this.amp.decla.decre4.rta.push({
+            ejer: this.amp.input.ejer
+          })
+        }
+      },
       ClearInputs(){
         this.rta.input.ejer = '',
         this.rta.input.mont = '',
@@ -431,6 +1187,13 @@ const AsistenOne = {
         this.rta.input.fprox = '',
         this.rta.input.foli = '',
         this.f.input.periodo = ''
+        this.amp.input.ejer = '',
+        this.amp.input.mont = '',
+        this.amp.input.fcda = '',
+        this.amp.input.abo = '',
+        this.amp.input.resol = '',
+        this.amp.input.fprox = '',
+        this.amp.input.foli = ''
       },
     },
     computed: {
@@ -450,7 +1213,70 @@ const AsistenOne = {
         return this.rta.input.mont - this.rta.input.abo
       },
       amps: function() {
-        return this.amp.decla.decre1.rta.length + this.amp.decla.decre1.f06.length + this.amp.decla.decre1.f07.length + this.amp.decla.decre1.f14.length + this.amp.decla.decre2.rta.length + this.amp.decla.decre2.f06.length + this.amp.decla.decre2.f07.length + this.amp.decla.decre2.f14.length + this.amp.decla.decre3.rta.length + this.amp.decla.decre3.f06.length + this.amp.decla.decre3.f07.length + this.amp.decla.decre3.f14.length + this.amp.decla.decre4.rta.length + this.amp.decla.decre4.f06.length + this.amp.decla.decre4.f07.length + this.amp.decla.decre4.f14.length
+        return this.amp.decla.decre1.rta.length +
+              this.amp.decla.decre1.f06.cda.length +
+              this.amp.decla.decre1.f06.pte.t.length +
+              this.amp.decla.decre1.f06.pte.abo.length +
+              this.amp.decla.decre1.f06.plazo.vigente.length +
+              this.amp.decla.decre1.f06.plazo.vencida.length +
+              this.amp.decla.decre1.f07.cda.length +
+              this.amp.decla.decre1.f07.pte.t.length +
+              this.amp.decla.decre1.f07.pte.abo.length +
+              this.amp.decla.decre1.f07.plazo.vigente.length +
+              this.amp.decla.decre1.f07.plazo.vencida.length +
+              this.amp.decla.decre1.f14.cda.length +
+              this.amp.decla.decre1.f14.pte.t.length +
+              this.amp.decla.decre1.f14.pte.abo.length +
+              this.amp.decla.decre1.f14.plazo.vigente.length +
+              this.amp.decla.decre1.f14.plazo.vencida.length +
+              this.amp.decla.decre2.rta.length +
+              this.amp.decla.decre2.f06.cda.length +
+              this.amp.decla.decre2.f06.pte.t.length +
+              this.amp.decla.decre2.f06.pte.abo.length +
+              this.amp.decla.decre2.f06.plazo.vigente.length +
+              this.amp.decla.decre2.f06.plazo.vencida.length +
+              this.amp.decla.decre2.f07.cda.length +
+              this.amp.decla.decre2.f07.pte.t.length +
+              this.amp.decla.decre2.f07.pte.abo.length +
+              this.amp.decla.decre2.f07.plazo.vigente.length +
+              this.amp.decla.decre2.f07.plazo.vencida.length +
+              this.amp.decla.decre2.f14.cda.length +
+              this.amp.decla.decre2.f14.pte.t.length +
+              this.amp.decla.decre2.f14.pte.abo.length +
+              this.amp.decla.decre2.f14.plazo.vigente.length +
+              this.amp.decla.decre2.f14.plazo.vencida.length +
+              this.amp.decla.decre3.rta.length +
+              this.amp.decla.decre3.f06.cda.length +
+              this.amp.decla.decre3.f06.pte.t.length +
+              this.amp.decla.decre3.f06.pte.abo.length +
+              this.amp.decla.decre3.f06.plazo.vigente.length +
+              this.amp.decla.decre3.f06.plazo.vencida.length +
+              this.amp.decla.decre3.f07.cda.length +
+              this.amp.decla.decre3.f07.pte.t.length +
+              this.amp.decla.decre3.f07.pte.abo.length +
+              this.amp.decla.decre3.f07.plazo.vigente.length +
+              this.amp.decla.decre3.f07.plazo.vencida.length +
+              this.amp.decla.decre3.f14.cda.length +
+              this.amp.decla.decre3.f14.pte.t.length +
+              this.amp.decla.decre3.f14.pte.abo.length +
+              this.amp.decla.decre3.f14.plazo.vigente.length +
+              this.amp.decla.decre3.f14.plazo.vencida.length +
+              this.amp.decla.decre4.rta.length +
+              this.amp.decla.decre4.f06.cda.length +
+              this.amp.decla.decre4.f06.pte.t.length +
+              this.amp.decla.decre4.f06.pte.abo.length +
+              this.amp.decla.decre4.f06.plazo.vigente.length +
+              this.amp.decla.decre4.f06.plazo.vencida.length +
+              this.amp.decla.decre4.f07.cda.length +
+              this.amp.decla.decre4.f07.pte.t.length +
+              this.amp.decla.decre4.f07.pte.abo.length +
+              this.amp.decla.decre4.f07.plazo.vigente.length +
+              this.amp.decla.decre4.f07.plazo.vencida.length + 
+              this.amp.decla.decre4.f14.cda.length +
+              this.amp.decla.decre4.f14.pte.t.length +
+              this.amp.decla.decre4.f14.pte.abo.length +
+              this.amp.decla.decre4.f14.plazo.vigente.length +
+              this.amp.decla.decre4.f14.plazo.vencida.length
       },
     }
   }

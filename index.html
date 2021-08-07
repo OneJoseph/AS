@@ -127,11 +127,11 @@
                   <div class="columns  ">
                     <div class="column">
                       <input type="checkbox" id="amp" v-model="amp.present" />
-                      <label class="checkbox" for="amp">Declaracion Amparada</label>
+                      <label @click="amp.input.show = false" class="checkbox" for="amp">Declaracion Amparada</label>
                     </div>
                     <!--si esta marcada amp se mostrar este boton-->
                     <div v-if="amp.present" class="column is-one-fifth">
-                      <button class="button is-small is-success is-outlined">Agregar</button>
+                      <button @click="ShowAmpInput" class="button is-small is-success is-outlined">Agregar</button>
                     </div>
                     <!--fin condional-->
                   </div>
@@ -382,6 +382,130 @@
                 </div>
               </div>
             </article>
+            <article v-if="amp.input.show" class="panel">
+              <div class="panel-block">
+                <label >Agregar Declaracion Amparada</label>
+              </div>
+              <div class="panel-block">
+                <div class="container is-fluid">
+                  <div class="columns ">
+                    <div class="column">
+                      <label>Decreto </label>
+                      <div class="select is-small">
+                        <select v-model="amp.input.decreto.selected" >
+                          <option v-for="dopt in amp.input.decreto.options" :value="dopt.value">
+                            {{ dopt.estado }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="column">
+                      <label>Declaracion </label>
+                      <div class="select is-small">
+                        <select v-model="amp.input.f.selected" >
+                          <option v-for="fopt in amp.input.f.options" :value="fopt.value">
+                            {{ fopt.estado }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div v-if="amp.input.f.selected !== 'RT' " class="column">
+                      <label>Estado</label>
+                      <div class="select is-small">
+                        <select v-model="amp.input.estado.selected" >
+                          <option v-for="aopt in amp.input.estado.options" :value="aopt.value">
+                            {{ aopt.estado }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="panel-block">
+                <div class="columns  ">
+                  <div class="column">
+                    <label>Ejercicio</label>
+                    <input class="input is-small" type="text" id="ejer" placeholder="2020" v-model="rta.input.ejer" />
+                  </div>
+                  <template v-if="amp.input.f.selected !== 'RT' " >
+                    <template v-if="amp.input.estado.selected === 'CDA' ">
+                      <div class="column">
+                          <option>Cancelada</option>
+                        <input class="input is-small" type="text" id="mont" placeholder="0.00" v-model="rta.input.mont" >
+                      </div>
+                      <div class="column">
+                        <label>Fecha C.</label>
+                        <input class="input is-small" type="text" id="fcda" placeholder="30/04/2021" v-model="rta.input.fcda">
+                      </div>
+                    </template>
+                    <template v-if="amp.input.estado.selected === 'PTE' ">
+                      <div class="column">
+                        <label>Monto</label>
+                        <input class="input is-small" type="text" id="mont" placeholder="0.00" v-model="rta.input.mont">
+                      </div>
+                    </template>
+                    <template v-if="amp.input.estado.selected === 'ABP' ">
+                      <div class="column">
+                        <label>Monto</label>
+                        <input class="input is-small" type="text" id="mont" placeholder="0.00" v-model="rta.input.mont">
+                      </div>
+                      <div class="column">
+                        <label>Abono</label>
+                        <input class="input is-small" type="text" id="abo" placeholder="0.00" v-model="rta.input.abo">
+                      </div>
+                    </template>
+                    <template v-if="amp.input.estado.selected === 'VIG' ">
+                      <div class="column">
+                        <label>Monto</label>
+                        <input class="input is-small" type="text" id="mont" placeholder="0.00" v-model="rta.input.mont">
+                      </div>
+                      <div class="column">
+                        <label>Abono</label>
+                        <input class="input is-small" type="text" id="abo" placeholder="0.00" v-model="rta.input.abo">
+                      </div>
+                      <div class="column">
+                        <label>#Resol</label>
+                        <input class="input is-small" type="text" id="resol" placeholder="334422" v-model="rta.input.resol">
+                      </div>
+                      <div class="column">
+                        <label>Fecha P.</label>
+                        <input class="input is-small" type="text" id="fprox" placeholder="31/08/2021" v-model="rta.input.fprox">
+                      </div>
+                    </template>
+                    <template v-if="amp.input.estado.selected === 'VEN' ">
+                      <div class="column">
+                        <label>Monto</label>
+                        <input class="input is-small" type="text" id="mont" placeholder="0.00" v-model="rta.input.mont">
+                      </div>
+                      <div class="column">
+                        <label>Abono</label>
+                        <input class="input is-small" type="text" id="abo" placeholder="0.00" v-model="rta.input.abo">
+                      </div>
+                      <div class="column">
+                        <label>#Resol</label>
+                        <input class="input is-small" type="text" id="resol" placeholder="334422" v-model="rta.input.resol">
+                      </div>
+                    </template>
+                    <template v-if="amp.input.estado.selected === 'NPR' ">
+                      <div class="column">
+                        <label>Monto</label>
+                        <input class="input is-small" type="text" id="mont" placeholder="0.00" v-model="rta.input.mont">
+                      </div>
+                      <div class="column">
+                        <label>#Folio</label>
+                        <input class="input is-small" type="text" id="foli" placeholder="3344221521" v-model="rta.input.foli">
+                      </div>
+                    </template>
+                  </template>
+                  <div class="column">
+                    <br>
+                    <button @click="AddAmp" class="button is-small is-success is-outlined">Agregar</button>
+                  </div>
+                </div>
+              </div>
+            </article>
             <div class="columns  ">
               <div class="column">
                 <div v-if="rsol.resoluciones.length" class="notification is-info is-light">Resoluciones</div>
@@ -389,7 +513,9 @@
                   <h1 v-for="(rta, index) in rta.ejer.pte.abo">{{ index }} {{ rta.ejer }} {{ rta.mont }} {{ rta.abo }} {{ rta.pte }}</h1>
                 </div>
                 <div v-if="omif" class="notification is-success is-light">Omisos F06-07-14</div>
-                <div v-if="amps" class="notification is-warning is-light">Declaraciones Amparadas</div>
+                <div v-if="amps" class="notification is-warning is-light">Declaraciones Amparadas
+                  <h1>Decreto 2019</h1>
+                </div>
                 <div v-if="f.f09.periodos.length" class="notification is-warning is-light">TBR</div>
               </div>
               <div class="column">
