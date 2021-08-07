@@ -204,7 +204,7 @@ const AsistenOne = {
             },
           },
           input: {
-            show: true,
+            show: false,
             decreto: {
               selected: 'D1',
                 options: [
