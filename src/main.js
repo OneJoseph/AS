@@ -29,7 +29,6 @@ const AsistenOne = {
             abo: '',
             resol: '',
             fprox: '',
-            foli: '',
           },
           f06: {
               oblig: 0,
@@ -48,6 +47,7 @@ const AsistenOne = {
           f09: {
             present: false,
             periodos: {
+              plg: [], //plazo legal vigente
               cda: [],
               pte: {
                 t: [],
@@ -607,7 +607,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte
+                pte: this.amppte
               }),
               this.ClearInputs()
               break;
@@ -616,7 +616,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte,
+                pte: this.amppte,
                 resol: this.amp.input.resol,
                 fprox: this.amp.input.fprox
               }),
@@ -627,7 +627,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte,
+                pte: this.amppte,
                 resol: this.amp.input.resol
               }),
               this.ClearInputs()
@@ -656,7 +656,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte
+                pte: this.amppte
               }),
               this.ClearInputs()
               break;
@@ -665,7 +665,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte,
+                pte: this.amppte,
                 resol: this.amp.input.resol,
                 fprox: this.amp.input.fprox
               }),
@@ -676,7 +676,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte,
+                pte: this.amppte,
                 resol: this.amp.input.resol
               }),
               this.ClearInputs()
@@ -705,7 +705,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte
+                pte: this.amppte
               }),
               this.ClearInputs()
               break;
@@ -714,7 +714,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte,
+                pte: this.amppte,
                 resol: this.amp.input.resol,
                 fprox: this.amp.input.fprox
               }),
@@ -725,7 +725,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte,
+                pte: this.amppte,
                 resol: this.amp.input.resol
               }),
               this.ClearInputs()
@@ -759,7 +759,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte
+                pte: this.amppte
               }),
               this.ClearInputs()
               break;
@@ -768,7 +768,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte,
+                pte: this.amppte,
                 resol: this.amp.input.resol,
                 fprox: this.amp.input.fprox
               }),
@@ -779,7 +779,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte,
+                pte: this.amppte,
                 resol: this.amp.input.resol
               }),
               this.ClearInputs()
@@ -808,7 +808,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte
+                pte: this.amppte
               }),
               this.ClearInputs()
               break;
@@ -817,7 +817,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte,
+                pte: this.amppte,
                 resol: this.amp.input.resol,
                 fprox: this.amp.input.fprox
               }),
@@ -828,7 +828,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte,
+                pte: this.amppte,
                 resol: this.amp.input.resol
               }),
               this.ClearInputs()
@@ -857,7 +857,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte
+                pte: this.amppte
               }),
               this.ClearInputs()
               break;
@@ -866,7 +866,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte,
+                pte: this.amppte,
                 resol: this.amp.input.resol,
                 fprox: this.amp.input.fprox
               }),
@@ -877,7 +877,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte,
+                pte: this.amppte,
                 resol: this.amp.input.resol
               }),
               this.ClearInputs()
@@ -911,7 +911,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte
+                pte: this.amppte
               }),
               this.ClearInputs()
               break;
@@ -920,7 +920,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte,
+                pte: this.amppte,
                 resol: this.amp.input.resol,
                 fprox: this.amp.input.fprox
               }),
@@ -931,7 +931,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte,
+                pte: this.apmpte,
                 resol: this.amp.input.resol
               }),
               this.ClearInputs()
@@ -960,7 +960,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte
+                pte: this.amppte
               }),
               this.ClearInputs()
               break;
@@ -969,7 +969,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte,
+                pte: this.amppte,
                 resol: this.amp.input.resol,
                 fprox: this.amp.input.fprox
               }),
@@ -980,7 +980,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte,
+                pte: this.amppte,
                 resol: this.amp.input.resol
               }),
               this.ClearInputs()
@@ -1009,7 +1009,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte
+                pte: this.amppte
               }),
               this.ClearInputs()
               break;
@@ -1018,7 +1018,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte,
+                pte: this.amppte,
                 resol: this.amp.input.resol,
                 fprox: this.amp.input.fprox
               }),
@@ -1029,7 +1029,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte,
+                pte: this.amppte,
                 resol: this.amp.input.resol
               }),
               this.ClearInputs()
@@ -1063,7 +1063,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte
+                pte: this.amppte
               }),
               this.ClearInputs()
               break;
@@ -1072,7 +1072,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte,
+                pte: this.amppte,
                 resol: this.amp.input.resol,
                 fprox: this.amp.input.fprox
               }),
@@ -1083,7 +1083,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte,
+                pte: this.amppte,
                 resol: this.amp.input.resol
               }),
               this.ClearInputs()
@@ -1112,7 +1112,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte
+                pte: this.amppte
               }),
               this.ClearInputs()
               break;
@@ -1121,7 +1121,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte,
+                pte: this.amppte,
                 resol: this.amp.input.resol,
                 fprox: this.amp.input.fprox
               }),
@@ -1132,7 +1132,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte,
+                pte: this.amppte,
                 resol: this.amp.input.resol
               }),
               this.ClearInputs()
@@ -1161,7 +1161,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte
+                pte: this.amppte
               }),
               this.ClearInputs()
               break;
@@ -1170,7 +1170,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte,
+                pte: this.amppte,
                 resol: this.amp.input.resol,
                 fprox: this.amp.input.fprox
               }),
@@ -1181,7 +1181,7 @@ const AsistenOne = {
                 ejer: this.amp.input.ejer,
                 mont: this.amp.input.mont,
                 abo: this.amp.input.abo,
-                pte: this.rtapte,
+                pte: this.amppte,
                 resol: this.amp.input.resol
               }),
               this.ClearInputs()
@@ -1194,6 +1194,62 @@ const AsistenOne = {
           })
         }
       },
+      Addtbr(){
+        switch (this.f.f09.estado.selected) {
+          case 'PLG':
+          this.f.f09.periodos.plg.push({
+              periodo: this.f.input.periodo,
+              mont: this.amp.input.mont,
+            }),
+            this.ClearInputs()
+            break;
+          case 'CDA':
+          this.f.f09.periodos.cda.push({
+              periodo: this.f.input.periodo,
+              mont: this.f.input.mont,
+              fcda: this.f.input.fcda,
+            }),
+            this.ClearInputs()
+            break;
+          case 'PTE':
+          this.f.f09.periodos.pte.t.push({
+              periodo: this.f.input.periodo,
+              mont: this.f.input.mont
+            }),
+            this.ClearInputs()
+            break;
+          case 'ABP':
+          this.f.f09.periodos.pte.abo.push({
+              periodo: this.f.input.periodo,
+              mont: this.f.input.mont,
+              abo: this.f.input.abo,
+              pte: this.tbrpte
+            }),
+            this.ClearInputs()
+            break;
+          case 'VIG':
+          this.f.f09.periodos.plazo.vigente.push({
+              periodo: this.f.input.periodo,
+              mont: this.f.input.mont,
+              abo: this.f.input.abo,
+              pte: this.tbrpte,
+              resol: this.f.input.resol,
+              fprox: this.f.input.fprox
+            }),
+            this.ClearInputs()
+            break;
+          case 'VEN':
+          this.f.f09.periodos.plazo.vencida.push({
+              periodo: this.f.input.periodo,
+              mont: this.f.input.mont,
+              abo: this.f.input.abo,
+              pte: this.tbrapte,
+              resol: this.f.input.resol
+            }),
+            this.ClearInputs()
+            break;
+        }
+      },
       ClearInputs(){
         this.rta.input.ejer = '',
         this.rta.input.mont = '',
@@ -1202,7 +1258,12 @@ const AsistenOne = {
         this.rta.input.resol = '',
         this.rta.input.fprox = '',
         this.rta.input.foli = '',
-        this.f.input.periodo = ''
+        this.f.input.periodo = '',
+        this.f.input.mont = '',
+        this.f.input.fcda = '',
+        this.f.input.abo = '',
+        this.f.input.resol = '',
+        this.f.input.fprox = '',
         this.amp.input.ejer = '',
         this.amp.input.mont = '',
         this.amp.input.fcda = '',
@@ -1227,6 +1288,9 @@ const AsistenOne = {
       },
       rtapte: function() {
         return this.rta.input.mont - this.rta.input.abo
+      },
+      amppte: function() {
+        return this.amp.input.mont - this.amp.input.abo
       },
       amps: function() {
         return this.amp.decla.decre1.rta.length +
@@ -1293,6 +1357,12 @@ const AsistenOne = {
               this.amp.decla.decre4.f14.pte.abo.length +
               this.amp.decla.decre4.f14.plazo.vigente.length +
               this.amp.decla.decre4.f14.plazo.vencida.length
+      },
+      tbrs: function(){
+        return this.f.f09.periodos.plg.length + this.f.f09.periodos.cda.length + this.f.f09.periodos.pte.t.length + this.f.f09.periodos.pte.abo.length + this.f.f09.periodos.plazo.vigente.length + this.f.f09.periodos.plazo.vencida.length
+      },
+      tbrpte: function() {
+        return this.f.input.mont - this.f.input.abo
       },
     }
   }
