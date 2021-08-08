@@ -24,6 +24,12 @@ const AsistenOne = {
               f14: false
             },
             periodo: '',
+            mont: '',
+            fcda: '',
+            abo: '',
+            resol: '',
+            fprox: '',
+            foli: '',
           },
           f06: {
               oblig: 0,
@@ -40,19 +46,29 @@ const AsistenOne = {
           },
           verf: '06/2021',
           f09: {
-              present: false,
-              periodos: [],
-              estado: {
-                selected: 'PLG',
-                options: [
-                    { estado: 'Perido legal', value: 'PLG' },
-                    { estado: 'Cancelada', value: 'CDA' },
-                    { estado: 'Pendiente de pago', value: 'PTE' },
-                    { estado: 'Pendiente de pago con abono', value: 'ABP' },
-                    { estado: 'Pago a plazo Vigente', value: 'VIG' },
-                    { estado: 'Cuota vencida', value: 'VEN' },
-                  ],
+            present: false,
+            periodos: {
+              cda: [],
+              pte: {
+                t: [],
+                abo: [],
               },
+              plazo: {
+                vigente: [],
+                vencida: [],
+              },
+            },
+            estado: {
+              selected: 'PLG',
+              options: [
+                  { estado: 'Perido legal', value: 'PLG' },
+                  { estado: 'Cancelada', value: 'CDA' },
+                  { estado: 'Pendiente de pago', value: 'PTE' },
+                  { estado: 'Pendiente de pago con abono', value: 'ABP' },
+                  { estado: 'Pago a plazo Vigente', value: 'VIG' },
+                  { estado: 'Cuota vencida', value: 'VEN' },
+                ],
+            },
           },
         },
         amp: {
