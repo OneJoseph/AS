@@ -204,7 +204,7 @@
                   </div>
                   <template v-if="rta.input.estado.selected === 'CDA' ">
                     <div class="column">
-                        <option>Cancelada</option>
+                        <option>Monto</option>
                       <input class="input is-small" type="text" id="mont" placeholder="0.00" v-model="rta.input.mont" >
                     </div>
                     <div class="column">
@@ -300,7 +300,7 @@
                   </div>
                   <template v-if="rta.input.estadoanti.selected === 'CDA' ">
                     <div class="column">
-                        <option>Cancelada</option>
+                        <option>Monto</option>
                       <input class="input is-small" type="text" id="mont" placeholder="0.00" v-model="rta.input.mont" >
                     </div>
                     <div class="column">
@@ -394,7 +394,7 @@
                       <div class="select is-small">
                         <select v-model="amp.input.decreto.selected" >
                           <option v-for="dopt in amp.input.decreto.options" :value="dopt.value">
-                            {{ dopt.estado }}
+                            {{ dopt.decreto }}
                           </option>
                         </select>
                       </div>
@@ -404,7 +404,7 @@
                       <div class="select is-small">
                         <select v-model="amp.input.f.selected" >
                           <option v-for="fopt in amp.input.f.options" :value="fopt.value">
-                            {{ fopt.estado }}
+                            {{ fopt.form }}
                           </option>
                         </select>
                       </div>
@@ -432,7 +432,7 @@
                   <template v-if="amp.input.f.selected !== 'RT' " >
                     <template v-if="amp.input.estado.selected === 'CDA' ">
                       <div class="column">
-                          <option>Cancelada</option>
+                          <option>Monto</option>
                         <input class="input is-small" type="text" id="mont" placeholder="0.00" v-model="amp.input.mont" >
                       </div>
                       <div class="column">
@@ -501,7 +501,7 @@
                   </template>
                   <div class="column">
                     <br>
-                    <button @click="AddAmp" class="button is-small is-success is-outlined">Agregar</button>
+                    <button @click="Addfamp" class="button is-small is-success is-outlined">Agregar</button>
                   </div>
                 </div>
               </div>
@@ -593,7 +593,7 @@
                   </template>
                   <div class="column">
                     <br>
-                    <button @click="Addtbr" class="button is-small is-success is-outlined">Agregar</button>
+                    <button @click="Addftbr" class="button is-small is-success is-outlined">Agregar</button>
                   </div>
                 </div>
               </div>
@@ -606,9 +606,10 @@
                 </div>
                 <div v-if="omif" class="notification is-success is-light">Omisos F06-07-14</div>
                 <div v-if="amps" class="notification is-warning is-light">Declaraciones Amparadas
-                  <h1>Decreto 2019</h1>
+                  <h1>Decreto 2019</h1> {{ ampd1rt }}
                 </div>
-                <div v-if="tbrs" class="notification is-warning is-light">TBR</div>
+                {{ tbrs }}
+                <div v-if="tbrs" class="notification is-warning is-light">TBR {{ tbrplg }} {{ tbrcda }} {{ tbrpte }} {{ tbrabp }} {{ tbrvig }} {{ tbrven }} </div>
               </div>
               <div class="column">
                 <div class="notification">Marginacion</div>
