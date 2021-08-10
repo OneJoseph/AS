@@ -272,7 +272,7 @@
                   </template>
                   <div class="column">
                     <br>
-                    <button @click="AddRta" class="button is-small is-success is-outlined">Agregar</button>
+                    <button @click="Addfrta" class="button is-small is-success is-outlined">Agregar</button>
                   </div>
                 </div>
               </div>
@@ -601,8 +601,8 @@
             <div class="columns  ">
               <div class="column">
                 <div v-if="rsol.resoluciones.length" class="notification is-info is-light">Resoluciones</div>
-                <div v-if="rtaz" class="notification is-link is-light">Rentas
-                  <h1 v-for="(rta, index) in rta.ejer.pte.abo">{{ index }} {{ rta.ejer }} {{ rta.mont }} {{ rta.abo }} {{ rta.pte }}</h1>
+                <div v-if="rtaz" class="notification is-link is-light">Rentas {{ rta.db.actu }}
+                  <h1 v-for="(rta, index) in rta.db.actu">{{ index }} {{ rta.ejer }} {{ rta.mont }} {{ rta.abo }} {{ rta.pte }}</h1>
                 </div>
                 <div v-if="omif" class="notification is-success is-light">Omisos F06-07-14</div>
                 <div v-if="amps" class="notification is-warning is-light">Declaraciones Amparadas

@@ -119,40 +119,9 @@ const AsistenOne = {
                 ],
         },
         rta: {
-          antiguas: {
-            ejer: {
-              sinsaldo: [],
-                dev: [],
-                cda: [],
-                pte: {
-                  t: [],
-                  abo: [],
-                },
-            },
-          },
-          ejer: {
-            sinsaldo: [],
-            dev: [],
-            cda: [],
-            pte: {
-              t: [],
-              abo: [],
-            },
-            omisa: {
-              div: [],
-              iva: [],
-              sug: [],
-            },
-            noblig: {
-              bajos: [],
-              sinreg: [],
-              sug: [],
-            },
-            plazo: {
-              vigente: [],
-              vencida: [],
-            },
-            noproc: [],
+          db: {
+            anti: [],
+            actu: [],
           },
           input: {
             show: {
@@ -265,111 +234,6 @@ const AsistenOne = {
         this.f.input.show.f09 = false,
         this.amp.input.show = false
       },
-      AddRta(){
-        switch (this.rta.input.estado.selected) {
-          case 'SDO':
-            this.rta.ejer.sinsaldo.push({
-              ejer: this.rta.input.ejer,
-            }),
-           this.ClearInputs()
-            break;
-          case 'DEV':
-          this.rta.ejer.dev.push({
-              ejer: this.rta.input.ejer,
-            }),
-            this.ClearInputs()
-            break;
-          case 'CDA':
-          this.rta.ejer.cda.push({
-              ejer: this.rta.input.ejer,
-              mont: this.rta.input.mont,
-              fcda: this.rta.input.fcda,
-            }),
-            this.ClearInputs()
-            break;
-          case 'PTE':
-          this.rta.ejer.pte.t.push({
-              ejer: this.rta.input.ejer,
-              mont: this.rta.input.mont
-            }),
-            this.ClearInputs()
-            break;
-          case 'ABP':
-          this.rta.ejer.pte.abo.push({
-              ejer: this.rta.input.ejer,
-              mont: this.rta.input.mont,
-              abo: this.rta.input.abo,
-              pte: this.rtapte
-            }),
-            this.ClearInputs()
-            break;
-          case 'DIV':
-          this.rta.ejer.omisa.div.push({
-              ejer: this.rta.input.ejer,
-            }),
-            this.ClearInputs()
-            break;
-          case 'IVA':
-          this.rta.ejer.omisa.iva.push({
-              ejer: this.rta.input.ejer,
-            }),
-            this.ClearInputs()
-            break;
-          case 'OSU':
-          this.rta.ejer.omisa.sug.push({
-              ejer: this.rta.input.ejer,
-            }),
-            this.ClearInputs()
-            break;
-          case 'BPA':
-          this.rta.ejer.noblig.bajos.push({
-              ejer: this.rta.input.ejer,
-            }),
-            this.ClearInputs()
-            break;
-          case 'REG':
-          this.rta.ejer.noblig.sinreg.push({
-              ejer: this.rta.input.ejer,
-            }),
-            this.ClearInputs()
-            break;
-          case 'NSU':
-          this.rta.ejer.noblig.sug.push({
-              ejer: this.rta.input.ejer,
-            }),
-            this.ClearInputs()
-            break;
-          case 'VIG':
-          this.rta.ejer.plazo.vigente.push({
-              ejer: this.rta.input.ejer,
-              mont: this.rta.input.mont,
-              abo: this.rta.input.abo,
-              pte: this.rtapte,
-              resol: this.rta.input.resol,
-              fprox: this.rta.input.fprox
-            }),
-            this.ClearInputs()
-            break;
-          case 'VEN':
-          this.rta.ejer.plazo.vencida.push({
-              ejer: this.rta.input.ejer,
-              mont: this.rta.input.mont,
-              abo: this.rta.input.abo,
-              pte: this.rtapte,
-              resol: this.rta.input.resol
-            }),
-            this.ClearInputs()
-            break;
-          case 'NPR':
-          this.rta.ejer.noproc.push({
-              ejer: this.rta.input.ejer,
-              mont: this.rta.input.mont,
-              foli: this.rta.input.folio,
-            }),
-            this.ClearInputs()
-          break;
-        }
-      },
       AddRanti(){
         switch (this.rta.input.estadoanti.selected) {
           case 'SDO':
@@ -427,6 +291,20 @@ const AsistenOne = {
           })
           this.ClearInputs()
         }
+      },
+      Addfrta() {
+        this.rta.db.actu.push({
+          ejer: this.rta.input.ejer,
+          estado: this.rta.input.estado.selected,
+          mont: this.rta.input.mont,
+          fcda: this.rta.input.fcda,
+          abo: this.rta.input.abo,
+          pte: this.rtapte,
+          resol: this.rta.input.resol,
+          fprox: this.rta.input.fprox,
+          foli: this.rta.input.folio
+        })
+        this.ClearInputs()
       },
       Addfamp(){
         this.amp.db.push({
@@ -491,17 +369,15 @@ const AsistenOne = {
       },
     },
     computed: {
-      nfv: function() { 
+      nfv() { 
         return parseFloat(this.f.f06.oblig) + parseFloat(this.f.f07.oblig) + parseFloat(this.f.f14.oblig)
       },
-      omif: function() {
+      omif() {
         return this.f.f06.omisos.length + this.f.f07.omisos.length + this.f.f14.omisos.length
       },
-      rtaz: function() {
-        return this.ranti + this.rta.ejer.sinsaldo.length + this.rta.ejer.dev.length + this.rta.ejer.cda.length + this.rta.ejer.pte.t.length + this.rta.ejer.pte.abo.length + this.rta.ejer.omisa.div.length + this.rta.ejer.omisa.iva.length + this.rta.ejer.omisa.sug.length + this.rta.ejer.noblig.bajos.length + this.rta.ejer.noblig.sinreg.length + this.rta.ejer.noblig.sug.length + this.rta.ejer.plazo.vigente.length + this.rta.ejer.plazo.vencida.length + this.rta.ejer.noproc.length
-      },
-      ranti: function() {
-        return this.rta.antiguas.ejer.sinsaldo.length + this.rta.antiguas.ejer.dev.length + this.rta.antiguas.ejer.cda.length + this.rta.antiguas.ejer.pte.t.length + this.rta.antiguas.ejer.pte.abo.length
+      // funciones para rta optimizadas
+      rtaz() {
+        return this.rta.db.anti.length + this.rta.db.actu.length 
       },
       rtapte() {
         if(this.rta.input.abo){
@@ -510,7 +386,8 @@ const AsistenOne = {
           return null
         }
       },
-      // funcionnes para amp optimisadas
+      
+      // funcionnes para amp optimizadas
       amps() {
         return this.amp.db.length
       },
@@ -714,7 +591,7 @@ const AsistenOne = {
         return this.filtros(this.amp.db, 'VEN', 'D4', 'F14')
       },
 
-      // funciones para el tbr optimisadas
+      // funciones para el tbr optimizadas
       tbrs(){
         return this.f.f09.db.length
       },
