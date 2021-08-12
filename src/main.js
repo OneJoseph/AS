@@ -321,6 +321,9 @@ const AsistenOne = {
         })
         this.ClearInputs()
       },
+      RemoveRT(index){
+        this.rta.db.actu.splice(index, 1)
+      },
       Addftbr(){
         this.f.f09.db.push({
           periodo: this.f.input.periodo,
