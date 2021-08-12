@@ -321,9 +321,6 @@ const AsistenOne = {
         })
         this.ClearInputs()
       },
-      RemoveRT(index){
-        this.rta.db.actu.splice(index, 1)
-      },
       Addftbr(){
         this.f.f09.db.push({
           periodo: this.f.input.periodo,
@@ -369,6 +366,31 @@ const AsistenOne = {
         this.amp.input.resol = null,
         this.amp.input.fprox = null,
         this.amp.input.foli = null
+      },
+      RemoveF(index, tipo){
+        switch (tipo) {
+          case 'RT':
+            this.rta.db.actu.splice(index, 1)
+            break;
+          case 'RA':
+            this.rta.db.anti.splice(index, 1)
+            break;
+          case 'F6':
+            this.f.f06.omisos.splice(index, 1)
+            break;
+          case 'F7':
+            this.f.f07.omisos.splice(index, 1)
+            break;
+          case 'F4':
+            this.f.f14.omisos.splice(index, 1)
+            break;
+          case 'F9':
+            this.f.f09.db.splice(index, 1)
+            break;
+          case 'DL':
+            this.amp.db.splice(index, 1)
+            break;
+        }
       },
     },
     computed: {
