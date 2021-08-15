@@ -23,12 +23,12 @@ const AsistenOne = {
               f09: false,
               f14: false
             },
-            periodo: null,
-            mont: null,
-            fcda: null,
-            abo: null,
-            resol: null,
-            fprox: null,
+            periodo: '',
+            mont: '',
+            fcda: '',
+            abo: '',
+            resol: '',
+            fprox: '',
           },
           f06: {
               oblig: 0,
@@ -93,13 +93,13 @@ const AsistenOne = {
                 { estado: 'Cuota vencida', value: 'VEN' },
               ],
             },
-            ejer: null,
-            mont: null,
-            fcda: null,
-            abo: null,
-            resol: null,
-            fprox: null,
-            foli: null,
+            ejer: '',
+            mont: '',
+            fcda: '',
+            abo: '',
+            resol: '',
+            fprox: '',
+            foli: '',
           },
         },
         vmt: {
@@ -157,13 +157,13 @@ const AsistenOne = {
                 { estado: 'Pendiente de pago con abono', value: 'ABP' },
                ],
             },
-            ejer: null,
-            mont: null,
-            fcda: null,
-            abo: null,
-            resol: null,
-            fprox: null,
-            foli: null, 
+            ejer: '',
+            mont: '',
+            fcda: '',
+            abo: '',
+            resol: '',
+            fprox: '',
+            foli: '', 
           },
         },
       }
@@ -234,46 +234,6 @@ const AsistenOne = {
         this.f.input.show.f09 = false,
         this.amp.input.show = false
       },
-      AddRanti(){
-        switch (this.rta.input.estadoanti.selected) {
-          case 'SDO':
-            this.rta.antiguas.ejer.sinsaldo.push({
-              ejer: this.rta.input.ejer,
-            }),
-           this.ClearInputs()
-            break;
-          case 'DEV':
-          this.rta.antiguas.ejer.dev.push({
-              ejer: this.rta.input.ejer,
-            }),
-            this.ClearInputs()
-            break;
-          case 'CDA':
-          this.rta.antiguas.ejer.cda.push({
-              ejer: this.rta.input.ejer,
-              mont: this.rta.input.mont,
-              fcda: this.rta.input.fcda,
-            }),
-            this.ClearInputs()
-            break;
-          case 'PTE':
-          this.rta.antiguas.ejer.pte.t.push({
-              ejer: this.rta.input.ejer,
-              mont: this.rta.input.mont
-            }),
-            this.ClearInputs()
-            break;
-          case 'ABP':
-          this.rta.antiguas.ejer.pte.abo.push({
-              ejer: this.rta.input.ejer,
-              mont: this.rta.input.mont,
-              abo: this.rta.input.abo,
-              pte: this.rtapte
-            }),
-            this.ClearInputs()
-            break;
-        }
-      },
       AddFomiso(){
         if (this.f.input.show.f06) {
           this.f.f06.omisos.push({
@@ -306,6 +266,17 @@ const AsistenOne = {
         })
         this.ClearInputs()
       },
+      Addfranti() {
+        this.rta.db.anti.push({
+          ejer: this.rta.input.ejer,
+          estado: this.rta.input.estado.selected,
+          mont: this.rta.input.mont,
+          fcda: this.rta.input.fcda,
+          abo: this.rta.input.abo,
+          pte: this.rtapte
+        })
+        this.ClearInputs()
+      },
       Addfamp(){
         this.amp.db.push({
           ejer: this.amp.input.ejer,
@@ -334,38 +305,32 @@ const AsistenOne = {
         })
         this.ClearInputs()
       },
-      filtros(db, estado, decreto, form){
-        if (db && estado && !decreto && !form) {
-          return db.filter(filtro => filtro.estado === estado)
-        }
-        if (db && !estado && decreto && form) {
-          return db.filter(filtro => filtro.decreto === decreto && filtro.form === form)
-        }
-        if (db && estado && decreto && form) {
-          return db.filter(filtro => filtro.estado === estado && filtro.decreto === decreto && filtro.form === form)
+      filtros(db, decreto, form){
+        if (db, decreto, form) {
+          return db.filter(filtro => filtro.decreto === decreto && filtro.form === form)        
         }
       },
       ClearInputs(){
-        this.rta.input.ejer = null,
-        this.rta.input.mont = null,
-        this.rta.input.fcda = null,
-        this.rta.input.abo = null,
-        this.rta.input.resol = null,
-        this.rta.input.fprox = null,
-        this.rta.input.foli = null,
-        this.f.input.periodo = null,
-        this.f.input.mont = null,
-        this.f.input.fcda = null,
-        this.f.input.abo = null,
-        this.f.input.resol = null,
-        this.f.input.fprox = null,
-        this.amp.input.ejer = null,
-        this.amp.input.mont = null,
-        this.amp.input.fcda = null,
-        this.amp.input.abo = null,
-        this.amp.input.resol = null,
-        this.amp.input.fprox = null,
-        this.amp.input.foli = null
+        this.rta.input.ejer = '',
+        this.rta.input.mont = '',
+        this.rta.input.fcda = '',
+        this.rta.input.abo = '',
+        this.rta.input.resol = '',
+        this.rta.input.fprox = '',
+        this.rta.input.foli = '',
+        this.f.input.periodo = '',
+        this.f.input.mont = '',
+        this.f.input.fcda = '',
+        this.f.input.abo = '',
+        this.f.input.resol = '',
+        this.f.input.fprox = '',
+        this.amp.input.ejer = '',
+        this.amp.input.mont = '',
+        this.amp.input.fcda = '',
+        this.amp.input.abo = '',
+        this.amp.input.resol = '',
+        this.amp.input.fprox = '',
+        this.amp.input.foli = ''
       },
       RemoveF(index, tipo){
         switch (tipo) {
@@ -394,6 +359,14 @@ const AsistenOne = {
       },
     },
     computed: {
+      ivas(){
+        if (this.iva.inscrito && !this.iva.desinscrito) {
+          return 1
+        }
+        if (this.iva.inscrito && this.iva.desinscrito) {
+          return 2
+        }
+      },
       nfv() { 
         return parseFloat(this.f.f06.oblig) + parseFloat(this.f.f07.oblig) + parseFloat(this.f.f14.oblig)
       },
@@ -408,7 +381,7 @@ const AsistenOne = {
         if(this.rta.input.abo){
           return this.rta.input.mont - this.rta.input.abo
         } else {
-          return null
+          return ''
         }
       },
       
@@ -420,200 +393,56 @@ const AsistenOne = {
         if(this.amp.input.abo){
           return this.amp.input.mont - this.amp.input.abo
         } else {
-          return null
+          return ''
         }
       },
       ampd1rt(){
-        return this.filtros(this.amp.db, false, 'D1', 'RT')
+        return this.filtros(this.amp.db, 'D1', 'RT')
       },
-      ampd1f06cda(){
-        return this.filtros(this.amp.db, 'CDA', 'D1', 'F6')
+      ampd1f06(){
+        return this.filtros(this.amp.db, 'D1', 'F6')
       },
-      ampd1f06pte(){
-        return this.filtros(this.amp.db, 'PTE', 'D1', 'F6')
+      ampd1f07(){
+        return this.filtros(this.amp.db, 'D1', 'F7')
       },
-      ampd1f06abp(){
-        return this.filtros(this.amp.db, 'ABP', 'D1', 'F6')
-      },
-      ampd1f06vig(){
-        return this.filtros(this.amp.db, 'VIG', 'D1', 'F6')
-      },
-      ampd1f06ven(){
-        return this.filtros(this.amp.db, 'VEN', 'D1', 'F6')
-      },
-      ampd1f07cda(){
-        return this.filtros(this.amp.db, 'CDA', 'D1', 'F7')
-      },
-      ampd1f07pte(){
-        return this.filtros(this.amp.db, 'PTE', 'D1', 'F7')
-      },
-      ampd1f07abp(){
-        return this.filtros(this.amp.db, 'ABP', 'D1', 'F7')
-      },
-      ampd1f07vig(){
-        return this.filtros(this.amp.db, 'VIG', 'D1', 'F7')
-      },
-      ampd1f07ven(){
-        return this.filtros(this.amp.db, 'VEN', 'D1', 'F7')
-      },
-      ampd1f14cda(){
-        return this.filtros(this.amp.db, 'CDA', 'D1', 'F14')
-      },
-      ampd1f14pte(){
-        return this.filtros(this.amp.db, 'PTE', 'D1', 'F14')
-      },
-      ampd1f14abp(){
-        return this.filtros(this.amp.db, 'ABP', 'D1', 'F14')
-      },
-      ampd1f14vig(){
-        return this.filtros(this.amp.db, 'VIG', 'D1', 'F14')
-      },
-      ampd1f14ven(){
-        return this.filtros(this.amp.db, 'VEN', 'D1', 'F14')
+      ampd1f14(){
+        return this.filtros(this.amp.db, 'D1', 'F14')
       },
       ampd2rt(){
-        return this.filtros(this.amp.db, false, 'D2', 'RT')
+        return this.filtros(this.amp.db, 'D2', 'RT')
       },
-      ampd2f06cda(){
-        return this.filtros(this.amp.db, 'CDA', 'D2', 'F6')
+      ampd2f06(){
+        return this.filtros(this.amp.db, 'D2', 'F6')
       },
-      ampd2f06pte(){
-        return this.filtros(this.amp.db, 'PTE', 'D2', 'F6')
+      ampd2f07(){
+        return this.filtros(this.amp.db, 'D2', 'F7')
       },
-      ampd2f06abp(){
-        return this.filtros(this.amp.db, 'ABP', 'D2', 'F6')
-      },
-      ampd2f06vig(){
-        return this.filtros(this.amp.db, 'VIG', 'D2', 'F6')
-      },
-      ampd2f06ven(){
-        return this.filtros(this.amp.db, 'VEN', 'D2', 'F6')
-      },
-      ampd2f07cda(){
-        return this.filtros(this.amp.db, 'CDA', 'D2', 'F7')
-      },
-      ampd2f07pte(){
-        return this.filtros(this.amp.db, 'PTE', 'D2', 'F7')
-      },
-      ampd2f07abp(){
-        return this.filtros(this.amp.db, 'ABP', 'D2', 'F7')
-      },
-      ampd2f07vig(){
-        return this.filtros(this.amp.db, 'VIG', 'D2', 'F7')
-      },
-      ampd2f07ven(){
-        return this.filtros(this.amp.db, 'VEN', 'D2', 'F7')
-      },
-      ampd2f14cda(){
-        return this.filtros(this.amp.db, 'CDA', 'D2', 'F14')
-      },
-      ampd2f14pte(){
-        return this.filtros(this.amp.db, 'PTE', 'D2', 'F14')
-      },
-      ampd2f14abp(){
-        return this.filtros(this.amp.db, 'ABP', 'D2', 'F14')
-      },
-      ampd2f14vig(){
-        return this.filtros(this.amp.db, 'VIG', 'D2', 'F14')
-      },
-      ampd2f14ven(){
-        return this.filtros(this.amp.db, 'VEN', 'D2', 'F14')
+      ampd2f14(){
+        return this.filtros(this.amp.db, 'D2', 'F14')
       },
       ampd3rt(){
-        return this.filtros(this.amp.db, false, 'D3', 'RT')
+        return this.filtros(this.amp.db, 'D3', 'RT')
       },
-      ampd3f06cda(){
-        return this.filtros(this.amp.db, 'CDA', 'D3', 'F6')
+      ampd3f06(){
+        return this.filtros(this.amp.db, 'D3', 'F6')
       },
-      ampd3f06pte(){
-        return this.filtros(this.amp.db, 'PTE', 'D3', 'F6')
+      ampd3f07(){
+        return this.filtros(this.amp.db, 'D3', 'F7')
       },
-      ampd3f06abp(){
-        return this.filtros(this.amp.db, 'ABP', 'D3', 'F6')
-      },
-      ampd3f06vig(){
-        return this.filtros(this.amp.db, 'VIG', 'D3', 'F6')
-      },
-      ampd3f06ven(){
-        return this.filtros(this.amp.db, 'VEN', 'D3', 'F6')
-      },
-      ampd3f07cda(){
-        return this.filtros(this.amp.db, 'CDA', 'D3', 'F7')
-      },
-      ampd3f07pte(){
-        return this.filtros(this.amp.db, 'PTE', 'D3', 'F7')
-      },
-      ampd3f07abp(){
-        return this.filtros(this.amp.db, 'ABP', 'D3', 'F7')
-      },
-      ampd3f07vig(){
-        return this.filtros(this.amp.db, 'VIG', 'D3', 'F7')
-      },
-      ampd3f07ven(){
-        return this.filtros(this.amp.db, 'VEN', 'D3', 'F7')
-      },
-      ampd3f14cda(){
-        return this.filtros(this.amp.db, 'CDA', 'D3', 'F14')
-      },
-      ampd3f14pte(){
-        return this.filtros(this.amp.db, 'PTE', 'D3', 'F14')
-      },
-      ampd3f14abp(){
-        return this.filtros(this.amp.db, 'ABP', 'D3', 'F14')
-      },
-      ampd3f14vig(){
-        return this.filtros(this.amp.db, 'VIG', 'D3', 'F14')
-      },
-      ampd3f14ven(){
-        return this.filtros(this.amp.db, 'VEN', 'D3', 'F14')
+      ampd3f14(){
+        return this.filtros(this.amp.db, 'D3', 'F14')
       },
       ampd4rt(){
-        return this.filtros(this.amp.db, false, 'D4', 'RT')
+        return this.filtros(this.amp.db, 'D4', 'RT')
       },
-      ampd4f06cda(){
-        return this.filtros(this.amp.db, 'CDA', 'D4', 'F6')
+      ampd4f06(){
+        return this.filtros(this.amp.db, 'D4', 'F6')
       },
-      ampd4f06pte(){
-        return this.filtros(this.amp.db, 'PTE', 'D4', 'F6')
+      ampd4f07(){
+        return this.filtros(this.amp.db, 'D4', 'F7')
       },
-      ampd4f06abp(){
-        return this.filtros(this.amp.db, 'ABP', 'D4', 'F6')
-      },
-      ampd4f06vig(){
-        return this.filtros(this.amp.db, 'VIG', 'D4', 'F6')
-      },
-      ampd4f06ven(){
-        return this.filtros(this.amp.db, 'VEN', 'D4', 'F6')
-      },
-      ampd4f07cda(){
-        return this.filtros(this.amp.db, 'CDA', 'D4', 'F7')
-      },
-      ampd4f07pte(){
-        return this.filtros(this.amp.db, 'PTE', 'D4', 'F7')
-      },
-      ampd4f07abp(){
-        return this.filtros(this.amp.db, 'ABP', 'D4', 'F7')
-      },
-      ampd4f07vig(){
-        return this.filtros(this.amp.db, 'VIG', 'D4', 'F7')
-      },
-      ampd4f07ven(){
-        return this.filtros(this.amp.db, 'VEN', 'D4', 'F7')
-      },
-      ampd4f14cda(){
-        return this.filtros(this.amp.db, 'CDA', 'D4', 'F14')
-      },
-      ampd4f14pte(){
-        return this.filtros(this.amp.db, 'PTE', 'D4', 'F14')
-      },
-      ampd4f14abp(){
-        return this.filtros(this.amp.db, 'ABP', 'D4', 'F14')
-      },
-      ampd4f14vig(){
-        return this.filtros(this.amp.db, 'VIG', 'D4', 'F14')
-      },
-      ampd4f14ven(){
-        return this.filtros(this.amp.db, 'VEN', 'D4', 'F14')
+      ampd4f14(){
+        return this.filtros(this.amp.db, 'D4', 'F14')
       },
 
       // funciones para el tbr optimizadas
@@ -624,26 +453,8 @@ const AsistenOne = {
         if(this.f.input.abo){
           return this.f.input.mont - this.f.input.abo
         } else {
-          return null
+          return ''
         }
-      },
-      tbrplg() { 
-        return this.filtros(this.f.f09.db, 'PLG', false, false) 
-      },
-      tbrcda() { 
-        return this.filtros(this.f.f09.db, 'CDA', false, false) 
-      },
-      tbrpte() { 
-        return this.filtros(this.f.f09.db, 'PTE', false, false) 
-      },
-      tbrabp() { 
-        return this.filtros(this.f.f09.db, 'ABP', false, false) 
-      },
-      tbrvig() { 
-        return this.filtros(this.f.f09.db, 'VIG', false, false) 
-      },
-      tbrven() { 
-        return this.filtros(this.f.f09.db, 'VEN', false, false) 
       },
     }
   }

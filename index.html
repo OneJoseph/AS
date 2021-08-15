@@ -326,7 +326,7 @@
                   </template>
                   <div class="column">
                     <br>
-                    <button @click="AddRanti" class="button is-small is-success is-outlined">Agregar</button>
+                    <button @click="Addfranti" class="button is-small is-success is-outlined">Agregar</button>
                   </div>
                 </div>
               </div>
@@ -605,9 +605,16 @@
                   <div class="field is-grouped is-grouped-multiline">
                     <div v-for="(rta, index) in rta.db.actu" class="control">
                       <div class="tags has-addons">
-                        <span class="tag is-dark is-rounded">{{ rta.ejer }}</span>
+                        <span class="tag is-dark">{{ rta.ejer }}</span>
                         <span v-if="rta.mont" class="tag is-link">${{ rta.mont }}</span>
-                        <a @click="RemoveF(index, 'RT')" class="tag is-delete is-rounded"></a>
+                        <a @click="RemoveF(index, 'RT')" class="tag is-delete "></a>
+                      </div>
+                    </div>
+                    <div v-for="(rta, index) in rta.db.anti" class="control">
+                      <div class="tags has-addons">
+                        <span class="tag is-warning">{{ rta.ejer }}</span>
+                        <span v-if="rta.mont" class="tag is-link">${{ rta.mont }}</span>
+                        <a @click="RemoveF(index, 'RA')" class="tag is-delete"></a>
                       </div>
                     </div>
                   </div>
@@ -618,25 +625,25 @@
                   <div class="field is-grouped is-grouped-multiline">
                     <div v-for="(f06, index) in f.f06.omisos" class="control">
                       <div class="tags has-addons">
-                        <span class="tag is-dark is-rounded">F06</span>
+                        <span class="tag is-dark">F06</span>
                         <span class="tag is-link">{{ f06.periodo }}</span>
-                        <a @click="RemoveF(index, 'F6')" class="tag is-delete is-rounded"></a>
+                        <a @click="RemoveF(index, 'F6')" class="tag is-delete"></a>
                       </div>
                     </div>
 
                     <div v-for="(f07, index) in f.f07.omisos" class="control">
                       <div class="tags has-addons">
-                        <span class="tag is-dark is-rounded">F07</span>
+                        <span class="tag is-dark">F07</span>
                         <span class="tag is-link">{{ f07.periodo }}</span>
-                        <a @click="RemoveF(index, 'F7')" class="tag is-delete is-rounded"></a>
+                        <a @click="RemoveF(index, 'F7')" class="tag is-delete"></a>
                       </div>
                     </div>
 
                     <div v-for="(f14, index) in f.f14.omisos" class="control">
                       <div class="tags has-addons">
-                        <span class="tag is-dark is-rounded">F14</span>
+                        <span class="tag is-dark">F14</span>
                         <span class="tag is-link">{{ f14.periodo }}</span>
-                        <a @click="RemoveF(index, 'F4')" class="tag is-delete is-rounded"></a>
+                        <a @click="RemoveF(index, 'F4')" class="tag is-delete"></a>
                       </div>
                     </div>
                   </div>
@@ -647,11 +654,19 @@
                   <div class="field is-grouped is-grouped-multiline">
                     <div v-for="(amp, index) in amp.db" class="control">
                       <div class="tags has-addons">
-                        <span class="tag is-dark is-rounded">{{ amp.decreto }}</span>
-                        <span class="tag">{{ amp.form }}</span>
+                        <span v-if="amp.decreto == 'D1'" class="tag is-dark">2019</span>
+                        <span v-else-if="amp.decreto == 'D2'" class="tag is-dark">2018</span>
+                        <span v-else-if="amp.decreto == 'D3'" class="tag is-dark">2017</span>
+                        <span v-else class="tag is-dark">2015</span>
+
+                        <span v-if="amp.form == 'F6'" class="tag">F06</span>
+                        <span v-else-if="amp.form == 'F7'" class="tag">F07</span>
+                        <span v-else-if="amp.form == 'F4'" class="tag">F14</span>
+                        <span v-else class="tag">Renta</span>
+
                         <span class="tag">{{ amp.ejer }}</span>
                         <span v-if="amp.form !== 'RT'" class="tag is-link">${{ amp.mont }}</span>
-                        <a @click="RemoveF(index, 'DL')" class="tag is-delete is-rounded"></a>
+                        <a @click="RemoveF(index, 'DL')" class="tag is-delete"></a>
                       </div>
                     </div>
                   </div>
@@ -664,9 +679,9 @@
                   <div class="field is-grouped is-grouped-multiline">
                     <div v-for="(f09, index) in f.f09.db" class="control">
                       <div class="tags has-addons">
-                        <span class="tag is-dark is-rounded">{{ f09.periodo }}</span>
+                        <span class="tag is-dark">{{ f09.periodo }}</span>
                         <span class="tag is-link">${{ f09.mont }}</span>
-                        <a @click="RemoveF(index, 'F9')" class="tag is-delete is-rounded"></a>
+                        <a @click="RemoveF(index, 'F9')" class="tag is-delete"></a>
                       </div>
                     </div>
                   </div>
@@ -675,7 +690,21 @@
               </div>
               
               <div class="column">
-                <div class="notification">Marginacion</div>
+                <div class="notification">Marginacion
+                 <p>SE VERIF. SIIT Y SITED. 
+                   <template v-if="dgt">C/EXP DGT. </template>
+                   <template v-else>S/EXP DGT. </template>
+
+                   <template v-if="rsol.posee">C/RESOLUCIONES. </template>
+                   <template v-else>S/RESOLUCIONES. </template>
+
+                   <template v-if="ivas === 1">INSCRITO EN IVA. </template>
+                   <template v-else-if="ivas === 2">DESINSCRITO EN IVA. </template>
+                   <template v-else>NO INSCRITO EN IVA. </template>
+                   <template v-if="iva.fecha">{{ iva.fecha }}. </template>
+
+                 </p>
+                </div>
               </div>
 
             </div>
