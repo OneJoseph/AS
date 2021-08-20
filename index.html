@@ -698,11 +698,21 @@
                    <template v-if="rsol.posee">C/RESOLUCIONES. </template>
                    <template v-else>S/RESOLUCIONES. </template>
 
-                   <template v-if="ivas === 1">INSCRITO EN IVA. </template>
-                   <template v-else-if="ivas === 2">DESINSCRITO EN IVA. </template>
+                   <template v-if="ivas === 1">INSCRITO EN IVA{{ iva.fecha ? ' ' + iva.fecha + '.' : '.' }} </template>
+                   <template v-else-if="ivas === 2">DESINSCRITO EN IVA{{ iva.fecha ? ' ' + iva.fecha + '.' : '.' }} </template>
                    <template v-else>NO INSCRITO EN IVA. </template>
-                   <template v-if="iva.fecha">{{ iva.fecha }}. </template>
-
+                   
+                   <template v-if="prevr.rta">RTA Y DIF F910 PREV MARG HASTA {{ prevr.ejer }}.</template>
+                   <template v-if="!prevr.rta && !rta.db.anti.length">SIN RTAS ANTIGUAS</template>
+                   <template v-if="rta.db.anti.length">
+                     <template v-for="srta in rta.db.anti">
+                       <template v-if="srta.estado == 'SDO'">RTA {{ srta.ejer }} S/CAP.</template>
+                       <template v-if="srta.estado == 'DEV'">RTA {{ srta.ejer }} DEV.</template>
+                       <template v-if="srta.estado == 'CDA'">RTA {{ srta.ejer }} ${{ srta.mont }} CDA {{ srta.fcda }}.</template>
+                       <template v-if="srta.estado == 'PTE'">RTA {{ srta.ejer }} ${{ srta.mont }} PTE DE PAGO.</template>
+                       <template v-if="srta.estado == 'ABP'">RTA {{ srta.ejer }} ${{ srta.mont }} ABO ${{ srta.abo }} PTE DE PAGO ${{ srta.pte }}</template>
+                     </template>
+                   </template>
                  </p>
                 </div>
               </div>

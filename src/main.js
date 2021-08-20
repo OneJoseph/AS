@@ -269,7 +269,7 @@ const AsistenOne = {
       Addfranti() {
         this.rta.db.anti.push({
           ejer: this.rta.input.ejer,
-          estado: this.rta.input.estado.selected,
+          estado: this.rta.input.estadoanti.selected,
           mont: this.rta.input.mont,
           fcda: this.rta.input.fcda,
           abo: this.rta.input.abo,
