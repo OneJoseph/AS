@@ -68,7 +68,7 @@ const AsistenOne = {
             decreto: {
               selected: 'D1',
                 options: [
-                      { decreto: '2019', value: 'D1' },
+                      { decreto: '521/2019', value: 'D1' },
                       { decreto: '2018', value: 'D2' },
                       { decreto: '2017', value: 'D3' },
                       { decreto: '2015', value: 'D4' },
@@ -262,7 +262,7 @@ const AsistenOne = {
           pte: this.rtapte,
           resol: this.rta.input.resol,
           fprox: this.rta.input.fprox,
-          foli: this.rta.input.folio
+          foli: this.rta.input.foli
         })
         this.ClearInputs()
       },
@@ -308,6 +308,9 @@ const AsistenOne = {
       filtros(db, decreto, form){
         if (db, decreto, form) {
           return db.filter(filtro => filtro.decreto === decreto && filtro.form === form)        
+        }
+        if (db, decreto, !form) {
+          return db.filter(filtro => filtro.decreto === decreto)        
         }
       },
       ClearInputs(){
@@ -396,6 +399,9 @@ const AsistenOne = {
           return ''
         }
       },
+      ampd1(){
+        return this.filtros(this.amp.db, 'D1')
+      },
       ampd1rt(){
         return this.filtros(this.amp.db, 'D1', 'RT')
       },
@@ -406,7 +412,7 @@ const AsistenOne = {
         return this.filtros(this.amp.db, 'D1', 'F7')
       },
       ampd1f14(){
-        return this.filtros(this.amp.db, 'D1', 'F14')
+        return this.filtros(this.amp.db, 'D1', 'F4')
       },
       ampd2rt(){
         return this.filtros(this.amp.db, 'D2', 'RT')
@@ -418,7 +424,7 @@ const AsistenOne = {
         return this.filtros(this.amp.db, 'D2', 'F7')
       },
       ampd2f14(){
-        return this.filtros(this.amp.db, 'D2', 'F14')
+        return this.filtros(this.amp.db, 'D2', 'F4')
       },
       ampd3rt(){
         return this.filtros(this.amp.db, 'D3', 'RT')
@@ -430,7 +436,7 @@ const AsistenOne = {
         return this.filtros(this.amp.db, 'D3', 'F7')
       },
       ampd3f14(){
-        return this.filtros(this.amp.db, 'D3', 'F14')
+        return this.filtros(this.amp.db, 'D3', 'F4')
       },
       ampd4rt(){
         return this.filtros(this.amp.db, 'D4', 'RT')
@@ -442,7 +448,7 @@ const AsistenOne = {
         return this.filtros(this.amp.db, 'D4', 'F7')
       },
       ampd4f14(){
-        return this.filtros(this.amp.db, 'D4', 'F14')
+        return this.filtros(this.amp.db, 'D4', 'F4')
       },
 
       // funciones para el tbr optimizadas
