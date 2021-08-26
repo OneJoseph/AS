@@ -4,7 +4,10 @@ const AsistenOne = {
         dgt: false,
         rsol: {
           posee: false,
-          resoluciones: [],
+          input: {
+            show: false,
+            text: '',
+          },
         },
         iva: {
             inscrito: false,

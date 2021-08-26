@@ -22,13 +22,8 @@
                   <div class="columns  ">
                     <div class="column">
                       <input type="checkbox" id="resol" v-model="rsol.posee"/>
-                      <label class="checkbox" for="resol">Resoluciones (tasacion, multa)</label>
+                      <label @click="rsol.input.show = !rsol.input.show" class="checkbox" for="resol">Resoluciones (tasacion, multa)</label>
                     </div>
-                    <!--aca ira un boton para agregar las resoluciones-->
-                    <div v-if="rsol.posee" class="column is-one-fifth">
-                      <button class="button is-small is-success is-outlined">Agregar</button>
-                    </div>
-                    <!--fin condional-->
                   </div>
                 </div>
                 <div class="panel-block">
@@ -74,10 +69,10 @@
                   <div class="container is-fluid">
                     <div class="columns  ">
                       <div class="column">
-                        <button class="button is-small is-info is-outlined">Agregar F910 vs F11</button>
+                        <button class="button is-small is-info is-outlined">F910 vs F11</button>
                       </div>
                       <div class="column">
-                        <button class="button is-small is-link is-outlined">Agregar F910 vs F14</button>
+                        <button class="button is-small is-link is-outlined">F910 vs F14</button>
                       </div>
                     </div>
                   </div>
@@ -86,33 +81,33 @@
                 <div class="panel-block">
                   <div class="container is-fluid">
                     <div class="columns  ">
-                      <!--esta panel f07 se ocultara si iva no esta marcado-->
+                      
                       <div class="column is-4">
                         <input @click="f.input.show.f06 = false" type="checkbox" id="f06" v-model="f.f06.oblig" true-value="1" false-value="0"/>
                         <label class="checkbox" for="f06">F06</label>
-                        <!--si esta marcado se muestra este boton-->
+                        
                         <button v-if="f.f06.oblig == 1" @click="Showfo6Input" class="button is-small is-danger is-outlined">+Omiso</button>
                       </div>
-                      <!--esta panel f07 se ocultara si iva no esta marcado-->
+                      
                       <div class="column is-4">
                         <input @click="f.input.show.f07 = false" type="checkbox" id="f07" v-model="f.f07.oblig" true-value="1" false-value="0"/>
                         <label class="checkbox" for="f07">F07</label>
-                        <!--si esta marcado se muestra este boton-->
+                        
                         <button v-if="f.f07.oblig == 1" @click="Showfo7Input" class="button is-small is-danger is-outlined">+Omiso</button>
                       </div>
                       <div class="column is-4">
                         <input @click="f.input.show.f14 = false" type="checkbox" id="f14" v-model="f.f14.oblig" true-value="1" false-value="0"/>
                         <label class="checkbox" for="f14">F14</label>
-                        <!--si no esta marcado se muestra la actividad economica otros-->
+                        
                         <input v-if="f.f14.oblig == 0" class="input is-small" type="text" id="acteco" placeholder="Otros" v-model="f.f14.act" />
-                        <!--si esta marcado se muestra este boton-->
+                        
                         <button v-else-if="f.f14.oblig == 1" @click="Showf14Input" class="button is-small is-danger is-outlined">+Omiso</button>
                       </div>
                     </div>
                   </div>
                 </div>
                   
-                <!-- este panel sera visible solo si esta activo algun f.-->
+              
                 <div v-if="nfv" class="panel-block">
                   <div class="columns  ">
                     <div class="column">
@@ -129,11 +124,11 @@
                       <input type="checkbox" id="amp" v-model="amp.present" />
                       <label @click="amp.input.show = false" class="checkbox" for="amp">Declaracion Amparada</label>
                     </div>
-                    <!--si esta marcada amp se mostrar este boton-->
+                    
                     <div v-if="amp.present" class="column is-one-fifth">
                       <button @click="ShowAmpInput" class="button is-small is-success is-outlined">Agregar</button>
                     </div>
-                    <!--fin condional-->
+                    
                   </div>
                 </div>
                 <div class="panel-block">
@@ -142,7 +137,7 @@
                       <input @click="f.input.show.f09 = false" type="checkbox" id="f09" v-model="f.f09.present" />
                       <label class="checkbox" for="f09">F09</label>
                     </div>
-                    <!--si esta marcada amp se mostrar este boton-->
+                    
                     <div v-if="f.f09.present" class="column is-one-fifth">
                       <button @click="Showf09Input" class="button is-small is-success is-outlined">Agregar</button>
                     </div>
@@ -181,6 +176,7 @@
           </div>
 
           <div class="column">
+
             <article v-if="rta.input.show.rt" class="panel">
               <div class="panel-block">
                 <label >Agregar Renta</label>
@@ -382,6 +378,7 @@
                 </div>
               </div>
             </article>
+
             <article v-if="amp.input.show" class="panel">
               <div class="panel-block">
                 <label >Agregar Declaracion Amparada</label>
@@ -600,6 +597,15 @@
             </article>
             <div class="columns  ">
               <div class="column">
+                <article v-if="rsol.input.show" class="panel">
+                  <div class="panel-block">
+                    <label>Agregar detalle de Resolucion</label>
+                  </div>
+                  <div class="panel-block">
+                    <textarea class="textarea is-primary" placeholder="Descripcion de la resolucion.." v-model="rsol.input.text"></textarea>
+                  </div>
+                </article>
+
                 <div v-if="rtaz" class="box">
                   <h6 class="subtitle is-6">Rentas</h6>
                   <div class="field is-grouped is-grouped-multiline">
@@ -671,8 +677,6 @@
                     </div>
                   </div>
                 </div>
-
-                <div v-if="rsol.resoluciones.length" class="notification is-info is-light">Resoluciones</div>
   
                 <div v-if="tbrs" class="box">
                   <h6 class="subtitle is-6">TBR</h6>
@@ -696,8 +700,8 @@
                    <template v-if="dgt">C/EXP DGT. </template>
                    <template v-else>S/EXP DGT. </template>
 
-                   <template v-if="rsol.posee">C/RESOLUCIONES. </template>
-                   <template v-else>S/RESOLUCIONES. </template>
+                   <template v-if="!rsol.posee">S/RESOL. </template>
+                   <template v-else>C/RESOL. {{ rsol.input.text }} </template>
 
                    <template v-if="ivas === 1">INSCRITO EN IVA{{ iva.fecha ? ' ' + iva.fecha + '. ' : '. ' }}</template>
                    <template v-else-if="ivas === 2">DESINSCRITO EN IVA{{ iva.fecha ? ' ' + iva.fecha + '. ' : '. ' }}</template>
@@ -736,7 +740,6 @@
                   </template>
 
                   <template v-if="nfv">
-                    {{ nfv }}
                     <template v-if="f.f06.oblig == 1">F06 </template>
                     <template v-if="f.f07.oblig == 1">F07 </template>
                     <template v-if="f.f14.oblig == 1">F14 </template>
@@ -799,7 +802,7 @@
                     </template>
                     <template v-if="ampd2.length"> AL DECRETO {{ amp.input.decreto.options[1].decreto }}
                       <template v-if="ampd2rt.length"> DE RTA:
-                        <template v-for="(d, index) in ampd1rt">
+                        <template v-for="(d, index) in ampd2rt">
                           {{ index == '0' ? '' : ', ' }} {{ d.ejer }}
                         </template>.
                       </template>
@@ -851,7 +854,7 @@
                           <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.fcda }}. </template>
                           <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO.</template>
                           <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
-                          <template v-if="d3.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
+                          <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
                           <template v-if="d.estado == 'VEN'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} CON CUOTA VENCIDA. </template>
                         </template>
                       </template>
@@ -929,6 +932,7 @@
                 <div class="notification is-warning is-light">
                   <p>
                     <template v-if="vmt.esq">CON SALDO DE ESQUELAS DE TRANSITO POR ${{ vmt.montoesq }}, MAS RECARGOS PENDIENTES DE PAGO. LA INFORMACION REFERENTE A LOS SALDOS DE DEUDA POR ESQUELAS DE TRANSITO, SON RESPONSABILIDAD DEL VMT, Y EN CASO DE INCONSISTENCIAS EN VALORES O ESTADOS DE LAS DEUDAS DEBERAN COMUNICARSE A SERTRACEN O AL VMT.</template>
+                    
                   </p>
                 </div>
               </div>
