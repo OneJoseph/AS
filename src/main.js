@@ -69,9 +69,9 @@ const AsistenOne = {
               selected: 'D1',
                 options: [
                       { decreto: '521/2019', value: 'D1' },
-                      { decreto: '2018', value: 'D2' },
-                      { decreto: '2017', value: 'D3' },
-                      { decreto: '2015', value: 'D4' },
+                      { decreto: '804/2017', value: 'D2' },
+                      { decreto: '793/2014', value: 'D3' },
+                      { decreto: '652/2008', value: 'D4' },
                     ],
             },
             f: {
@@ -401,6 +401,15 @@ const AsistenOne = {
       },
       ampd1(){
         return this.filtros(this.amp.db, 'D1')
+      },
+      ampd2() {
+        return this.filtros(this.amp.db, 'D2')
+      },
+      ampd3() {
+        return this.filtros(this.amp.db, 'D3')
+      },
+      ampd4() {
+        return this.filtros(this.amp.db, 'D4')
       },
       ampd1rt(){
         return this.filtros(this.amp.db, 'D1', 'RT')
