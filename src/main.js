@@ -403,16 +403,16 @@ const AsistenOne = {
         }
       },
       ampd1(){
-        return this.filtros(this.amp.db, 'D1')
+        return this.filtros(this.amp.db, 'D1', false)
       },
       ampd2() {
-        return this.filtros(this.amp.db, 'D2')
+        return this.filtros(this.amp.db, 'D2', false)
       },
       ampd3() {
-        return this.filtros(this.amp.db, 'D3')
+        return this.filtros(this.amp.db, 'D3', false)
       },
       ampd4() {
-        return this.filtros(this.amp.db, 'D4')
+        return this.filtros(this.amp.db, 'D4', false)
       },
       ampd1rt(){
         return this.filtros(this.amp.db, 'D1', 'RT')

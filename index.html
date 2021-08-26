@@ -658,20 +658,20 @@
                 <div v-if="amps" class="box">
                   <h6 class="subtitle is-6">Declaraciones Amparadas</h6>
                   <div class="field is-grouped is-grouped-multiline">
-                    <div v-for="(amp, index) in amp.db" class="control">
+                    <div v-for="(am, index) in amp.db" class="control">
                       <div class="tags has-addons">
-                        <span v-if="amp.decreto == 'D1'" class="tag is-dark">{{ amp.input.decreto.options[0].decreto }}</span>
-                        <span v-else-if="amp.decreto == 'D2'" class="tag is-dark">{{ amp.input.decreto.options[1].decreto }}</span>
-                        <span v-else-if="amp.decreto == 'D3'" class="tag is-dark">{{ amp.input.decreto.options[2].decreto }}</span>
+                        <span v-if="am.decreto == 'D1'" class="tag is-dark">{{ amp.input.decreto.options[0].decreto }}</span>
+                        <span v-else-if="am.decreto == 'D2'" class="tag is-dark">{{ amp.input.decreto.options[1].decreto }}</span>
+                        <span v-else-if="am.decreto == 'D3'" class="tag is-dark">{{ amp.input.decreto.options[2].decreto }}</span>
                         <span v-else class="tag is-dark">{{ amp.input.decreto.options[3].decreto }}</span>
 
-                        <span v-if="amp.form == 'F6'" class="tag">F06</span>
-                        <span v-else-if="amp.form == 'F7'" class="tag">F07</span>
-                        <span v-else-if="amp.form == 'F4'" class="tag">F14</span>
+                        <span v-if="am.form == 'F6'" class="tag">F06</span>
+                        <span v-else-if="am.form == 'F7'" class="tag">F07</span>
+                        <span v-else-if="am.form == 'F4'" class="tag">F14</span>
                         <span v-else class="tag">Renta</span>
 
-                        <span class="tag">{{ amp.ejer }}</span>
-                        <span v-if="amp.form !== 'RT'" class="tag is-link">${{ amp.mont }}</span>
+                        <span class="tag">{{ am.ejer }}</span>
+                        <span v-if="am.form !== 'RT'" class="tag is-link">${{ am.mont }}</span>
                         <a @click="RemoveF(index, 'DL')" class="tag is-delete"></a>
                       </div>
                     </div>
