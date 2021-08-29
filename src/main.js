@@ -47,7 +47,7 @@ const AsistenOne = {
               act: 'Otros',
               omisos: [],
           },
-          verf: '0/2021',
+          verf: '07/2021',
           f09: {
             present: false,
             db: [],
