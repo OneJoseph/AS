@@ -24,6 +24,9 @@
                       <input type="checkbox" id="resol" v-model="rsol.posee"/>
                       <label @click="rsol.input.show = !rsol.input.show" class="checkbox" for="resol">Resoluciones (tasacion, multa)</label>
                     </div>
+                    <div v-if="rsol.input.text.length" class="column is-one-fifth">
+                      <button  @click="ShowRsolInput" class="button is-small is-success is-outlined">Edit</button>
+                    </div>
                   </div>
                 </div>
                 <div class="panel-block">
@@ -604,6 +607,9 @@
                   <div class="panel-block">
                     <textarea class="textarea is-primary" placeholder="Descripcion de la resolucion.." v-model="rsol.input.text"></textarea>
                   </div>
+                  <div class="panel-block">
+                    <textarea class="textarea is-primary" placeholder="Observacion de la resolucion.." v-model="rsol.input.obtext"></textarea>
+                  </div>
                 </article>
 
                 <div v-if="rtaz" class="box">
@@ -711,6 +717,7 @@
                    <template v-if="!prevr.rta && !rta.db.anti.length">SIN RTAS ANTIGUAS. </template>
 
                    <template v-if="rta.db.anti.length">
+                     CON RTAS ANTIGUAS
                      <template v-for="srta in rta.db.anti">
                        <template v-if="srta.estado == 'SDO'">RTA {{ srta.ejer }} S/CAP. </template>
                        <template v-if="srta.estado == 'DEV'">RTA {{ srta.ejer }} DEV. </template>
@@ -928,13 +935,35 @@
                  </p>
                 </div>
                 
-                <h6 class="subtitle is-6">Observación</h6>
-                <div class="notification is-warning is-light">
-                  <p>
-                    <template v-if="vmt.esq">CON SALDO DE ESQUELAS DE TRANSITO POR ${{ vmt.montoesq }}, MAS RECARGOS PENDIENTES DE PAGO. LA INFORMACION REFERENTE A LOS SALDOS DE DEUDA POR ESQUELAS DE TRANSITO, SON RESPONSABILIDAD DEL VMT, Y EN CASO DE INCONSISTENCIAS EN VALORES O ESTADOS DE LAS DEUDAS DEBERAN COMUNICARSE A SERTRACEN O AL VMT.</template>
-                    
+                <template v-if="vmt.esq || obsaldo.length || rsol.input.obtext.length" >
+                  <h6 class="subtitle is-6">Observación</h6>
+                  <div class="notification is-warning is-light">
+                    <p>
+                    <template v-if="obsaldo.length || rsol.input.obtext.length">
+                      SALDO ARRIBA DETALLADO CORRESPONDE A:
+                      <template v-for="s in obsaldo">
+                        <template v-if="s.tipo == 'RENTA'">
+                          <template v-if="s.estado == 'PTE' || s.estado =='ABP'">{{ s.tipo }} {{ s.ejer }} MAS INTERESES, PENDIENTE DE PAGO.</template>
+                          <template v-if="s.estado == 'VIG'">{{ s.tipo }} {{ s.ejer }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}.</template>
+                          <template v-if="s.estado == 'VEN'">{{ s.tipo }} {{ s.ejer }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA.</template>
+                        </template>
+                        <template v-if="s.tipo == 'F09'">
+                          <template v-if="s.estado == 'PTE' || s.estado =='ABP'">{{ s.tipo }} {{ s.periodo }} MAS INTERESES, PENDIENTE DE PAGO.</template>
+                          <template v-if="s.estado == 'VIG'">{{ s.tipo }} {{ s.periodo }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}.</template>
+                          <template v-if="s.estado == 'VEN'">{{ s.tipo }} {{ s.periodo }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA.</template>
+                        </template>
+                        <template v-if="s.tipo == 'AMPARADA'">
+                          <template v-if="s.estado == 'PTE' || s.estado =='ABP'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }} MAS INTERESES, PENDIENTE DE PAGO.</template>
+                          <template v-if="s.estado == 'VIG'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}.</template>
+                          <template v-if="s.estado == 'VEN'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA.</template>
+                        </template>
+                      </template>
+                      <template v-if='rsol.posee'>{{ obsaldo.length ? ' /// ' : '' }} {{ rsol.input.obtext }}</template>
+                    </template>
+                    <template v-if="vmt.esq"> {{ obsaldo.length ? ' /// ' : '' }} {{ rsol.input.obtext.length ? ' /// ' : '' }} CON SALDO DE ESQUELAS DE TRANSITO POR ${{ vmt.montoesq }}, MAS RECARGOS PENDIENTES DE PAGO. LA INFORMACION REFERENTE A LOS SALDOS DE DEUDA POR ESQUELAS DE TRANSITO, SON RESPONSABILIDAD DEL VMT, Y EN CASO DE INCONSISTENCIAS EN VALORES O ESTADOS DE LAS DEUDAS DEBERAN COMUNICARSE A SERTRACEN O AL VMT.</template>
                   </p>
-                </div>
+                  </div>
+                </template>
               </div>
 
             </div>

@@ -7,6 +7,7 @@ const AsistenOne = {
           input: {
             show: false,
             text: '',
+            obtext:'',
           },
         },
         iva: {
@@ -46,7 +47,7 @@ const AsistenOne = {
               act: 'Otros',
               omisos: [],
           },
-          verf: '06/2021',
+          verf: '0/2021',
           f09: {
             present: false,
             db: [],
@@ -228,6 +229,16 @@ const AsistenOne = {
           this.OcultarInput()
         }
       },
+      ShowRsolInput() {
+
+        if (!this.rsol.input.show) {
+
+          this.OcultarInput(),
+            this.rsol.input.show = true
+        } else {
+          this.OcultarInput()
+        }
+      },
       OcultarInput(){
         this.rta.input.show.rt = false,
         this.rta.input.show.anti = false,
@@ -235,7 +246,8 @@ const AsistenOne = {
         this.f.input.show.f07 = false,
         this.f.input.show.f14 = false,
         this.f.input.show.f09 = false,
-        this.amp.input.show = false
+        this.amp.input.show = false,
+        this.rsol.input.show = false
       },
       AddFomiso(){
         if (this.f.input.show.f06) {
@@ -257,6 +269,7 @@ const AsistenOne = {
       },
       Addfrta() {
         this.rta.db.actu.push({
+          tipo: 'RENTA',
           ejer: this.rta.input.ejer,
           estado: this.rta.input.estado.selected,
           mont: this.rta.input.mont,
@@ -271,6 +284,7 @@ const AsistenOne = {
       },
       Addfranti() {
         this.rta.db.anti.push({
+          tipo: 'RENTA',
           ejer: this.rta.input.ejer,
           estado: this.rta.input.estadoanti.selected,
           mont: this.rta.input.mont,
@@ -282,6 +296,7 @@ const AsistenOne = {
       },
       Addfamp(){
         this.amp.db.push({
+          tipo: 'AMPARADA',
           ejer: this.amp.input.ejer,
           decreto: this.amp.input.decreto.selected,
           form: this.amp.input.f.selected,
@@ -297,6 +312,7 @@ const AsistenOne = {
       },
       Addftbr(){
         this.f.f09.db.push({
+          tipo: 'F09',
           periodo: this.f.input.periodo,
           estado: this.f.f09.estado.selected,
           mont: this.f.input.mont,
@@ -308,12 +324,15 @@ const AsistenOne = {
         })
         this.ClearInputs()
       },
-      filtros(db, decreto, form){
-        if (db, decreto, form) {
+      filtros(db, decreto, form, estado){
+        if (db, decreto, form, !estado) {
           return db.filter(filtro => filtro.decreto === decreto && filtro.form === form)        
         }
-        if (db, decreto, !form) {
+        if (db, decreto, !form, !estado) {
           return db.filter(filtro => filtro.decreto === decreto)        
+        }
+        if (db, !decreto, !form, estado) {
+          return db.filter(filtro => filtro.estado === estado)
         }
       },
       ClearInputs(){
@@ -473,6 +492,26 @@ const AsistenOne = {
         } else {
           return ''
         }
+      },
+      
+      // funcion para obs de saldos
+      obsaldo(){
+        return this.filtros(this.rta.db.actu, false, false, 'PTE')
+              .concat(this.filtros(this.rta.db.actu, false, false, 'ABP'))
+              .concat(this.filtros(this.rta.db.actu, false, false, 'VIG'))
+              .concat(this.filtros(this.rta.db.actu, false, false, 'VEN'))
+              .concat(this.filtros(this.rta.db.anti, false, false, 'PTE'))
+              .concat(this.filtros(this.rta.db.anti, false, false, 'ABP'))
+              .concat(this.filtros(this.rta.db.anti, false, false, 'VIG'))
+              .concat(this.filtros(this.rta.db.anti, false, false, 'VEN'))
+              .concat(this.filtros(this.amp.db, false, false, 'PTE'))
+              .concat(this.filtros(this.amp.db, false, false, 'ABP'))
+              .concat(this.filtros(this.amp.db, false, false, 'VIG'))
+              .concat(this.filtros(this.amp.db, false, false, 'VEN'))
+              .concat(this.filtros(this.f.f09.db, false, false, 'PTE'))
+              .concat(this.filtros(this.f.f09.db, false, false, 'ABP'))
+              .concat(this.filtros(this.f.f09.db, false, false, 'VIG'))
+              .concat(this.filtros(this.f.f09.db, false, false, 'VEN'))
       },
     }
   }
