@@ -536,7 +536,8 @@ const AsistenOne = {
       },
       rtapte() {
         if(this.rta.input.abo){
-          return this.rta.input.mont - this.rta.input.abo
+          const x = this.rta.input.mont - this.rta.input.abo
+          return x.toFixed(2)
         } else {
           return ''
         }
@@ -548,7 +549,8 @@ const AsistenOne = {
       },
       amppte() {
         if(this.amp.input.abo){
-          return this.amp.input.mont - this.amp.input.abo
+          const x = this.amp.input.mont - this.amp.input.abo
+          return x.toFixed(2)
         } else {
           return ''
         }
@@ -620,7 +622,8 @@ const AsistenOne = {
       },
       tbrmontpte() {
         if(this.f.input.abo){
-          return this.f.input.mont - this.f.input.abo
+          const x = this.f.input.mont - this.f.input.abo
+          return x.toFixed(2)
         } else {
           return ''
         }
