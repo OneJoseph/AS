@@ -422,13 +422,13 @@ const AsistenOne = {
         this.autostatus()
       },
       filtros(db, decreto, form, estado){
-        if (db, decreto, form, !estado) {
+        if (db && decreto && form && !estado) {
           return db.filter(filtro => filtro.decreto === decreto && filtro.form === form)        
         }
-        if (db, decreto, !form, !estado) {
+        if (db && decreto && !form && !estado) {
           return db.filter(filtro => filtro.decreto === decreto)        
         }
-        if (db, !decreto, !form, estado) {
+        if (db && !decreto && !form && estado) {
           return db.filter(filtro => filtro.estado === estado)
         }
       },
@@ -554,64 +554,64 @@ const AsistenOne = {
         }
       },
       ampd1(){
-        return this.filtros(this.amp.db, 'D1', false)
+        return this.filtros(this.amp.db, 'D1', false, false)
       },
       ampd2() {
-        return this.filtros(this.amp.db, 'D2', false)
+        return this.filtros(this.amp.db, 'D2', false, false)
       },
       ampd3() {
-        return this.filtros(this.amp.db, 'D3', false)
+        return this.filtros(this.amp.db, 'D3', false, false)
       },
       ampd4() {
-        return this.filtros(this.amp.db, 'D4', false)
+        return this.filtros(this.amp.db, 'D4', false, false)
       },
       ampd1rt(){
-        return this.filtros(this.amp.db, 'D1', 'RT')
+        return this.filtros(this.amp.db, 'D1', 'RT', false)
       },
       ampd1f06(){
-        return this.filtros(this.amp.db, 'D1', 'F6')
+        return this.filtros(this.amp.db, 'D1', 'F6', false)
       },
       ampd1f07(){
-        return this.filtros(this.amp.db, 'D1', 'F7')
+        return this.filtros(this.amp.db, 'D1', 'F7', false)
       },
       ampd1f14(){
-        return this.filtros(this.amp.db, 'D1', 'F4')
+        return this.filtros(this.amp.db, 'D1', 'F4', false)
       },
       ampd2rt(){
-        return this.filtros(this.amp.db, 'D2', 'RT')
+        return this.filtros(this.amp.db, 'D2', 'RT', false)
       },
       ampd2f06(){
-        return this.filtros(this.amp.db, 'D2', 'F6')
+        return this.filtros(this.amp.db, 'D2', 'F6', false)
       },
       ampd2f07(){
-        return this.filtros(this.amp.db, 'D2', 'F7')
+        return this.filtros(this.amp.db, 'D2', 'F7', false)
       },
       ampd2f14(){
-        return this.filtros(this.amp.db, 'D2', 'F4')
+        return this.filtros(this.amp.db, 'D2', 'F4', false)
       },
       ampd3rt(){
-        return this.filtros(this.amp.db, 'D3', 'RT')
+        return this.filtros(this.amp.db, 'D3', 'RT', false)
       },
       ampd3f06(){
-        return this.filtros(this.amp.db, 'D3', 'F6')
+        return this.filtros(this.amp.db, 'D3', 'F6', false)
       },
       ampd3f07(){
-        return this.filtros(this.amp.db, 'D3', 'F7')
+        return this.filtros(this.amp.db, 'D3', 'F7', false)
       },
       ampd3f14(){
-        return this.filtros(this.amp.db, 'D3', 'F4')
+        return this.filtros(this.amp.db, 'D3', 'F4', false)
       },
       ampd4rt(){
-        return this.filtros(this.amp.db, 'D4', 'RT')
+        return this.filtros(this.amp.db, 'D4', 'RT', false)
       },
       ampd4f06(){
-        return this.filtros(this.amp.db, 'D4', 'F6')
+        return this.filtros(this.amp.db, 'D4', 'F6', false)
       },
       ampd4f07(){
-        return this.filtros(this.amp.db, 'D4', 'F7')
+        return this.filtros(this.amp.db, 'D4', 'F7', false)
       },
       ampd4f14(){
-        return this.filtros(this.amp.db, 'D4', 'F4')
+        return this.filtros(this.amp.db, 'D4', 'F4', false)
       },
 
       // funciones para el tbr optimizadas
