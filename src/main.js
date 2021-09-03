@@ -1,6 +1,7 @@
 const AsistenOne = {
     data() {
       return {
+        tecnico: 'DF/AH',
         dgt: false,
         rsol: {
           posee: false,
@@ -112,7 +113,7 @@ const AsistenOne = {
           permcir: false // permisos de circulacion
         },
         contri: {
-          selected: 'SS',
+          selected: 'NC',
             options: [
                   { estado: 'Solvente', value: 'SS' },
                   { estado: 'No contribuyente', value: 'NC' },
@@ -168,6 +169,61 @@ const AsistenOne = {
             resol: '',
             fprox: '',
             foli: '', 
+          },
+        },
+        vs: {
+          f11: {
+            db: [],
+            input: {
+              show: false,
+              ejer: '2020',
+              vs: {
+                selected: 'VS',
+                options: [
+                  { vsf: 'F910-F11', value: 'VS' },
+                  { vsf: 'SIN RETENCIONES', value: 'SR' },
+                ],
+              },
+              dif: {
+                selected: 'S',
+                options: [
+                  { estado: 'CON DIF', value: 'C' },
+                  { estado: 'SIN DIF', value: 'S' },
+                ],
+              },
+            },
+          },
+          f14: {
+            db: [],
+            input: {
+              show: false,
+              ejer: '2020',
+              vs: {
+                selected: 'NA',
+                options: [
+                  { vsf: 'F910-F14', value: 'VS' },
+                  { vsf: 'F910', value: 'NA' },
+                ],
+              },
+              dif: {
+                selected: 'M',
+                options: [
+                  { estado: 'CON DIF', value: 'C' },
+                  { estado: 'SIN DIF', value: 'S' },
+                  { estado: 'PROFISCO', value: 'P' },
+                  { estado: 'PREV MARG', value: 'M' },
+                ],
+              },
+              novs: {
+                selected: 'M',
+                options: [
+                  { estado: 'NO OBLIG', value: 'N' },
+                  { estado: 'OMISO', value: 'O' },
+                  { estado: 'PREV MARG', value: 'M' },
+                  { estado: 'SIN DETERMINAR', value: 'D' },
+                ],
+              },
+            },
           },
         },
       }
@@ -230,11 +286,25 @@ const AsistenOne = {
         }
       },
       ShowRsolInput() {
-
         if (!this.rsol.input.show) {
-
           this.OcultarInput(),
             this.rsol.input.show = true
+        } else {
+          this.OcultarInput()
+        }
+      },
+      ShowVs11Input() {
+        if (!this.vs.f11.input.show) {
+          this.OcultarInput(),
+            this.vs.f11.input.show = true
+        } else {
+          this.OcultarInput()
+        }
+      },
+      ShowVs14Input() {
+        if (!this.vs.f14.input.show) {
+          this.OcultarInput(),
+            this.vs.f14.input.show = true
         } else {
           this.OcultarInput()
         }
@@ -247,7 +317,9 @@ const AsistenOne = {
         this.f.input.show.f14 = false,
         this.f.input.show.f09 = false,
         this.amp.input.show = false,
-        this.rsol.input.show = false
+        this.rsol.input.show = false,
+        this.vs.f11.input.show = false,
+        this.vs.f14.input.show = false
       },
       AddFomiso(){
         if (this.f.input.show.f06) {
@@ -255,16 +327,19 @@ const AsistenOne = {
             periodo: this.f.input.periodo
           }),
           this.ClearInputs()
+          this.autostatus()
         } else if (this.f.input.show.f07) {
           this.f.f07.omisos.push({
             periodo: this.f.input.periodo
           }),
           this.ClearInputs()
+          this.autostatus()
         } else {
           this.f.f14.omisos.push({
             periodo: this.f.input.periodo
           })
           this.ClearInputs()
+          this.autostatus()
         }
       },
       Addfrta() {
@@ -281,6 +356,7 @@ const AsistenOne = {
           foli: this.rta.input.foli
         })
         this.ClearInputs()
+        this.autostatus()
       },
       Addfranti() {
         this.rta.db.anti.push({
@@ -293,6 +369,7 @@ const AsistenOne = {
           pte: this.rtapte
         })
         this.ClearInputs()
+        this.autostatus()
       },
       Addfamp(){
         this.amp.db.push({
@@ -309,6 +386,7 @@ const AsistenOne = {
           fprox: this.amp.input.fprox
         })
         this.ClearInputs()
+        this.autostatus()
       },
       Addftbr(){
         this.f.f09.db.push({
@@ -323,6 +401,25 @@ const AsistenOne = {
           fprox: this.f.input.fprox
         })
         this.ClearInputs()
+        this.autostatus()
+      },
+      Addvsf11() {
+        this.vs.f11.db.push({
+          vsf: this.vs.f11.input.vs.selected,
+          estado: this.vs.f11.input.vs.selected == 'VS' ? this.vs.f11.input.dif.selected : '',
+          ejer: this.vs.f11.input.ejer,
+        }),
+        this.ClearInputs()
+        this.autostatus()
+      },
+      Addvsf14() {
+        this.vs.f14.db.push({
+          vsf: this.vs.f14.input.vs.selected,
+          estado: this.vs.f14.input.vs.selected == 'VS' ? this.vs.f14.input.dif.selected : this.vs.f14.input.novs.selected,
+          ejer: this.vs.f14.input.ejer,
+        }),
+        this.ClearInputs()
+        this.autostatus()
       },
       filtros(db, decreto, form, estado){
         if (db, decreto, form, !estado) {
@@ -355,7 +452,9 @@ const AsistenOne = {
         this.amp.input.abo = '',
         this.amp.input.resol = '',
         this.amp.input.fprox = '',
-        this.amp.input.foli = ''
+        this.amp.input.foli = '',
+        this.vs.f11.input.ejer = '',
+        this.vs.f14.input.ejer = ''
       },
       RemoveF(index, tipo){
         switch (tipo) {
@@ -380,6 +479,39 @@ const AsistenOne = {
           case 'DL':
             this.amp.db.splice(index, 1)
             break;
+          case 'V1':
+          this.vs.f11.db.splice(index, 1)
+            break;
+          case 'V2':
+          this.vs.f14.db.splice(index, 1)
+            break;
+        }
+        this.autostatus()
+      },
+      autostatus() {
+        if (this.omi && !this.obSmor && this.obSaut) {
+          this.contri.selected = 'IO'
+        }
+        if (this.omi && !this.obSmor && !this.obSaut) {
+          this.contri.selected = 'IO'
+        }
+        if (!this.omi && this.obSmor && this.obSaut) {
+          this.contri.selected = 'IM'
+        }
+        if (!this.omi && this.obSmor && !this.obSaut) {
+          this.contri.selected = 'IM'
+        }
+        if (this.omi && this.obSmor && this.obSaut) {
+          this.contri.selected = 'MO'
+        }
+        if (this.omi && this.obSmor && !this.obSaut) {
+          this.contri.selected = 'MO'
+        }
+        if (!this.omi && !this.obSmor && this.obSaut) {
+          this.contri.selected = 'AP'
+        }
+        if (!this.omi && !this.obSmor && !this.obSaut) {
+          this.contri.selected = 'SS'
         }
       },
     },
@@ -494,7 +626,7 @@ const AsistenOne = {
         }
       },
       
-      // funcion para obs de saldos
+      // funcion para obs de saldos y omisos
       obsaldo(){
         return this.filtros(this.rta.db.actu, false, false, 'PTE')
               .concat(this.filtros(this.rta.db.actu, false, false, 'ABP'))
@@ -512,6 +644,54 @@ const AsistenOne = {
               .concat(this.filtros(this.f.f09.db, false, false, 'ABP'))
               .concat(this.filtros(this.f.f09.db, false, false, 'VIG'))
               .concat(this.filtros(this.f.f09.db, false, false, 'VEN'))
+      },
+      omirt(){
+        return this.filtros(this.rta.db.actu, false, false, 'DIV')
+          .concat(this.filtros(this.rta.db.actu, false, false, 'IVA'))
+          .concat(this.filtros(this.rta.db.actu, false, false, 'OSU'))
+          .concat(this.filtros(this.rta.db.anti, false, false, 'DIV'))
+          .concat(this.filtros(this.rta.db.anti, false, false, 'IVA'))
+          .concat(this.filtros(this.rta.db.anti, false, false, 'OSU'))
+      },
+      omi(){
+        return this.omif + this.omirt.length + this.obdif11.length + this.obdif14.length + this.omif910.length
+      },
+      obSmor() {
+        const mor = this.obsaldo.filter(filtro => filtro.estado === 'PTE')
+                .concat(this.obsaldo.filter(filtro => filtro.estado === 'ABP'))
+                .concat(this.obsaldo.filter(filtro => filtro.estado === 'VEN'))
+        return mor.length
+      },
+      obSaut() {
+        const aut = this.obsaldo.filter(filtro => filtro.estado === 'VIG')
+        return aut.length
+      },
+      obdif11() {
+        return this.vs.f11.db.filter(filtro => filtro.estado === 'C')
+      },
+      obdif14() {
+        return this.vs.f14.db.filter(filtro => filtro.estado === 'C')
+      },
+      omif910() {
+        return this.vs.f14.db.filter(filtro => filtro.estado === 'O')
+      },
+      obSrta(){
+        return this.obsaldo.filter(filtro => filtro.tipo === 'RENTA')
+      },
+      obStbr() {
+        return this.obsaldo.filter(filtro => filtro.tipo === 'F09')
+      },
+      obSamp() {
+        return this.obsaldo.filter(filtro => filtro.tipo === 'AMPARADA')
+      },
+      obSampf6() {
+        return this.obsaldo.filter(filtro => filtro.form === 'F6')
+      },
+      obSampf7() {
+        return this.obsaldo.filter(filtro => filtro.form === 'F7')
+      },
+      obSampf4() {
+        return this.obsaldo.filter(filtro => filtro.form === 'F4')
       },
     }
   }
