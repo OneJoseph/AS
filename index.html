@@ -724,7 +724,7 @@
                 </div>
         
                 <div v-if="vs.f11.db.length || vs.f14.db.length" class="box">
-                  <h6 class="subtitle is-6">F910 vs F11-F4</h6>
+                  <h6 class="subtitle is-6">F910 vs F11-F14</h6>
                   <div class="field is-grouped is-grouped-multiline">
                     <div v-for="(v, index) in vs.f11.db" class="control">
                       <div class="tags has-addons">
@@ -846,8 +846,8 @@
                      </template>
                    </template>
                   
-                   <template v-if="!rta.db.actu.length">RTA 2016-2020 SIN INGS S/CARP ELECT.</template>
-                   <template v-else>
+                   
+                   <template v-if="rta.db.actu.length">
                     <template v-for="srta in rta.db.actu">
                       <template v-if="srta.estado == 'SDO'">RTA {{ srta.ejer }} S/CAP. </template>
                       <template v-if="srta.estado == 'DEV'">RTA {{ srta.ejer }} DEV. </template>
