@@ -409,7 +409,7 @@ const AsistenOne = {
           estado: this.vs.f11.input.vs.selected == 'VS' ? this.vs.f11.input.dif.selected : '',
           ejer: this.vs.f11.input.ejer,
         }),
-        this.ClearInputs()
+        this.vs.f11.input.ejer = '',
         this.autostatus()
       },
       Addvsf14() {
@@ -418,7 +418,7 @@ const AsistenOne = {
           estado: this.vs.f14.input.vs.selected == 'VS' ? this.vs.f14.input.dif.selected : this.vs.f14.input.novs.selected,
           ejer: this.vs.f14.input.ejer,
         }),
-        this.ClearInputs()
+        this.vs.f14.input.ejer = '',
         this.autostatus()
       },
       filtros(db, decreto, form, estado){
@@ -452,9 +452,7 @@ const AsistenOne = {
         this.amp.input.abo = '',
         this.amp.input.resol = '',
         this.amp.input.fprox = '',
-        this.amp.input.foli = '',
-        this.vs.f11.input.ejer = '',
-        this.vs.f14.input.ejer = ''
+        this.amp.input.foli = ''
       },
       RemoveF(index, tipo){
         switch (tipo) {

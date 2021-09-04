@@ -846,7 +846,7 @@
                      </template>
                    </template>
                   
-                   <template v-if="!rta.db.actu.length">RTA 2016-2020 SIN INGS S/CARP ELECT</template>
+                   <template v-if="!rta.db.actu.length">RTA 2016-2020 SIN INGS S/CARP ELECT.</template>
                    <template v-else>
                     <template v-for="srta in rta.db.actu">
                       <template v-if="srta.estado == 'SDO'">RTA {{ srta.ejer }} S/CAP. </template>
@@ -1073,8 +1073,8 @@
                     </template>
                   </template>
  
-                  <template v-if="!vmt.esq">CON BASE AL ACCESO DE CONSULTA AL ESTADO DE CUENTA DE ESQUELAS IMPUESTAS, NO HA EVIDENCIADO DEUDAS POR ESQUELAS DE TRANSITO. </template>
-                  <template v-else>CON BASE AL ACCESO DE CONSULTA AL ESTADO DE CUENTA DE ESQUELAS IMPUESTAS, HA EVIDENCIADO DEUDAS POR ESQUELAS DE TRANSITO POR ${{ vmt.montoesq }} MAS RECARGOS PTES DE PAGO. </template>
+                  <template v-if="!vmt.esq"> CON BASE AL ACCESO DE CONSULTA AL ESTADO DE CUENTA DE ESQUELAS IMPUESTAS, NO HA EVIDENCIADO DEUDAS POR ESQUELAS DE TRANSITO. </template>
+                  <template v-else> CON BASE AL ACCESO DE CONSULTA AL ESTADO DE CUENTA DE ESQUELAS IMPUESTAS, HA EVIDENCIADO DEUDAS POR ESQUELAS DE TRANSITO POR ${{ vmt.montoesq }} MAS RECARGOS PTES DE PAGO. </template>
                   
                     <template v-if="obSmor">
                       MOROSO POR:
