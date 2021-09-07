@@ -17,8 +17,7 @@ const AsistenOne = {
             desinscrito: false,
         },
         prevr: {
-              rta:false,
-              ejer: 2020,
+              ejer: '',
         },
         f: {
           input: {
@@ -50,7 +49,6 @@ const AsistenOne = {
           },
           verf: '07/2021',
           f09: {
-            present: false,
             db: [],
             estado: {
               selected: 'PLG',
@@ -66,7 +64,6 @@ const AsistenOne = {
           },
         },
         amp: {
-          present: false,
           db:[],
           input: {
             show: false,
@@ -109,7 +106,7 @@ const AsistenOne = {
         },
         vmt: {
           esq: false, //esquelas
-          montoesq: 11.43,
+          montoesq: '',
           permcir: false // permisos de circulacion
         },
         contri: {
@@ -512,6 +509,15 @@ const AsistenOne = {
           this.contri.selected = 'SS'
         }
       },
+      addvmt(){
+        this.vmt.esq = !this.vmt.esq
+        if (this.vmt.esq) {
+          this.vmt.montoesq = '11.43'
+        } else {
+          this.vmt.montoesq = ''
+        }
+        this.autostatus()
+      },
     },
     computed: {
       ivas(){
@@ -661,7 +667,7 @@ const AsistenOne = {
         const mor = this.obsaldo.filter(filtro => filtro.estado === 'PTE')
                 .concat(this.obsaldo.filter(filtro => filtro.estado === 'ABP'))
                 .concat(this.obsaldo.filter(filtro => filtro.estado === 'VEN'))
-        return mor.length
+        return mor.length + this.vmt.montoesq.length
       },
       obSaut() {
         const aut = this.obsaldo.filter(filtro => filtro.estado === 'VIG')

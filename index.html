@@ -50,20 +50,15 @@
                 </div>
                 <div class="panel-block">
                   <div class="columns  ">
-                    <div class="column">
-                      <input @click="rta.input.show.anti = false" type="checkbox" id="prevm" v-model="prevr.rta"/>
-                      <label class="checkbox" for="prevm">Renta Previa</label>
-                    </div>
-                    <!--aca ira una condicional para mostrar esta otra columan-->
-                    <div v-if="prevr.rta" class="column is-4">
+                    <div class="column is-4">
+                      <label for="prevrta">Rta Prev.</label>
                       <input class="input is-small" type="text" id="prevrta" placeholder="2020" v-model="prevr.ejer">
                     </div>
-                    <div v-if="!prevr.rta" class="column is-4">
-                      <button @click="ShowRantInput" class="button is-small is-success is-outlined">+Antiguas</button>
+                    <div class="column is-4">
+                      <button @click="ShowRantInput" class="button is-small is-warning is-light">+Antiguas</button>
                     </div>
-                    <!--fin condional-->
                     <div class="column is-one-fifth">
-                      <button  @click="ShowRtaInput" class="button is-small is-success is-outlined">+Renta</button>
+                      <button  @click="ShowRtaInput" class="button is-small is-success is-light">+Renta</button>
                     </div>
                   </div>
                 </div>
@@ -72,10 +67,10 @@
                   <div class="container is-fluid">
                     <div class="columns  ">
                       <div class="column">
-                        <button @click="ShowVs11Input" class="button is-small is-info is-outlined">F910 vs F11</button>
+                        <button @click="ShowVs11Input" class="button is-small is-info is-light">F910 vs F11</button>
                       </div>
                       <div class="column">
-                        <button @click="ShowVs14Input" class="button is-small is-link is-outlined">F910 vs F14</button>
+                        <button @click="ShowVs14Input" class="button is-small is-link is-light">F910 vs F14</button>
                       </div>
                     </div>
                   </div>
@@ -89,14 +84,14 @@
                         <input @click="f.input.show.f06 = false" type="checkbox" id="f06" v-model="f.f06.oblig" true-value="1" false-value="0"/>
                         <label class="checkbox" for="f06">F06</label>
                         
-                        <button v-if="f.f06.oblig == 1" @click="Showfo6Input" class="button is-small is-danger is-outlined">+Omiso</button>
+                        <button v-if="f.f06.oblig == 1" @click="Showfo6Input" class="button is-small is-danger is-light">+Omiso</button>
                       </div>
                       
                       <div class="column is-4">
                         <input @click="f.input.show.f07 = false" type="checkbox" id="f07" v-model="f.f07.oblig" true-value="1" false-value="0"/>
                         <label class="checkbox" for="f07">F07</label>
                         
-                        <button v-if="f.f07.oblig == 1" @click="Showfo7Input" class="button is-small is-danger is-outlined">+Omiso</button>
+                        <button v-if="f.f07.oblig == 1" @click="Showfo7Input" class="button is-small is-danger is-light">+Omiso</button>
                       </div>
                       <div class="column is-4">
                         <input @click="f.input.show.f14 = false" type="checkbox" id="f14" v-model="f.f14.oblig" true-value="1" false-value="0"/>
@@ -104,7 +99,7 @@
                         
                         <textarea v-if="f.f14.oblig == 0" class="input is-small" type="text" id="acteco" placeholder="Otros" v-model="f.f14.act" ></textarea>
                         
-                        <button v-else-if="f.f14.oblig == 1" @click="Showf14Input" class="button is-small is-danger is-outlined">+Omiso</button>
+                        <button v-else-if="f.f14.oblig == 1" @click="Showf14Input" class="button is-small is-danger is-light">+Omiso</button>
                       </div>
                     </div>
                   </div>
@@ -122,39 +117,25 @@
                   </div>
                 </div>
                 <div class="panel-block">
-                  <div class="columns  ">
-                    <div class="column">
-                      <input type="checkbox" id="amp" v-model="amp.present" />
-                      <label @click="amp.input.show = false" class="checkbox" for="amp">Declaracion Amparada</label>
-                    </div>
-                    
-                    <div v-if="amp.present" class="column is-one-fifth">
-                      <button @click="ShowAmpInput" class="button is-small is-success is-outlined">Agregar</button>
-                    </div>
-                    
-                  </div>
-                </div>
+                   <div class="container is-fluid">
+                     <div class="columns  ">
+                      <div class="column">
+                        <button @click="ShowAmpInput" class="button is-small is-primary is-light">Decla. Amparadas</button>
+                      </div>
+                      <div class="column">
+                        <button @click="Showf09Input" class="button is-small is-success is-light">TBR (F09)</button>
+                      </div>
+                     </div>
+                   </div>
+                </div>             
                 <div class="panel-block">
                   <div class="columns  ">
                     <div class="column">
-                      <input @click="f.input.show.f09 = false" type="checkbox" id="f09" v-model="f.f09.present" />
-                      <label class="checkbox" for="f09">F09</label>
-                    </div>
-                    
-                    <div v-if="f.f09.present" class="column is-one-fifth">
-                      <button @click="Showf09Input" class="button is-small is-success is-outlined">Agregar</button>
-                    </div>
-                    
-                  </div>
-                </div>                
-                <div class="panel-block">
-                  <div class="columns  ">
-                    <div class="column">
-                      <input type="checkbox" id="vmt" v-model="vmt.esq" />
-                      <label class="checkbox" for="vmt">Esquelas</label>
+                      <button  @click="addvmt" class="button is-small is-warning">{{ vmt.esq ? '-' : '+' }}Esquelas</button>
+                      
                     </div>
                     <div v-if="vmt.esq" class="column is-4">
-                      <input class="input is-small" type="text" id="vmt" placeholder="0.00" v-model="vmt.montoesq" >
+                      <input class="input is-small" type="text" id="vmt" placeholder="11.43" v-model="vmt.montoesq" >
                     </div>
                   </div>
                 </div>
@@ -533,7 +514,7 @@
                       <input class="input is-small" type="text" id="mont" placeholder="0.00" v-model="f.input.mont" >
                     </div>
                     <div class="column">
-                      <label>Fecha TRANSACCION.</label>
+                      <label>Fecha transacción</label>
                       <input class="input is-small" type="text" id="fcda" placeholder="30/04/2021" v-model="f.input.fcda">
                     </div>
                   </template>
@@ -832,11 +813,11 @@
                    <template v-else-if="ivas === 2">DESINSCRITO EN IVA{{ iva.fecha ? ' ' + iva.fecha + '. ' : '. ' }}</template>
                    <template v-else>NO INSCRITO EN IVA. </template>
                    
-                   <template v-if="prevr.rta">RTA Y DIF F910 PREV MARG HASTA {{ prevr.ejer }}. </template>
-                   <template v-if="!prevr.rta && !rta.db.anti.length">SIN RTAS ANTIGUAS. </template>
+                   <template v-if="prevr.ejer.length">RTA Y DIF F910 PREV MARG HASTA {{ prevr.ejer }}. </template>
+                   <template v-if="!prevr.ejer.length && !rta.db.anti.length">SIN RTAS ANTIGUAS. </template>
 
                    <template v-if="rta.db.anti.length">
-                     CON RTAS ANTIGUAS
+                     <template v-if="!prevr.ejer.length && rta.db.anti.length">CON RTAS ANTIGUAS </template>
                      <template v-for="srta in rta.db.anti">
                        <template v-if="srta.estado == 'SDO'">RTA {{ srta.ejer }} S/CAP. </template>
                        <template v-if="srta.estado == 'DEV'">RTA {{ srta.ejer }} DEV. </template>
@@ -899,8 +880,8 @@
                     </template>
                   </template>
 
-                  <template v-if="f.f14.oblig == 0"> F14 NO OBLIG S/ACT ECONOMICA ({{ f.f14.act }}). </template>
-                  <template v-if="!amp.present" >SIN DECL. AMP. AL DECRETO 521/2019. </template>
+                  <template v-if="f.f14.oblig == 0"> F14 Y F910 NO OBLIG S/ACT ECONOMICA{{ f.f14.act.length ? ' (' + f.f14.act + ').' : '.'}} </template>
+                  <template v-if="!amp.db.length" >SIN DECL. AMP. AL DECRETO 521/2019. </template>
                   <template v-else >
                     CON DECL. AMP.
                     <template v-if="ampd1.length" > AL DECRETO {{ amp.input.decreto.options[0].decreto }}
@@ -1041,9 +1022,8 @@
                     </template>
                   </template>
                   
-                  <template v-if="!f.f09.present">F09 NO POSEE DECL. PRESENTADAS A PAGAR DE TBR. </template>
-                  <template v-else>F09 POSEE DECL. PRESENTADAS A PAGAR DE TBR PERIODO:
-                    <template v-if="tbrs">
+                  <template v-if="!tbrs">S/TBR(F09). </template>
+                  <template v-else>C/TBR(F09) PERIODO:
                       <template v-for="tbr in f.f09.db">
                         <template v-if="tbr.estado == 'PLG'">{{ tbr.periodo }} ${{ tbr.mont }} FECHA DE TRANSACCION {{ tbr.fcda }}, AUN NO EXIGIBLE DEBIDO A QUE NO HAN TRANSCURRIDO LOS 60 DIAS CALENDARIOS PARA REALIZAR EL PAGO. </template>
                         <template v-if="tbr.estado == 'CDA'">{{ tbr.periodo }} ${{ tbr.mont }} CDA {{ tbr.fcda }}. </template>
@@ -1052,7 +1032,6 @@
                         <template v-if="tbr.estado == 'VIG'">{{ tbr.periodo }} ${{ tbr.mont }} ABO ${{ tbr.abo }} PTE ${{ tbr.pte }} C/RESOL DE PAGO A PLAZO No {{ tbr.resol }} PROX CUOTA VENCE EL {{ tbr.fprox }}. </template>
                         <template v-if="tbr.estado == 'VEN'">{{ tbr.periodo }} ${{ tbr.mont }} ABO ${{ tbr.abo }} PTE ${{ tbr.pte }} C/RESOL DE PAGO A PLAZO No {{ tbr.resol }} CON CUOTA VENCIDA. </template>
                       </template>
-                    </template>
                   </template>
                   
                   <template v-if="vs.f14.db.length">
