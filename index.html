@@ -96,15 +96,25 @@
                       <div class="column is-4">
                         <input @click="f.input.show.f14 = false" type="checkbox" id="f14" v-model="f.f14.oblig" true-value="1" false-value="0"/>
                         <label class="checkbox" for="f14">F14</label>
-                        
-                        <textarea v-if="f.f14.oblig == 0" class="input is-small" type="text" id="acteco" placeholder="Otros" v-model="f.f14.act" ></textarea>
-                        
-                        <button v-else-if="f.f14.oblig == 1" @click="Showf14Input" class="button is-small is-danger is-light">+Omiso</button>
+                      
+                        <button v-if="f.f14.oblig == 1" @click="Showf14Input" class="button is-small is-danger is-light">+Omiso</button>
                       </div>
+                      
                     </div>
                   </div>
                 </div>
+                
                   
+                <div v-if="f.f14.oblig == 0" class="panel-block">
+                  <div class="columns  ">
+                    <div class="column is-4">
+                      <label>Act. Eco.</label>
+                    </div>
+                    <div class="column">
+                  <textarea class="input is-small" type="text" id="acteco" placeholder="Otros" v-model="f.f14.act" ></textarea>
+                    </div>
+                  </div>
+                </div>
               
                 <div v-if="nfv" class="panel-block">
                   <div class="columns  ">
