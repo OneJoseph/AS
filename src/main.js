@@ -2,6 +2,7 @@ const AsistenOne = {
     data() {
       return {
         tecnico: 'DF/AH',
+        detalle: true,
         dgt: false,
         rsol: {
           posee: false,

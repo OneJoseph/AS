@@ -11,7 +11,7 @@
   <body>
     <br />
       <div id="app" class="container is-fluid">
-        <div class="columns  ">
+        <div class="columns  "> 
           <div class="column is-4">
               <article class="panel is-info">
                 <div class="panel-block">
@@ -800,7 +800,11 @@
               </div>
               
               <div class="column">
-                <h6 class="subtitle is-6">Marginacion</h6>
+                <h6 class="subtitle is-6">Marginacion  ||
+                  <input type="checkbox" id="detalle" v-model="detalle"/>
+                  <label class="checkbox" for="detalle">Detalle al final</label>
+                </h6>
+                  
                 <div class="notification">
                  <p class="subtitle is-6">SE VERIF. SIIT Y SITEP. 
                    <template v-if="dgt">C/EXP DGT PTE. </template>
@@ -862,25 +866,25 @@
                     <template v-if="f.f06.oblig == 1">F06 </template>
                     <template v-if="f.f07.oblig == 1">F07 </template>
                     <template v-if="f.f14.oblig == 1">F14 </template>
-                    VERF. HASTA {{ f.verf }} {{ omif ? 'CON OMISOS' : 'SIN OMISOS. ' }}
-                    <template v-if="f.f06.omisos.length"> {{ nfv == 1 ? ':' : ' DE F06: '  }}
+                    VERF. HASTA {{ f.verf }} {{ omif ? 'CON OMISOS,' : 'SIN OMISOS. ' }}
+                    <template v-if="f.f06.omisos.length"> {{ nfv == 1 ? '' : ' DE F06: '  }}
                       <template v-for="(f, index) in f.f06.omisos">
                         {{ index == '0' ? '' : ', ' }} {{ f.periodo }}
                       </template>.
                     </template>
-                    <template v-if="f.f07.omisos.length">{{ nfv == 1 ? ':' : ' DE F07: '  }}
+                    <template v-if="f.f07.omisos.length">{{ nfv == 1 ? '' : ' DE F07: '  }}
                       <template v-for="(f, index) in f.f07.omisos">
                         {{ index == '0' ? '' : ', ' }} {{ f.periodo  }} 
                       </template>.
                     </template>
-                    <template v-if="f.f14.omisos.length">{{ nfv == 1 ? ':' : ' DE F14: '  }}
+                    <template v-if="f.f14.omisos.length">{{ nfv == 1 ? '' : ' DE F14: '  }}
                       <template v-for="(f, index) in f.f14.omisos">
                         {{ index == '0' ? '' : ', ' }} {{ f.periodo }} 
                       </template>.
                     </template>
                   </template>
 
-                  <template v-if="f.f14.oblig == 0"> F14 Y F910 NO OBLIG S/ACT ECONOMICA{{ f.f14.act.length ? ' (' + f.f14.act + ').' : '.'}} </template>
+                  <template v-if="f.f14.oblig == 0"> F14 Y F910 NO OBLIG S/ACT ECONOMICA{{ f.f14.act.length ? ' (' + f.f14.act + '). ' : '. '}} </template>
                   <template v-if="!amp.db.length" >SIN DECL. AMP. AL DECRETO 521/2019. </template>
                   <template v-else >
                     CON DECL. AMP.
@@ -1055,6 +1059,7 @@
                   <template v-if="!vmt.esq"> CON BASE AL ACCESO DE CONSULTA AL ESTADO DE CUENTA DE ESQUELAS IMPUESTAS, NO HA EVIDENCIADO DEUDAS POR ESQUELAS DE TRANSITO. </template>
                   <template v-else> CON BASE AL ACCESO DE CONSULTA AL ESTADO DE CUENTA DE ESQUELAS IMPUESTAS, HA EVIDENCIADO DEUDAS POR ESQUELAS DE TRANSITO POR ${{ vmt.montoesq }} MAS RECARGOS PTES DE PAGO. </template>
                   
+                  <template v-if="detalle">
                     <template v-if="obSmor">
                       MOROSO POR:
                       <template v-if="obSrta.length"> RTA 
@@ -1149,7 +1154,8 @@
                         </template>
                       </template>
                     </template>
-     
+                  </template>
+                  
                   SE DETERMINA
                   <template v-for="st in contri.options">
                     <template v-if="st.value == contri.selected">{{ st.estado.toUpperCase() + (vmt.esq ? ' (DEUDA EN VMT).' : '.') }}</template>
@@ -1176,19 +1182,19 @@
                       SALDO ARRIBA DETALLADO CORRESPONDE A:
                       <template v-for="s in obsaldo">
                         <template v-if="s.tipo == 'RENTA'">
-                          <template v-if="s.estado == 'PTE' || s.estado =='ABP'">{{ s.tipo }} {{ s.ejer }} MAS INTERESES, PENDIENTE DE PAGO.</template>
-                          <template v-if="s.estado == 'VIG'">{{ s.tipo }} {{ s.ejer }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}.</template>
-                          <template v-if="s.estado == 'VEN'">{{ s.tipo }} {{ s.ejer }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA.</template>
+                          <template v-if="s.estado == 'PTE' || s.estado =='ABP'">{{ s.tipo }} {{ s.ejer }} MAS INTERESES, PENDIENTE DE PAGO. </template>
+                          <template v-if="s.estado == 'VIG'">{{ s.tipo }} {{ s.ejer }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}. </template>
+                          <template v-if="s.estado == 'VEN'">{{ s.tipo }} {{ s.ejer }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA. </template>
                         </template>
                         <template v-if="s.tipo == 'F09'">
-                          <template v-if="s.estado == 'PTE' || s.estado =='ABP'">{{ s.tipo }} {{ s.periodo }} MAS INTERESES, PENDIENTE DE PAGO.</template>
-                          <template v-if="s.estado == 'VIG'">{{ s.tipo }} {{ s.periodo }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}.</template>
-                          <template v-if="s.estado == 'VEN'">{{ s.tipo }} {{ s.periodo }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA.</template>
+                          <template v-if="s.estado == 'PTE' || s.estado =='ABP'">{{ s.tipo }} {{ s.periodo }} MAS INTERESES, PENDIENTE DE PAGO. </template>
+                          <template v-if="s.estado == 'VIG'">{{ s.tipo }} {{ s.periodo }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}. </template>
+                          <template v-if="s.estado == 'VEN'">{{ s.tipo }} {{ s.periodo }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA. </template>
                         </template>
                         <template v-if="s.tipo == 'AMPARADA'">
-                          <template v-if="s.estado == 'PTE' || s.estado =='ABP'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }} MAS INTERESES, PENDIENTE DE PAGO.</template>
-                          <template v-if="s.estado == 'VIG'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}.</template>
-                          <template v-if="s.estado == 'VEN'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA.</template>
+                          <template v-if="s.estado == 'PTE' || s.estado =='ABP'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }} MAS INTERESES, PENDIENTE DE PAGO. </template>
+                          <template v-if="s.estado == 'VIG'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}. </template>
+                          <template v-if="s.estado == 'VEN'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA. </template>
                         </template>
                       </template>
                       <template v-if='rsol.posee'>{{ obsaldo.length ? ' /// ' : '' }} {{ rsol.input.obtext }}</template>
