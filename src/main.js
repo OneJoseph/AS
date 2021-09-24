@@ -1,6 +1,8 @@
+const { useQuasar } = Quasar
 const AsistenOne = {
     data() {
       return {
+        q: useQuasar(),
         tecnico: 'DF/AH',
         detalle: true,
         dgt: false,
@@ -19,6 +21,9 @@ const AsistenOne = {
         },
         prevr: {
               ejer: '',
+              options: [
+                '2020', '2019', '2018', '2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010', '2009', '2008', '2007', '2006', '2005', '2004'
+                ],
         },
         f: {
           input: {
@@ -227,6 +232,7 @@ const AsistenOne = {
       }
     },
     methods: {
+      // seran eliminados 
       ShowRtaInput(){
         if (!this.rta.input.show.rt) {
           this.OcultarInput(),
@@ -319,6 +325,7 @@ const AsistenOne = {
         this.vs.f11.input.show = false,
         this.vs.f14.input.show = false
       },
+      // fin de eliminar
       AddFomiso(){
         if (this.f.input.show.f06) {
           this.f.f06.omisos.push({
@@ -704,4 +711,7 @@ const AsistenOne = {
     }
   }
 
-  const asistenApp = Vue.createApp(AsistenOne).mount('#app')
+  const asistenApp = Vue.createApp(AsistenOne)
+  asistenApp.use(Quasar)
+  Quasar.lang.set(Quasar.lang.es)
+  asistenApp.mount('#app')

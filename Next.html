@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<!--
+    integrando Quasar 2.0.4
+  -->
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="src/material-icons.css" rel="stylesheet" type="text/css">
+  <link href="src/roboto-font.css" rel="stylesheet" type="text/css">
+  <link href="src/quasar.prod.css" rel="stylesheet" type="text/css">
+  <title>AS - Quasar</title>
+</head>
+
+<body>
+  <!-- init app-->
+  <div id="app">
+    <div class="row q-pa-sm q-gutter-sm">
+      <div class="col-xs-12 col-sm-4">
+        <q-card flat bordered class="my-card">
+          <q-card-section>
+            <q-checkbox dense keep-color v-model="dgt" label="Exp. DGT" color="teal"></q-checkbox>
+          </q-card-section>
+          <q-separator inset></q-separator>
+          <q-card-section>
+            <div class="row items-center">
+              <div class="col-xs-9">
+                <q-checkbox dense keep-color v-model="rsol.posee" label="Resolución (tasacion, multa)" color="teal"></q-checkbox>
+              </div>
+              <div v-if="rsol.input.text.length" class="col-xs on-right">
+                <q-btn icon="edit" size="sm" color="secondary"></q-btn>
+              </div>
+            </div>
+          </q-card-section>
+          <q-separator inset></q-separator>
+          
+          <q-card-section>
+            <div class="row items-center">
+              <div class="col-xs-5">
+                <q-checkbox dense keep-color v-model="iva.inscrito" label="Inscrito IVA" color="teal"></q-checkbox>
+              </div>
+              <div class="col-xs-5">
+                <q-checkbox dense keep-color v-model="iva.desinscrito" label="Desinscrito" color="teal"></q-checkbox>
+              </div>
+              <div class="col-xs">
+                <q-btn icon="event" color="primary" flat >
+                  <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                    <q-date dark landscape v-model="iva.fecha" mask="DD/MM/YYYY">
+                      <div class="row items-center justify-end">
+                        <q-btn v-close-popup label="Cerrar" color="primary" flat></q-btn>
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-btn>
+              </div>
+            </div>
+          </q-card-section>
+          
+          <q-separator inset></q-separator>
+          <q-card-section>
+            <div class="row items-center">
+              <div class="col-xs-4">
+                <q-select clearable options-dark dense hide-dropdown-icon v-model="prevr.ejer" label="Renta Previa" options-dense :options="prevr.options" behavior="menu" menu-shrink></q-select>
+              </div>
+              <div class="col-xs">
+                <q-btn dense outline class="float-right" icon-right="note_add" size="sm" color="warning" label="Antiguas"></q-btn>
+              </div>
+              <div class="col-xs">
+                <q-btn dense outline class="float-right" icon-right="note_add" size="sm" color="primary" label="Rentas"></q-btn>
+              </div>
+            </div>
+          </q-card-section>
+        </q-card>
+      </div>
+      
+      <div class="col-xs-12 col-sm bg-primary">777</div>
+    </div>
+  </div>
+  <!-- script -->
+  <script src="src/vue.global.prod.js" type="text/javascript"></script>
+  <script src="src/quasar.umd.prod.js" type="text/javascript"></script>
+  <script src="src/es.umd.prod.js" type="text/javascript"></script>
+  <script src="src/main.js" type="text/javascript"></script>
+</body>
+
+</html>
