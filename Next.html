@@ -28,8 +28,9 @@
               <div class="col-xs-9">
                 <q-checkbox dense keep-color v-model="rsol.posee" label="Resolución (tasacion, multa)" color="teal"></q-checkbox>
               </div>
-              <div v-if="rsol.input.text.length" class="col-xs on-right">
-                <q-btn icon="edit" size="sm" color="secondary"></q-btn>
+              <div class="col-xs on-right">
+                <q-btn v-if="rsol.posee" outline icon="edit" size="sm" color="secondary"></q-btn>
+                <q-btn v-else disable flat icon="edit" size="sm" ></q-btn>
               </div>
             </div>
           </q-card-section>
@@ -46,7 +47,7 @@
               <div class="col-xs">
                 <q-btn icon="event" color="primary" flat >
                   <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                    <q-date dark landscape v-model="iva.fecha" mask="DD/MM/YYYY">
+                    <q-date landscape v-model="iva.fecha" mask="DD/MM/YYYY">
                       <div class="row items-center justify-end">
                         <q-btn v-close-popup label="Cerrar" color="primary" flat></q-btn>
                       </div>
@@ -61,13 +62,79 @@
           <q-card-section>
             <div class="row items-center">
               <div class="col-xs-4">
-                <q-select clearable options-dark dense hide-dropdown-icon v-model="prevr.ejer" label="Renta Previa" options-dense :options="prevr.options" behavior="menu" menu-shrink></q-select>
+                <q-select clearable dense hide-dropdown-icon v-model="prevr.ejer" label="Renta Previa" options-dense :options="prevr.options" behavior="menu" ></q-select>
               </div>
               <div class="col-xs">
-                <q-btn dense outline class="float-right" icon-right="note_add" size="sm" color="warning" label="Antiguas"></q-btn>
+                <q-btn class="float-right" icon-right="note_add" size="sm" color="grey-14" label="Antiguas"></q-btn>
               </div>
               <div class="col-xs">
-                <q-btn dense outline class="float-right" icon-right="note_add" size="sm" color="primary" label="Rentas"></q-btn>
+                <q-btn  class="float-right" icon-right="note_add" size="sm" color="cyan-10" label="Rentas"></q-btn>
+              </div>
+            </div>
+          </q-card-section>
+
+          <q-separator inset></q-separator>
+          <q-card-section>
+            <div class="row items-center">
+              <div class="col-xs">
+                <q-checkbox dense keep-color v-model="f.f06.oblig" label="F06" color="teal" :true-value="1" :false-value="0"></q-checkbox>
+              </div>
+              <div class="col-xs">
+                <q-checkbox dense keep-color v-model="f.f07.oblig" label="F07" color="teal" :true-value="1" :false-value="0"></q-checkbox>
+              </div>
+              <div class="col-xs">
+                <q-checkbox dense keep-color v-model="f.f14.oblig" label="F14" color="teal" :true-value="1" :false-value="0"></q-checkbox>
+              </div>
+              <div class="col-xs">
+                <q-btn v-if="nfv" outline class="float-right" icon-right="note_add" size="sm" color="red" label="Omisos"></q-btn>
+                <q-btn v-else disable flat class="float-right" icon-right="note_add" size="sm" label="Omisos"></q-btn>
+              </div>
+            </div>
+          </q-card-section>
+
+          <q-separator inset></q-separator>
+          <q-card-section>
+            <div class="row items-center">
+              <div class="col-xs-4">
+                <q-input v-if="nfv" dense v-model="f.verf" label="F. verificados hasta"></q-input>
+                <q-input v-else readonly dense v-model="f.verf" label="F. verificados hasta"></q-input>
+              </div>
+              <div class="col-xs on-right">
+                <q-input v-if="f.f14.oblig == 0" dense autogrow v-model="f.f14.act" label="Actividad Economica"></q-input>
+                <q-input v-else dense readonly autogrow v-model="f.f14.act" label="Actividad Economica"></q-input>
+              </div>
+            </div>
+          </q-card-section>
+
+          <q-separator inset></q-separator>
+          <q-card-section>
+            <div class="row justify-center">
+              <div class="col-xs">
+                <q-btn icon-right="add" size="sm" dense color="purple-10" label="F910 vs F11"></q-btn>
+              </div>
+              <div class="col-xs">
+                <q-btn icon-right="add" size="sm" dense color="teal-10" label="F910 vs F14"></q-btn>
+              </div>
+              <div class="col-xs">
+                <q-btn icon-right="add" size="sm" dense  color="indigo-9" label="Amparadas"></q-btn>
+              </div>
+              <div class="col-xs">
+                <q-btn icon-right="add" size="sm" dense  color="light-blue-10" label="TBR(F09)"></q-btn>
+              </div>
+            </div>
+          </q-card-section>
+
+          <q-separator inset></q-separator>
+          <q-card-section>
+            <div class="row items-center">
+              <div class="col-xs">
+                <q-btn @click="addvmt" icon-right="directions_car" size="sm" dense  color="orange-13" label="Esquelas"></q-btn>
+              </div>
+              <div class="col-xs-3 ">
+                <q-input v-if="vmt.esq" dense v-model="vmt.montoesq" label="Monto"></q-input>
+              </div>
+              <div class="col-xs-6 on-right">
+                <q-select dense hide-dropdown-icon v-model="contri.selected" label="Estado Contribuyente" options-dense :options="contri.options" option-value="value" option-label="estado" map-options behavior="menu" ></q-select>
               </div>
             </div>
           </q-card-section>
