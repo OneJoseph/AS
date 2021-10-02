@@ -17,7 +17,7 @@
   <!-- init app-->
   <div id="app">
     <div class="row q-pa-sm q-gutter-sm">
-      <div class="col-xs-12 col-sm-4">
+      <div class="col-xs-12 col-sm-5">
         <q-card flat bordered class="my-card">
           <q-card-section>
             <q-checkbox dense keep-color v-model="dgt" label="Exp. DGT" color="teal"></q-checkbox>
@@ -47,7 +47,7 @@
               <div class="col-xs">
                 <q-btn icon="event" color="primary" flat >
                   <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                    <q-date landscape v-model="iva.fecha" mask="DD/MM/YYYY">
+                    <q-date v-model="iva.fecha" mask="DD/MM/YYYY">
                       <div class="row items-center justify-end">
                         <q-btn v-close-popup label="Cerrar" color="primary" flat></q-btn>
                       </div>
@@ -62,13 +62,10 @@
           <q-card-section>
             <div class="row items-center">
               <div class="col-xs-4">
-                <q-select clearable dense hide-dropdown-icon v-model="prevr.ejer" label="Renta Previa" options-dense :options="prevr.options" behavior="menu" ></q-select>
+                <q-select clearable dense hide-dropdown-icon v-model="prevr.ejer" label="Renta Previa" options-dense :options="ejercicios" behavior="menu" ></q-select>
               </div>
               <div class="col-xs">
-                <q-btn class="float-right" icon-right="note_add" size="sm" color="grey-14" label="Antiguas"></q-btn>
-              </div>
-              <div class="col-xs">
-                <q-btn  class="float-right" icon-right="note_add" size="sm" color="cyan-10" label="Rentas"></q-btn>
+                <q-btn class="float-right" icon-right="note_add" color="cyan-10" label="Rentas" @click="rta.input.show.anti = true"></q-btn>
               </div>
             </div>
           </q-card-section>
@@ -110,16 +107,13 @@
           <q-card-section>
             <div class="row justify-center">
               <div class="col-xs">
-                <q-btn icon-right="add" size="sm" dense color="purple-10" label="F910 vs F11"></q-btn>
+                <q-btn icon-right="add" size="sm" color="teal-10" label="F910 vs F14"></q-btn>
               </div>
               <div class="col-xs">
-                <q-btn icon-right="add" size="sm" dense color="teal-10" label="F910 vs F14"></q-btn>
+                <q-btn @click="amp.input.show = true" icon-right="add" size="sm" color="indigo-9" label="Amparadas"></q-btn>
               </div>
               <div class="col-xs">
-                <q-btn icon-right="add" size="sm" dense  color="indigo-9" label="Amparadas"></q-btn>
-              </div>
-              <div class="col-xs">
-                <q-btn icon-right="add" size="sm" dense  color="light-blue-10" label="TBR(F09)"></q-btn>
+                <q-btn icon-right="add" size="sm" color="light-blue-10" label="TBR(F09)"></q-btn>
               </div>
             </div>
           </q-card-section>
@@ -134,15 +128,598 @@
                 <q-input v-if="vmt.esq" dense v-model="vmt.montoesq" label="Monto"></q-input>
               </div>
               <div class="col-xs-6 on-right">
-                <q-select dense hide-dropdown-icon v-model="contri.selected" label="Estado Contribuyente" options-dense :options="contri.options" option-value="value" option-label="estado" map-options behavior="menu" ></q-select>
+                <q-select dense v-model="contri.selected" label="Estado Contribuyente" options-dense :options="contri.options" option-value="value" option-label="estado" emit-value map-options behavior="menu" ></q-select>
               </div>
             </div>
           </q-card-section>
         </q-card>
       </div>
       
-      <div class="col-xs-12 col-sm bg-primary">777</div>
+      <div class="col-xs-12 col-sm">
+         <q-btn color="grey-14" label="Generar Marginacion" @click="marginacion = true"></q-btn>
+
+      </div>
     </div>
+   
+    <!-- Dialogos -->
+    <q-dialog v-model="marginacion" full-width persistent transitions-show="slide-down" transition-hide="slide-up">
+      <q-card class="my-card" flat bordered>
+          <q-item>
+            <q-item-section>
+              <q-item-label>Marginación</q-item-label>
+              <q-item-label caption>
+                Subhead
+              </q-item-label>
+            </q-item-section>
+            <q-space></q-space>
+            <q-btn dense flat icon="close" v-close-popup>
+              <q-tooltip class="bg-white text-primary">Close</q-tooltip>
+            </q-btn>
+          </q-item>
+    
+          <q-separator></q-separator>
+    
+          <q-card-section horizontal>
+            <q-card-section>
+              <p class="text-justify text-caption">SE VERIF. SIIT Y SITEP. 
+                   <template v-if="dgt">C/EXP DGT PTE. </template>
+                   <template v-else>S/EXP DGT PTE. </template>
+
+                   <template v-if="!rsol.posee">S/RESOL PTE. </template>
+                   <template v-else>C/RESOL PTE. {{ rsol.input.text }} </template>
+
+                   <template v-if="ivas === 1">INSCRITO EN IVA{{ iva.fecha ? ' ' + iva.fecha + '. ' : '. ' }}</template>
+                   <template v-else-if="ivas === 2">DESINSCRITO EN IVA{{ iva.fecha ? ' ' + iva.fecha + '. ' : '. ' }}</template>
+                   <template v-else>NO INSCRITO EN IVA. </template>
+                   
+                   <template v-if="prevr.ejer.length">RTA Y DIF F910 PREV MARG HASTA {{ prevr.ejer }}. </template>
+                   <template v-if="!prevr.ejer.length && !rta.db.anti.length">SIN RTAS ANTIGUAS. </template>
+
+                   <template v-if="rta.db.anti.length">
+                     <template v-if="!prevr.ejer.length && rta.db.anti.length">CON RTAS ANTIGUAS </template>
+                     <template v-for="srta in rta.db.anti">
+                       <template v-if="srta.estado == 'SDO'">RTA {{ srta.ejer }} S/CAP. </template>
+                       <template v-if="srta.estado == 'DEV'">RTA {{ srta.ejer }} DEV. </template>
+                       <template v-if="srta.estado == 'CDA'">RTA {{ srta.ejer }} ${{ srta.mont }} CDA {{ srta.fcda }}. </template>
+                       <template v-if="srta.estado == 'PTE'">RTA {{ srta.ejer }} ${{ srta.mont }} PTE DE PAGO. </template>
+                       <template v-if="srta.estado == 'ABP'">RTA {{ srta.ejer }} ${{ srta.mont }} ABO ${{ srta.abo }} PTE DE PAGO ${{ srta.pte }}. </template>
+                     </template>
+                   </template>
+                  
+                   
+                   <template v-if="rta.db.actu.length">
+                    <template v-for="srta in rta.db.actu">
+                      <template v-if="srta.estado == 'SDO'">RTA {{ srta.ejer }} S/CAP. </template>
+                      <template v-if="srta.estado == 'DEV'">RTA {{ srta.ejer }} DEV. </template>
+                      <template v-if="srta.estado == 'DIV'">RTA {{ srta.ejer }} OMISA DIV. </template>
+                      <template v-if="srta.estado == 'IVA'">RTA {{ srta.ejer }} OMISA IVA. </template>
+                      <template v-if="srta.estado == 'OSU'">RTA {{ srta.ejer }} OMISA S/SUG. </template>
+                      <template v-if="srta.estado == 'BPA'">RTA {{ srta.ejer }} SIN OBLIG B/PARAMETROS S/CARP ELECT. </template>
+                      <template v-if="srta.estado == 'REG'">RTA {{ srta.ejer }} SIN INGS S/CARP ELECT. </template>
+                      <template v-if="srta.estado == 'NSU'">RTA {{ srta.ejer }} SIN OBLIG S/SUG. </template>                      
+                      <template v-if="srta.estado == 'CDA'">RTA {{ srta.ejer }} ${{ srta.mont }} CDA {{ srta.fcda }}. </template>
+                      <template v-if="srta.estado == 'PTE'">RTA {{ srta.ejer }} ${{ srta.mont }} PTE DE PAGO. </template>
+                      <template v-if="srta.estado == 'ABP'">RTA {{ srta.ejer }} ${{ srta.mont }} ABO ${{ srta.abo }} PTE DE PAGO ${{ srta.pte }}. </template>
+                      <template v-if="srta.estado == 'VIG'">RTA {{ srta.ejer }} ${{ srta.mont }} ABO ${{ srta.abo }} PTE ${{ srta.pte }} C/RESOL DE PAGO A PLAZO No {{ srta.resol }} PROX CUOTA VENCE EL {{ srta.fprox }}. </template>
+                      <template v-if="srta.estado == 'VEN'">RTA {{ srta.ejer }} ${{ srta.mont }} ABO ${{ srta.abo }} PTE ${{ srta.pte }} C/RESOL DE PAGO A PLAZO No {{ srta.resol }} CON CUOTA VENCIDA. </template>
+                      <template v-if="srta.estado == 'NPR'">RTA {{ srta.ejer }} ${{ srta.mont }} CON FOLIO No {{ srta.foli }}. </template>
+                    </template>
+                  </template>
+                  
+                  <template v-if="vs.f11.db.length">
+                    <template v-for="v in vs.f11.db">
+                      <template v-for="st in vs.f11.input.dif.options">
+                        <template v-if="st.value == v.estado">{{ st.estado + ' ' }}</template>
+                      </template> 
+                      <template v-for="st in vs.f11.input.vs.options">
+                        <template v-if="st.value == v.vsf">{{ st.vsf + ( v.vsf == 'VS' ? ' ' : ' EJER ') + v.ejer + '. '}}</template>
+                      </template>
+                    </template>
+                  </template>
+
+                  <template v-if="nfv">
+                    <template v-if="f.f06.oblig == 1">F06 </template>
+                    <template v-if="f.f07.oblig == 1">F07 </template>
+                    <template v-if="f.f14.oblig == 1">F14 </template>
+                    VERF. HASTA {{ f.verf }} {{ omif ? 'CON OMISOS,' : 'SIN OMISOS. ' }}
+                    <template v-if="f.f06.omisos.length"> {{ nfv == 1 ? '' : ' DE F06: '  }}
+                      <template v-for="(f, index) in f.f06.omisos">
+                        {{ index == '0' ? '' : ', ' }} {{ f.periodo }}
+                      </template>.
+                    </template>
+                    <template v-if="f.f07.omisos.length">{{ nfv == 1 ? '' : ' DE F07: '  }}
+                      <template v-for="(f, index) in f.f07.omisos">
+                        {{ index == '0' ? '' : ', ' }} {{ f.periodo  }} 
+                      </template>.
+                    </template>
+                    <template v-if="f.f14.omisos.length">{{ nfv == 1 ? '' : ' DE F14: '  }}
+                      <template v-for="(f, index) in f.f14.omisos">
+                        {{ index == '0' ? '' : ', ' }} {{ f.periodo }} 
+                      </template>.
+                    </template>
+                  </template>
+
+                  <template v-if="f.f14.oblig == 0"> F14 Y F910 NO OBLIG S/ACT ECONOMICA{{ f.f14.act.length ? ' (' + f.f14.act + '). ' : '. '}} </template>
+                  <template v-if="!amp.db.length" >SIN DECL. AMP. AL DECRETO 521/2019. </template>
+                  <template v-else >
+                    CON DECL. AMP.
+                    <template v-if="ampd1.length" > AL DECRETO {{ amp.input.decreto.options[0].decreto }}
+                      <template v-if="ampd1rt.length"> DE RTA:
+                        <template v-for="(d, index) in ampd1rt" >
+                          {{ index == '0' ? '' : ', ' }} {{ d.ejer }}
+                        </template>.
+                      </template>
+                      <template v-if="ampd1f06.length"> DE F06:
+                        <template v-for="d in ampd1f06" >
+                          <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.fcda }}. </template>
+                          <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
+                          <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
+                          <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
+                          <template v-if="d.estado == 'VEN'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} CON CUOTA VENCIDA. </template>
+                        </template>
+                      </template>
+                      <template v-if="ampd1f07.length"> DE F07:
+                        <template v-for="d in ampd1f07" >
+                          <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.fcda }}. </template>
+                          <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
+                          <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
+                          <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
+                          <template v-if="d.estado == 'VEN'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} CON CUOTA VENCIDA. </template>
+                        </template>
+                      </template>
+                      <template v-if="ampd1f14.length"> DE F14:
+                        <template v-for="d in ampd1f14" >
+                          <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.fcda }}. </template>
+                          <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
+                          <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
+                          <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
+                          <template v-if="d.estado == 'VEN'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} CON CUOTA VENCIDA. </template>
+                        </template>
+                      </template>
+                    </template>
+                    <template v-if="ampd2.length"> AL DECRETO {{ amp.input.decreto.options[1].decreto }}
+                      <template v-if="ampd2rt.length"> DE RTA:
+                        <template v-for="(d, index) in ampd2rt">
+                          {{ index == '0' ? '' : ', ' }} {{ d.ejer }}
+                        </template>.
+                      </template>
+                      <template v-if="ampd2f06.length"> DE F06:
+                        <template v-for="d in ampd2f06">
+                          <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.fcda }}. </template>
+                          <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
+                          <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
+                          <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
+                          <template v-if="d.estado == 'VEN'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} CON CUOTA VENCIDA. </template>
+                        </template>
+                      </template>
+                      <template v-if="ampd2f07.length"> DE F07:
+                        <template v-for="d in ampd2f07">
+                          <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.fcda }}. </template>
+                          <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
+                          <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
+                          <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
+                          <template v-if="d.estado == 'VEN'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} CON CUOTA VENCIDA. </template>
+                        </template>
+                      </template>
+                      <template v-if="ampd2f14.length"> DE F14:
+                        <template v-for="d in ampd2f14">
+                          <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.fcda }}. </template>
+                          <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
+                          <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
+                          <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
+                          <template v-if="d.estado == 'VEN'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} CON CUOTA VENCIDA. </template>
+                        </template>
+                      </template>
+                    </template>
+                    <template v-if="ampd3.length"> AL DECRETO {{ amp.input.decreto.options[2].decreto }}
+                      <template v-if="ampd3rt.length"> DE RTA:
+                        <template v-for="(d, index) in ampd3rt">
+                          {{ index == '0' ? '' : ', ' }} {{ d.ejer }}
+                        </template>.
+                      </template>
+                      <template v-if="ampd3f06.length"> DE F06:
+                        <template v-for="d in ampd3f06">
+                          <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.fcda }}. </template>
+                          <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
+                          <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
+                          <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
+                          <template v-if="d.estado == 'VEN'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} CON CUOTA VENCIDA. </template>
+                        </template>
+                      </template>
+                      <template v-if="ampd3f07.length"> DE F07:
+                        <template v-for="d in ampd3f07">
+                          <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.fcda }}. </template>
+                          <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
+                          <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
+                          <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
+                          <template v-if="d.estado == 'VEN'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} CON CUOTA VENCIDA. </template>
+                        </template>
+                      </template>
+                      <template v-if="ampd3f14.length"> DE F14:
+                        <template v-for="d in ampd3f14">
+                          <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.fcda }}. </template>
+                          <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
+                          <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
+                          <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
+                          <template v-if="d.estado == 'VEN'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} CON CUOTA VENCIDA. </template>
+                        </template>
+                      </template>
+                    </template>
+                    <template v-if="ampd4.length"> AL DECRETO {{ amp.input.decreto.options[3].decreto }}
+                      <template v-if="ampd4rt.length"> DE RTA:
+                        <template v-for="(d, index) in ampd4rt">
+                          {{ index == '0' ? '' : ', ' }} {{ d.ejer }}
+                        </template>.
+                      </template>
+                      <template v-if="ampd4f06.length"> DE F06:
+                        <template v-for="d in ampd4f06">
+                          <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.fcda }}. </template>
+                          <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
+                          <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
+                          <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
+                          <template v-if="d.estado == 'VEN'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} CON CUOTA VENCIDA. </template>
+                        </template>
+                      </template>
+                      <template v-if="ampd4f07.length"> DE F07:
+                        <template v-for="d in ampd4f07">
+                          <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.fcda }}. </template>
+                          <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
+                          <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
+                          <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
+                          <template v-if="d.estado == 'VEN'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} CON CUOTA VENCIDA. </template>
+                        </template>
+                      </template>
+                      <template v-if="ampd4f14.length"> DE F14:
+                        <template v-for="d in ampd4f14">
+                          <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.fcda }}. </template>
+                          <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
+                          <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
+                          <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
+                          <template v-if="d.estado == 'VEN'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} CON CUOTA VENCIDA. </template>
+                        </template>
+                      </template>
+                    </template>
+                  </template>
+                  
+                  <template v-if="!tbrs">S/TBR(F09). </template>
+                  <template v-else>C/TBR(F09) PERIODO:
+                      <template v-for="tbr in f.f09.db">
+                        <template v-if="tbr.estado == 'PLG'">{{ tbr.periodo }} ${{ tbr.mont }} FECHA DE TRANSACCION {{ tbr.fcda }}, AUN NO EXIGIBLE DEBIDO A QUE NO HAN TRANSCURRIDO LOS 60 DIAS CALENDARIOS PARA REALIZAR EL PAGO. </template>
+                        <template v-if="tbr.estado == 'CDA'">{{ tbr.periodo }} ${{ tbr.mont }} CDA {{ tbr.fcda }}. </template>
+                        <template v-if="tbr.estado == 'PTE'">{{ tbr.periodo }} ${{ tbr.mont }} PTE DE PAGO.</template>
+                        <template v-if="tbr.estado == 'ABP'">{{ tbr.periodo }} ${{ tbr.mont }} ABO ${{ tbr.abo }} PTE DE PAGO ${{ tbr.pte }}. </template>
+                        <template v-if="tbr.estado == 'VIG'">{{ tbr.periodo }} ${{ tbr.mont }} ABO ${{ tbr.abo }} PTE ${{ tbr.pte }} C/RESOL DE PAGO A PLAZO No {{ tbr.resol }} PROX CUOTA VENCE EL {{ tbr.fprox }}. </template>
+                        <template v-if="tbr.estado == 'VEN'">{{ tbr.periodo }} ${{ tbr.mont }} ABO ${{ tbr.abo }} PTE ${{ tbr.pte }} C/RESOL DE PAGO A PLAZO No {{ tbr.resol }} CON CUOTA VENCIDA. </template>
+                      </template>
+                  </template>
+                  
+                  <template v-if="vs.f14.db.length">
+                    <template v-for="v in vs.f14.db">
+                      <template v-for="st in vs.f14.input.vs.options">
+                        <template v-if="st.value == v.vsf">{{ st.vsf + '/' + v.ejer + ' '}}</template>
+                      </template>
+                      <template v-if="v.vsf =='VS'">
+                        <template v-for="st in vs.f14.input.dif.options">
+                          <template v-if="st.value == v.estado">{{ st.estado + '. '}}</template>
+                        </template>
+                      </template>
+                      <template v-else>
+                        <template v-for="st in vs.f14.input.novs.options">
+                          <template v-if="st.value == v.estado">{{ v.estado == 'D' ? 'SIN PODER DETERMINAR OBLIG POR OMISOS F14. ' : st.estado + '. '}}</template>
+                        </template>
+                      </template>
+                    </template>
+                  </template>
+ 
+                  <template v-if="!vmt.esq"> CON BASE AL ACCESO DE CONSULTA AL ESTADO DE CUENTA DE ESQUELAS IMPUESTAS, NO HA EVIDENCIADO DEUDAS POR ESQUELAS DE TRANSITO. </template>
+                  <template v-else> CON BASE AL ACCESO DE CONSULTA AL ESTADO DE CUENTA DE ESQUELAS IMPUESTAS, HA EVIDENCIADO DEUDAS POR ESQUELAS DE TRANSITO POR ${{ vmt.montoesq }} MAS RECARGOS PTES DE PAGO. </template>
+                  
+                  <template v-if="detalle">
+                    <template v-if="obSmor">
+                      MOROSO POR:
+                      <template v-if="obSrta.length"> RTA 
+                        <template v-for="(s, index) in obSrta">
+                         <template v-if="s.estado == 'PTE' || s.estado =='ABP' || s.estado =='VEN'">{{ index == '0' ? '' : ', ' }}{{ s.ejer }}</template>
+                        </template>.
+                      </template>
+                      <template v-if="obStbr.length"> F09 
+                        <template v-for="(s, index) in obStbr">
+                         <template v-if="s.estado == 'PTE' || s.estado =='ABP' || s.estado =='VEN'">{{ index == '0' ? '' : ', ' }}{{ s.periodo }}</template>
+                        </template>.
+                      </template>
+                      <template v-if="obSamp.length"> DECL AMP 
+                        <template v-if="obSampf6.length"> DE F06 
+                          <template v-for="(s, index) in obSampf6">
+                            <template v-if="s.estado == 'PTE' || s.estado =='ABP' || s.estado =='VEN'">{{ index == '0' ? '' : ', ' }}{{ s.ejer }}</template>
+                          </template>.
+                        </template>
+                        <template v-if="obSampf7.length"> DE F07
+                          <template v-for="(s, index) in obSampf7">
+                            <template v-if="s.estado == 'PTE' || s.estado =='ABP' || s.estado =='VEN'">{{ index == '0' ? '' : ', ' }}{{ s.ejer }}</template>
+                          </template>.
+                        </template>
+                        <template v-if="obSampf4.length"> DE F14
+                          <template v-for="(s, index) in obSampf4">
+                            <template v-if="s.estado == 'PTE' || s.estado =='ABP' || s.estado =='VEN'">{{ index == '0' ? '' : ', ' }}{{ s.ejer }}</template>
+                          </template>.
+                        </template>
+                      </template>
+                      {{ (vmt.esq ? ' DEUDA EN VMT.' : '') }}
+                    </template>
+                    
+                    <template v-if="omi">
+                      OMISO POR:
+                      <template v-if="omirt.length"> RTA
+                        <template v-for="(s, index) in omirt">
+                          {{ index == '0' ? '' : ', ' }}{{ s.ejer }}
+                        </template>.
+                      </template>
+                      <template v-if="f.f06.omisos.length"> F06
+                        <template v-for="(f, index) in f.f06.omisos">
+                          {{ index == '0' ? '' : ', ' }} {{ f.periodo }}
+                        </template>.
+                      </template>
+                      <template v-if="f.f07.omisos.length"> F07
+                        <template v-for="(f, index) in f.f07.omisos">
+                          {{ index == '0' ? '' : ', ' }} {{ f.periodo }}
+                        </template>.
+                      </template>
+                      <template v-if="f.f14.omisos.length"> F14
+                        <template v-for="(f, index) in f.f14.omisos">
+                          {{ index == '0' ? '' : ', ' }} {{ f.periodo }}
+                        </template>.
+                      </template>
+                      <template v-if="obdif11.length">
+                        DIF F910-F11<template v-for="(d, index) in obdif11">{{ index == 0 ? '' : ', ' }} {{ d.ejer }}</template>.
+                      </template>
+                      <template v-if="obdif14.length">
+                        DIF F910-14<template v-for="(d, index) in obdif14">{{ index == 0 ? '' : ', ' }} {{ d.ejer }}</template>.
+                      </template>
+                      <template v-if="omif910.length">
+                        <template v-for="(d, index) in omif910">{{ 'F910/' + (index == 0 ? '' : ', ') + d.ejer }}</template>.
+                      </template>
+                    </template>
+                    
+                    <template v-if="!obSmor && !omi && obSaut">
+                      AUTORIZADO POR:
+                      <template v-if="obSrta.length"> RTA
+                        <template v-for="(s, index) in obSrta">
+                          <template v-if="s.estado == 'VIG'">{{ index == '0' ? '' : ', ' }}{{ s.ejer }}</template>
+                        </template>.
+                      </template>
+                      <template v-if="obStbr.length"> F09
+                        <template v-for="(s, index) in obStbr">
+                          <template v-if="s.estado == 'VIG'">{{ index == '0' ? '' : ', ' }}{{ s.periodo }}</template>
+                        </template>.
+                      </template>
+                      <template v-if="obSamp.length"> DECL AMP
+                        <template v-if="obSampf6.length"> DE F06
+                          <template v-for="(s, index) in obSampf6">
+                            <template v-if="s.estado == 'VIG'">{{ index == '0' ? '' : ', ' }}{{ s.ejer }}</template>
+                          </template>.
+                        </template>
+                        <template v-if="obSampf7.length"> DE F07
+                          <template v-for="(s, index) in obSampf7">
+                            <template v-if="s.estado == 'VIG'">{{ index == '0' ? '' : ', ' }}{{ s.ejer }}</template>
+                          </template>.
+                        </template>
+                        <template v-if="obSampf4.length"> DE F14
+                          <template v-for="(s, index) in obSampf4">
+                            <template v-if="s.estado == 'VIG'">{{ index == '0' ? '' : ', ' }}{{ s.ejer }}</template>
+                          </template>.
+                        </template>
+                      </template>
+                    </template>
+                  </template>
+                  
+                  SE DETERMINA
+                  <template v-for="st in contri.options">
+                    <template v-if="st.value == contri.selected">{{ st.estado.toUpperCase() + '. ' }}</template>
+                  </template>
+                  {{ tecnico + '.'}}
+                 </p>
+            </q-card-section>
+    
+            <q-separator vertical > </q-separator>
+    
+            <q-card-section class="col-xs-5">
+              <template v-if="vmt.esq || obsaldo.length || rsol.input.obtext.length || obdif11.length || obdif14.length" >
+                <p class="text-justify text-caption">
+                    <template v-if="obdif11.length || obdif14.length">
+                      PRESENTA DIFERENCIAS EN:
+                      <template v-if="obdif11.length">
+                        F910 VS F11 EJERCICIO <template v-for="(d, index) in obdif11">{{ index == 0 ? '' : ', ' }} {{ d.ejer }}</template>.
+                      </template>
+                      <template v-if="obdif14.length">
+                        F910 VS F14 EJERCICIO <template v-for="(d, index) in obdif14">{{ index == 0 ? '' : ', ' }} {{ d.ejer }}</template>.
+                      </template>
+                    </template>
+                    
+                    <template v-if="obsaldo.length || rsol.input.obtext.length">
+                      SALDO ARRIBA DETALLADO CORRESPONDE A:
+                      <template v-for="s in obsaldo">
+                        <template v-if="s.tipo == 'RENTA'">
+                          <template v-if="s.estado == 'PTE' || s.estado =='ABP'">{{ s.tipo }} {{ s.ejer }} MAS INTERESES, PENDIENTE DE PAGO. </template>
+                          <template v-if="s.estado == 'VIG'">{{ s.tipo }} {{ s.ejer }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}. </template>
+                          <template v-if="s.estado == 'VEN'">{{ s.tipo }} {{ s.ejer }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA. </template>
+                        </template>
+                        <template v-if="s.tipo == 'F09'">
+                          <template v-if="s.estado == 'PTE' || s.estado =='ABP'">{{ s.tipo }} {{ s.periodo }} MAS INTERESES, PENDIENTE DE PAGO. </template>
+                          <template v-if="s.estado == 'VIG'">{{ s.tipo }} {{ s.periodo }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}. </template>
+                          <template v-if="s.estado == 'VEN'">{{ s.tipo }} {{ s.periodo }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA. </template>
+                        </template>
+                        <template v-if="s.tipo == 'AMPARADA'">
+                          <template v-if="s.estado == 'PTE' || s.estado =='ABP'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }} MAS INTERESES, PENDIENTE DE PAGO. </template>
+                          <template v-if="s.estado == 'VIG'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}. </template>
+                          <template v-if="s.estado == 'VEN'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA. </template>
+                        </template>
+                      </template>
+                      <template v-if='rsol.posee'>{{ obsaldo.length ? ' /// ' : '' }} {{ rsol.input.obtext }}</template>
+                    </template>
+                    <template v-if="vmt.esq"> {{ obsaldo.length ? ' /// ' : '' }} {{ rsol.input.obtext.length ? ' /// ' : '' }} CON SALDO DE ESQUELAS DE TRANSITO POR ${{ vmt.montoesq }}, MAS RECARGOS PENDIENTES DE PAGO. LA INFORMACION REFERENTE A LOS SALDOS DE DEUDA POR ESQUELAS DE TRANSITO, SON RESPONSABILIDAD DEL VMT, Y EN CASO DE INCONSISTENCIAS EN VALORES O ESTADOS DE LAS DEUDAS DEBERAN COMUNICARSE A SERTRACEN O AL VMT.</template>
+                  </p>
+              </template>
+            </q-card-section>
+          </q-card-section>
+        </q-card>
+    </q-dialog>
+  
+    <q-dialog v-model="rta.input.show.anti" persistent transition-show="slide-up" transition-hide="slide-down" >
+      <q-card style="width: 350px">
+        <q-bar class="bg-primary text-white">
+          <div class="text-h6">Agregar rentas</div>
+          <q-space></q-space>
+          <q-btn dense flat icon="close" v-close-popup>
+            <q-tooltip class="bg-white text-primary">Close</q-tooltip>
+          </q-btn>
+        </q-bar>
+        <q-tabs v-model="tab.rta" dense class="text-grey" active-color="primary"  indicator-color="primary" align="justify" narrow-indicator>
+          <q-tab name="anti" label="Antiguas"></q-tab>
+          <q-tab name="actu" label="Actuales"></q-tab>
+          <q-tab name="vs" label="VS F910"></q-tab>
+        </q-tabs>
+
+        <q-separator></q-separator>
+
+        <q-tab-panels v-model="tab.rta" animated transition-prev="fade" transition-next="fade">
+          <q-tab-panel name="anti">
+            <q-card-section>
+              <q-select v-model="rta.input.estadoanti.selected" label="Estado" :options="rta.input.estadoanti.options" option-value="value" option-label="estado" emit-value map-options behavior="menu" ></q-select>
+              <q-select clearable multiple v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios_a" behavior="menu" use-chips ></q-select>
+              <q-input v-model="rta.input.mont" label="Monto"></q-input>
+              <q-input v-model="rta.input.abo" label="Abono"></q-input>
+              <q-input v-model="rtapte" readonly label="Pendiente de pago"></q-input>
+              <q-input v-model="rta.input.fcda" :readonly="rta.input.abo.length > '0'" label="Fecha Cancelado" mask="##/##/####" :rules="['##/##/####']">
+                <template v-slot:append>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                      <q-date v-model="rta.input.fcda" :readonly="rta.input.abo.length > '0'" mask="DD/MM/YYYY">
+                        <div class="row items-center justify-end">
+                          <q-btn v-close-popup label="Cerrar" color="primary" flat />
+                        </div>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+               </q-input>
+            </q-card-section>
+            <q-card-actions align="right">
+              <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
+              <q-btn @click="Addfranti" flat label="Agregar" color="green-8"></q-btn>
+            </q-card-actions>
+          </q-tab-panel>
+
+          <q-tab-panel name="actu">
+            <q-card-section>
+              <q-select v-model="rta.input.estado.selected" label="Estado" :options="rta.input.estado.options" option-value="value" option-label="estado" emit-value map-options behavior="menu"></q-select>
+              <q-select clearable multiple v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios" behavior="menu" use-chips></q-select>
+              <q-input v-model="rta.input.mont" label="Monto"></q-input>
+              <q-input v-model="rta.input.abo" label="Abono"></q-input>
+              <q-input v-model="rtapte" readonly label="Pendiente de pago"></q-input>
+              <q-input v-model="rta.input.resol" label="No Resolucion"></q-input>
+              <q-input v-if="rta.input.resol.length == '0'" v-model="rta.input.fcda" :readonly="rta.input.abo.length > '0'" label="Fecha Cancelado" mask="##/##/####" :rules="['##/##/####']">
+                <template v-slot:append>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                      <q-date v-model="rta.input.fcda" :readonly="rta.input.abo.length > '0'" mask="DD/MM/YYYY">
+                        <div class="row items-center justify-end">
+                          <q-btn v-close-popup label="Cerrar" color="primary" flat />
+                        </div>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
+              <q-input v-else v-model="rta.input.fprox" label="Fecha proximo pago" mask="##/##/####" :rules="['##/##/####']">
+                <template v-slot:append>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                      <q-date v-model="rta.input.fprox" mask="DD/MM/YYYY">
+                        <div class="row items-center justify-end">
+                          <q-btn v-close-popup label="Cerrar" color="primary" flat />
+                        </div>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
+            </q-card-section>
+            <q-card-actions align="right">
+              <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
+              <q-btn @click="Addfrta" flat label="Agregar" color="green-8"></q-btn>
+            </q-card-actions>
+          </q-tab-panel>
+
+          <q-tab-panel name="vs">
+            <q-card-section>
+              <q-select v-model="vs.f11.input.vs.selected" label="vs" :options="vs.f11.input.vs.options" option-value="value" option-label="vsf" emit-value map-options behavior="menu"></q-select>
+              <q-select v-model="vs.f11.input.dif.selected" :readonly="vs.f11.input.vs.selected !== 'VS'" label="Estado" :options="vs.f11.input.dif.options" option-value="value" option-label="estado" emit-value map-options behavior="menu"></q-select>
+              <q-select clearable multiple v-model="vs.f11.input.ejer" label="Ejercicio" :options="ejer_vs" behavior="menu" use-chips></q-select>
+              
+            </q-card-section>
+            <q-card-actions align="right">
+              <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
+              <q-btn @click="Addvsf11" flat label="Agregar" color="green-8"></q-btn>
+            </q-card-actions>
+          </q-tab-panel>
+        </q-tab-panels>
+        
+      </q-card>
+    </q-dialog>
+    
+    <q-dialog v-model="amp.input.show" persistent transition-show="slide-up" transition-hide="slide-down" >
+      <q-card style="width: 350px">
+        <q-bar class="bg-primary text-white">
+          <div class="text-h6">Agregar declaración amparada</div>
+          <q-space></q-space>
+          <q-btn dense flat icon="close" v-close-popup>
+            <q-tooltip class="bg-white text-primary">Close</q-tooltip>
+          </q-btn>
+        </q-bar>
+
+        <q-separator></q-separator>
+        
+            <q-card-section>
+              <q-select v-model="amp.input.estado.selected" label="Estado" :options="amp.input.estado.options" option-value="value" option-label="estado" emit-value map-options behavior="menu"></q-select>
+              <q-select clearable multiple v-model="amp.input.ejer" label="Ejercicio" :options="ejercicios" behavior="menu" use-chips></q-select>
+              <q-input v-model="amp.input.mont" label="Monto"></q-input>
+              <q-input v-model="amp.input.abo" label="Abono"></q-input>
+              <q-input v-model="rtapte" readonly label="Pendiente de pago"></q-input>
+              <q-input v-model="amp.input.resol" label="No Resolucion"></q-input>
+              <q-input v-if="amp.input.resol.length == '0'" v-model="amp.input.fcda" :readonly="amp.input.abo.length > '0'" label="Fecha Cancelado" mask="##/##/####" :rules="['##/##/####']">
+                <template v-slot:append>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                      <q-date v-model="amp.input.fcda" :readonly="amp.input.abo.length > '0'" mask="DD/MM/YYYY">
+                        <div class="row items-center justify-end">
+                          <q-btn v-close-popup label="Cerrar" color="primary" flat />
+                        </div>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
+              <q-input v-else v-model="amp.input.fprox" label="Fecha proximo pago" mask="##/##/####" :rules="['##/##/####']">
+                <template v-slot:append>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                      <q-date v-model="amp.input.fprox" mask="DD/MM/YYYY">
+                        <div class="row items-center justify-end">
+                          <q-btn v-close-popup label="Cerrar" color="primary" flat />
+                        </div>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
+            </q-card-section>
+            <q-card-actions align="right">
+              <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
+              <q-btn @click="Addfamp" flat label="Agregar" color="green-8"></q-btn>
+            </q-card-actions>
+      </q-card>
+    </q-dialog>
+    
   </div>
   <!-- script -->
   <script src="src/vue.global.prod.js" type="text/javascript"></script>

@@ -4,8 +4,16 @@ const AsistenOne = {
       return {
         q: useQuasar(),
         tecnico: 'DF/AH',
+        marginacion: false,
+        tab: {
+          rta: 'anti',
+        },
         detalle: true,
         dgt: false,
+        ejercicios: ['2020', '2019', '2018', '2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010', '2009', '2008', '2007', '2006', '2005', '2004', '2003', '2002', '2001', '2000'
+                ],
+        ejercicios_a: ['1999', '1998', '1997', '1996', '1995', '1994', '1993', '1992', '1991', '1990'],
+        ejer_vs: [' 2020', ' 2019', ' 2018'],
         rsol: {
           posee: false,
           input: {
@@ -21,9 +29,6 @@ const AsistenOne = {
         },
         prevr: {
               ejer: '',
-              options: [
-                '2020', '2019', '2018', '2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010', '2009', '2008', '2007', '2006', '2005', '2004'
-                ],
         },
         f: {
           input: {
@@ -101,7 +106,7 @@ const AsistenOne = {
                 { estado: 'Cuota vencida', value: 'VEN' },
               ],
             },
-            ejer: '',
+            ejer: [],
             mont: '',
             fcda: '',
             abo: '',
@@ -152,7 +157,7 @@ const AsistenOne = {
                 { estado: 'No obligada sugerida', value: 'NSU' },
                 { estado: 'Pago a plazo Vigente', value: 'VIG' },
                 { estado: 'Cuota vencida', value: 'VEN' },
-                { estado: 'No Procede', value: 'NPR' }
+                //{ estado: 'No Procede', value: 'NPR' }
               ],
             },
             estadoanti: {
@@ -165,7 +170,7 @@ const AsistenOne = {
                 { estado: 'Pendiente de pago con abono', value: 'ABP' },
                ],
             },
-            ejer: '',
+            ejer: [],
             mont: '',
             fcda: '',
             abo: '',
@@ -179,7 +184,7 @@ const AsistenOne = {
             db: [],
             input: {
               show: false,
-              ejer: '2020',
+              ejer: ['2020'],
               vs: {
                 selected: 'VS',
                 options: [
@@ -373,6 +378,10 @@ const AsistenOne = {
           abo: this.rta.input.abo,
           pte: this.rtapte
         })
+        this.q.notify({
+          message: 'Renta agregada',
+          color: 'positive'
+        })
         this.ClearInputs()
         this.autostatus()
       },
@@ -414,7 +423,7 @@ const AsistenOne = {
           estado: this.vs.f11.input.vs.selected == 'VS' ? this.vs.f11.input.dif.selected : '',
           ejer: this.vs.f11.input.ejer,
         }),
-        this.vs.f11.input.ejer = '',
+        this.vs.f11.input.ejer = [],
         this.autostatus()
       },
       Addvsf14() {
@@ -423,7 +432,7 @@ const AsistenOne = {
           estado: this.vs.f14.input.vs.selected == 'VS' ? this.vs.f14.input.dif.selected : this.vs.f14.input.novs.selected,
           ejer: this.vs.f14.input.ejer,
         }),
-        this.vs.f14.input.ejer = '',
+        this.vs.f14.input.ejer = [],
         this.autostatus()
       },
       filtros(db, decreto, form, estado){
@@ -438,7 +447,7 @@ const AsistenOne = {
         }
       },
       ClearInputs(){
-        this.rta.input.ejer = '',
+        this.rta.input.ejer = [],
         this.rta.input.mont = '',
         this.rta.input.fcda = '',
         this.rta.input.abo = '',
