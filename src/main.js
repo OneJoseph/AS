@@ -6,7 +6,7 @@ const AsistenOne = {
         tecnico: 'DF/AH',
         marginacion: false,
         tab: {
-          rta: 'anti',
+          rta: 'actu',
         },
         detalle: true,
         dgt: false,
@@ -101,8 +101,8 @@ const AsistenOne = {
               options: [
                 { estado: 'Cancelada', value: 'CDA' },
                 { estado: 'Pendiente de pago', value: 'PTE' },
-                { estado: 'Pendiente de pago con abono', value: 'ABP' },
-                { estado: 'Pago a plazo Vigente', value: 'VIG' },
+                { estado: 'Con abono', value: 'ABP' },
+                { estado: 'Pago a plazo', value: 'VIG' },
                 { estado: 'Cuota vencida', value: 'VEN' },
               ],
             },
@@ -365,6 +365,13 @@ const AsistenOne = {
           fprox: this.rta.input.fprox,
           foli: this.rta.input.foli
         })
+        this.q.notify({
+          // group: false,
+          progress: true,
+          message: 'Renta agregada',
+          color: 'positive',
+          position: 'top-right',
+        })
         this.ClearInputs()
         this.autostatus()
       },
@@ -379,8 +386,10 @@ const AsistenOne = {
           pte: this.rtapte
         })
         this.q.notify({
+          progress: true,
           message: 'Renta agregada',
-          color: 'positive'
+          color: 'positive',
+          position: 'top-right',
         })
         this.ClearInputs()
         this.autostatus()
@@ -399,6 +408,12 @@ const AsistenOne = {
           resol: this.amp.input.resol,
           fprox: this.amp.input.fprox
         })
+        this.q.notify({
+          progress: true,
+          message: 'Declaracion amparada agregada',
+          color: 'positive',
+          position: 'top-right',
+        })
         this.ClearInputs()
         this.autostatus()
       },
@@ -414,6 +429,12 @@ const AsistenOne = {
           resol: this.f.input.resol,
           fprox: this.f.input.fprox
         })
+        this.q.notify({
+          progress: true,
+          message: 'TBR agregado',
+          color: 'positive',
+          position: 'top-right',
+        })
         this.ClearInputs()
         this.autostatus()
       },
@@ -423,6 +444,12 @@ const AsistenOne = {
           estado: this.vs.f11.input.vs.selected == 'VS' ? this.vs.f11.input.dif.selected : '',
           ejer: this.vs.f11.input.ejer,
         }),
+        this.q.notify({
+          progress: true,
+          message: 'agregado',
+          color: 'positive',
+          position: 'top-right',
+        })
         this.vs.f11.input.ejer = [],
         this.autostatus()
       },
@@ -432,6 +459,12 @@ const AsistenOne = {
           estado: this.vs.f14.input.vs.selected == 'VS' ? this.vs.f14.input.dif.selected : this.vs.f14.input.novs.selected,
           ejer: this.vs.f14.input.ejer,
         }),
+        this.q.notify({
+          progress: true,
+          message: 'agregado',
+          color: 'positive',
+          position: 'top-right',
+        })
         this.vs.f14.input.ejer = [],
         this.autostatus()
       },
@@ -454,13 +487,13 @@ const AsistenOne = {
         this.rta.input.resol = '',
         this.rta.input.fprox = '',
         this.rta.input.foli = '',
-        this.f.input.periodo = '',
+        this.f.input.periodo = [],
         this.f.input.mont = '',
         this.f.input.fcda = '',
         this.f.input.abo = '',
         this.f.input.resol = '',
         this.f.input.fprox = '',
-        this.amp.input.ejer = '',
+        this.amp.input.ejer = [],
         this.amp.input.mont = '',
         this.amp.input.fcda = '',
         this.amp.input.abo = '',
