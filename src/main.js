@@ -185,7 +185,7 @@ const AsistenOne = {
             db: [],
             input: {
               show: false,
-              ejer: ['2020'],
+              ejer: [' 2020'],
               vs: {
                 selected: 'VS',
                 options: [
@@ -206,7 +206,7 @@ const AsistenOne = {
             db: [],
             input: {
               show: false,
-              ejer: '2020',
+              ejer: [' 2020'],
               vs: {
                 selected: 'NA',
                 options: [
@@ -217,8 +217,8 @@ const AsistenOne = {
               dif: {
                 selected: 'M',
                 options: [
-                  { estado: 'CON DIF', value: 'C' },
-                  { estado: 'SIN DIF', value: 'S' },
+                  { estado: 'CON DIF S/SINTAXIS', value: 'C' },
+                  { estado: 'SIN DIF S/SINTAXIS', value: 'S' },
                   { estado: 'PROFISCO', value: 'P' },
                   { estado: 'PREV MARG', value: 'M' },
                 ],

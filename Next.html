@@ -19,25 +19,26 @@
     <div class="row q-pa-sm q-gutter-sm">
       <div class="col-xs-12 col-sm-5">
         <q-card flat bordered class="my-card">
-          <q-card-section>
-            <q-checkbox dense keep-color v-model="dgt" label="Exp. DGT" color="teal"></q-checkbox>
+          <q-card-section class="q-py-xs q-px-md" >
+            <q-checkbox dark dense keep-color v-model="dgt" label="Exp. DGT" color="teal"></q-checkbox>
           </q-card-section>
-          <q-separator inset></q-separator>
-          <q-card-section>
-            <div class="row items-center">
+          <q-separator inset spaced="xs"></q-separator>
+          
+          <q-card-section class="q-py-xs q-px-md">
+            <div class="row items-center q-gutter-xs">
               <div class="col-xs-9">
                 <q-checkbox dense keep-color v-model="rsol.posee" label="Resolución (tasacion, multa)" color="teal"></q-checkbox>
               </div>
-              <div class="col-xs on-right">
+              <div class="col-xs">
                 <q-btn v-if="rsol.posee" flat icon="edit" dense color="secondary"></q-btn>
                 <q-btn v-else disable flat icon="edit" dense ></q-btn>
               </div>
             </div>
           </q-card-section>
-          <q-separator inset></q-separator>
+          <q-separator inset spaced="xs"></q-separator>
           
-          <q-card-section>
-            <div class="row items-center">
+          <q-card-section class="q-py-xs q-px-md">
+            <div class="row items-center q-gutter-xs">
               <div class="col-xs-5">
                 <q-checkbox dense keep-color v-model="iva.inscrito" label="Inscrito IVA" color="teal"></q-checkbox>
               </div>
@@ -45,7 +46,7 @@
                 <q-checkbox dense keep-color v-model="iva.desinscrito" label="Desinscrito" color="teal"></q-checkbox>
               </div>
               <div class="col-xs">
-                <q-btn icon="event" color="primary" flat>
+                <q-btn dense icon="event" color="primary" flat>
                   <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
                     <q-date v-model="iva.fecha" mask="DD/MM/YYYY">
                       <div class="row items-center justify-end">
@@ -58,9 +59,9 @@
             </div>
           </q-card-section>
           
-          <q-separator inset></q-separator>
-          <q-card-section>
-            <div class="row items-center">
+          <q-separator inset spaced="xs"></q-separator>
+          <q-card-section class="q-py-xs q-px-md">
+            <div class="row items-center q-gutter-xs">
               <div class="col-xs-4">
                 <q-select filled clearable dense hide-dropdown-icon v-model="prevr.ejer" label="Renta Previa" options-dense :options="ejercicios" behavior="default" ></q-select>
               </div>
@@ -70,9 +71,9 @@
             </div>
           </q-card-section>
 
-          <q-separator inset></q-separator>
-          <q-card-section>
-            <div class="row items-center">
+          <q-separator inset spaced="xs"></q-separator>
+          <q-card-section class="q-py-xs q-px-md q-gutter-xs">
+            <div class="row items-center q-gutter-xs">
               <div class="col-xs">
                 <q-checkbox dense keep-color v-model="f.f06.oblig" label="F06" color="teal" :true-value="1" :false-value="0"></q-checkbox>
               </div>
@@ -83,48 +84,47 @@
                 <q-checkbox dense keep-color v-model="f.f14.oblig" label="F14" color="teal" :true-value="1" :false-value="0"></q-checkbox>
               </div>
               <div class="col-xs-4">
-                <q-btn v-if="nfv" outline   class="full-width" icon-right="note_add" dense color="red" label="Omisos"></q-btn>
-                <q-btn v-else disable outline   class="full-width" icon-right="note_add" dense label="Omisos"></q-btn>
+                <q-btn v-if="nfv" outline class="full-width" icon-right="note_add" dense color="red" label="Omisos"></q-btn>
+                <q-btn v-else disable outline class="full-width" icon-right="note_add" dense label="Omisos"></q-btn>
               </div>
             </div>
-            <br />
-            <div class="row items-center">
+            <div class="row items-center q-gutter-xs">
               <div class="col-xs-4">
                 <q-input filled v-if="nfv" filled dense v-model="f.verf" label="F. verificados hasta"></q-input>
                 <q-input filled v-else filled readonly dense v-model="f.verf" label="F. verificados hasta"></q-input>
               </div>
-              <div class="col-xs on-right">
+              <div class="col-xs">
                 <q-input filled v-if="f.f14.oblig == 0" filled dense autogrow v-model="f.f14.act" label="Actividad Economica"></q-input>
                 <q-input filled v-else filled dense readonly autogrow v-model="f.f14.act" label="Actividad Economica"></q-input>
               </div>
             </div>
           </q-card-section>
 
-          <q-separator inset></q-separator>
-          <q-card-section>
+          <q-separator inset spaced="xs"></q-separator>
+          <q-card-section class="q-py-xs q-px-md">
             <div class="row q-gutter-xs">
               <div class="col-xs">
-                <q-btn class="full-width" outline   icon-right="add"  dense color="teal-10" label="F910 vs F14"></q-btn>
+                <q-btn class="full-width" outline @click="vs.f14.input.show = true" icon-right="add"  dense color="teal-10" label="F910 vs F14"></q-btn>
               </div>
               <div class="col-xs">
-                <q-btn class="full-width" outline   @click="amp.input.show = true" icon-right="add" dense color="indigo-9" label="Amp."></q-btn>
+                <q-btn class="full-width" outline @click="amp.input.show = true" icon-right="add" dense color="indigo-9" label="Amp."></q-btn>
               </div>
               <div class="col-xs">
-                <q-btn class="full-width" outline   @click="f.input.show.f09 = true" icon-right="add" dense color="light-blue-10" label="TBR(F09)"></q-btn>
+                <q-btn class="full-width" outline @click="f.input.show.f09 = true" icon-right="add" dense color="light-blue-10" label="TBR(F09)"></q-btn>
               </div>
             </div>
           </q-card-section>
 
-          <q-separator inset></q-separator>
-          <q-card-section>
-            <div class="row items-center">
+          <q-separator inset spaced="xs"></q-separator>
+          <q-card-section class="q-py-xs q-px-md">
+            <div class="row items-center q-gutter-xs">
               <div class="col-xs">
                 <q-btn class="full-width" @click="addvmt" outline   icon-right="directions_car" dense  color="orange-13" label="VMT"></q-btn>
               </div>
-              <div class="col-xs-3 on-right">
+              <div class="col-xs-3">
                 <q-input filled v-if="vmt.esq" filled dense v-model="vmt.montoesq" label="Monto"></q-input>
               </div>
-              <div class="col-xs-6 on-right">
+              <div class="col-xs-6">
                 <q-select filled dense v-model="contri.selected" label="Estado Contribuyente" options-dense :options="contri.options" option-value="value" option-label="estado" emit-value map-options behavior="default" ></q-select>
               </div>
             </div>
@@ -175,31 +175,31 @@
                    <template v-if="rta.db.anti.length">
                      <template v-if="!prevr.ejer.length && rta.db.anti.length">CON RTAS ANTIGUAS </template>
                      <template v-for="srta in rta.db.anti">
-                       <template v-if="srta.estado == 'SDO'">RTA {{ srta.ejer }} S/CAP. </template>
-                       <template v-if="srta.estado == 'DEV'">RTA {{ srta.ejer }} DEV. </template>
-                       <template v-if="srta.estado == 'CDA'">RTA {{ srta.ejer }} ${{ srta.mont }} CDA {{ srta.fcda }}. </template>
-                       <template v-if="srta.estado == 'PTE'">RTA {{ srta.ejer }} ${{ srta.mont }} PTE DE PAGO. </template>
-                       <template v-if="srta.estado == 'ABP'">RTA {{ srta.ejer }} ${{ srta.mont }} ABO ${{ srta.abo }} PTE DE PAGO ${{ srta.pte }}. </template>
+                       <template v-if="srta.estado == 'SDO'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> S/CAP. </template>
+                       <template v-if="srta.estado == 'DEV'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> DEV. </template>
+                       <template v-if="srta.estado == 'CDA'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> {{ srta.mont }} (Colones) CDA {{ srta.fcda }}. </template>
+                       <template v-if="srta.estado == 'PTE'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> {{ srta.mont }} (Colones) PTE DE PAGO. </template>
+                       <template v-if="srta.estado == 'ABP'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> {{ srta.mont }} (Colones) HA CDO ${{ srta.abo }} PTE DE PAGO ${{ srta.pte }}. </template>
                      </template>
                    </template>
                   
                    
                    <template v-if="rta.db.actu.length">
                     <template v-for="srta in rta.db.actu">
-                      <template v-if="srta.estado == 'SDO'">RTA {{ srta.ejer }} S/CAP. </template>
-                      <template v-if="srta.estado == 'DEV'">RTA {{ srta.ejer }} DEV. </template>
-                      <template v-if="srta.estado == 'DIV'">RTA {{ srta.ejer }} OMISA DIV. </template>
-                      <template v-if="srta.estado == 'IVA'">RTA {{ srta.ejer }} OMISA IVA. </template>
-                      <template v-if="srta.estado == 'OSU'">RTA {{ srta.ejer }} OMISA S/SUG. </template>
-                      <template v-if="srta.estado == 'BPA'">RTA {{ srta.ejer }} SIN OBLIG B/PARAMETROS S/CARP ELECT. </template>
-                      <template v-if="srta.estado == 'REG'">RTA {{ srta.ejer }} SIN INGS S/CARP ELECT. </template>
-                      <template v-if="srta.estado == 'NSU'">RTA {{ srta.ejer }} SIN OBLIG S/SUG. </template>                      
-                      <template v-if="srta.estado == 'CDA'">RTA {{ srta.ejer }} ${{ srta.mont }} CDA {{ srta.fcda }}. </template>
-                      <template v-if="srta.estado == 'PTE'">RTA {{ srta.ejer }} ${{ srta.mont }} PTE DE PAGO. </template>
-                      <template v-if="srta.estado == 'ABP'">RTA {{ srta.ejer }} ${{ srta.mont }} ABO ${{ srta.abo }} PTE DE PAGO ${{ srta.pte }}. </template>
-                      <template v-if="srta.estado == 'VIG'">RTA {{ srta.ejer }} ${{ srta.mont }} ABO ${{ srta.abo }} PTE ${{ srta.pte }} C/RESOL DE PAGO A PLAZO No {{ srta.resol }} PROX CUOTA VENCE EL {{ srta.fprox }}. </template>
-                      <template v-if="srta.estado == 'VEN'">RTA {{ srta.ejer }} ${{ srta.mont }} ABO ${{ srta.abo }} PTE ${{ srta.pte }} C/RESOL DE PAGO A PLAZO No {{ srta.resol }} CON CUOTA VENCIDA. </template>
-                      <template v-if="srta.estado == 'NPR'">RTA {{ srta.ejer }} ${{ srta.mont }} CON FOLIO No {{ srta.foli }}. </template>
+                      <template v-if="srta.estado == 'SDO'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> S/CAP. </template>
+                      <template v-if="srta.estado == 'DEV'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> DEV. </template>
+                      <template v-if="srta.estado == 'DIV'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> OMISA DIV. </template>
+                      <template v-if="srta.estado == 'IVA'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> OMISA IVA. </template>
+                      <template v-if="srta.estado == 'OSU'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> OMISA S/SUG. </template>
+                      <template v-if="srta.estado == 'BPA'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> SIN OBLIG B/PARAMETROS S/CARP ELECT. </template>
+                      <template v-if="srta.estado == 'REG'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> SIN INGS S/CARP ELECT. </template>
+                      <template v-if="srta.estado == 'NSU'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> SIN OBLIG S/SUG. </template>                      
+                      <template v-if="srta.estado == 'CDA'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> ${{ srta.mont }} CDA {{ srta.fcda }}. </template>
+                      <template v-if="srta.estado == 'PTE'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> ${{ srta.mont }} PTE DE PAGO. </template>
+                      <template v-if="srta.estado == 'ABP'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> ${{ srta.mont }} HA CDO ${{ srta.abo }} PTE DE PAGO ${{ srta.pte }}. </template>
+                      <template v-if="srta.estado == 'VIG'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> ${{ srta.mont }} HA CDO ${{ srta.abo }} PTE ${{ srta.pte }} C/RESOL DE PAGO A PLAZO No {{ srta.resol }} PROX CUOTA VENCE EL {{ srta.fprox }}. </template>
+                      <template v-if="srta.estado == 'VEN'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> ${{ srta.mont }} HA CDO ${{ srta.abo }} PTE ${{ srta.pte }} C/RESOL DE PAGO A PLAZO No {{ srta.resol }} CON CUOTA VENCIDA. </template>
+                      <template v-if="srta.estado == 'NPR'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> ${{ srta.mont }} CON FOLIO No {{ srta.foli }}. </template>
                     </template>
                   </template>
                   
@@ -209,7 +209,7 @@
                         <template v-if="st.value == v.estado">{{ st.estado + ' ' }}</template>
                       </template> 
                       <template v-for="st in vs.f11.input.vs.options">
-                        <template v-if="st.value == v.vsf">{{ st.vsf + ( v.vsf == 'VS' ? ' ' : ' EJER ') + v.ejer + '. '}}</template>
+                        <template v-if="st.value == v.vsf">{{ st.vsf + ' EJER' + v.ejer + '. '}}</template>
                       </template>
                     </template>
                   </template>
@@ -378,8 +378,8 @@
                     </template>
                   </template>
                   
-                  <template v-if="!tbrs">S/TBR(F09). </template>
-                  <template v-else>C/TBR(F09) PERIODO:
+                  <template v-if="!tbrs">SIN TBR(F09). </template>
+                  <template v-else>CON TBR(F09) PERIODO:
                       <template v-for="tbr in f.f09.db">
                         <template v-if="tbr.estado == 'PLG'">{{ tbr.periodo }} ${{ tbr.mont }} FECHA DE TRANSACCION {{ tbr.fcda }}, AUN NO EXIGIBLE DEBIDO A QUE NO HAN TRANSCURRIDO LOS 60 DIAS CALENDARIOS PARA REALIZAR EL PAGO. </template>
                         <template v-if="tbr.estado == 'CDA'">{{ tbr.periodo }} ${{ tbr.mont }} CDA {{ tbr.fcda }}. </template>
@@ -393,7 +393,7 @@
                   <template v-if="vs.f14.db.length">
                     <template v-for="v in vs.f14.db">
                       <template v-for="st in vs.f14.input.vs.options">
-                        <template v-if="st.value == v.vsf">{{ st.vsf + '/' + v.ejer + ' '}}</template>
+                        <template v-if="st.value == v.vsf">{{ st.vsf + ' EJER' + v.ejer + ' '}}</template>
                       </template>
                       <template v-if="v.vsf =='VS'">
                         <template v-for="st in vs.f14.input.dif.options">
@@ -766,6 +766,32 @@
             <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
             <q-btn @click="Addftbr" flat label="Agregar" color="green-8"></q-btn>
           </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+    <q-dialog v-model="vs.f14.input.show" persistent transition-show="slide-up" transition-hide="slide-down" >
+      <q-card style="width: 350px">
+        <q-bar class="bg-cyan-10 text-white">
+          <div class="text-h6">Agregar VS F910-F14</div>
+          <q-space></q-space>
+          <q-btn dense flat icon="close" v-close-popup>
+            <q-tooltip class="bg-white text-primary">Close</q-tooltip>
+          </q-btn>
+        </q-bar>
+
+            <q-card-section class="q-gutter-sm">
+              <q-select filled v-model="vs.f14.input.vs.selected" label="vs" :options="vs.f14.input.vs.options" option-value="value" option-label="vsf" emit-value map-options options-cover behavior="default"></q-select>
+              <q-select v-if="vs.f14.input.vs.selected == 'VS'" filled v-model="vs.f14.input.dif.selected"  label="Estado" :options="vs.f14.input.dif.options" option-value="value" option-label="estado" emit-value map-options options-cover behavior="default"></q-select>
+              <q-select v-else filled v-model="vs.f14.input.novs.selected"  label="Estado" :options="vs.f14.input.novs.options" option-value="value" option-label="estado" emit-value map-options options-cover behavior="default"></q-select>
+              <q-select filled clearable multiple v-model="vs.f14.input.ejer" label="Ejercicio" :options="ejer_vs" behavior="default" use-chips></q-select>
+              
+            </q-card-section>
+            <q-card-actions align="right">
+              <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
+              <q-btn @click="Addvsf14" flat label="Agregar" color="green-8"></q-btn>
+            </q-card-actions>
+        
+        
       </q-card>
     </q-dialog>
     
