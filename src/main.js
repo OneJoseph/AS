@@ -58,7 +58,7 @@ const AsistenOne = {
               act: 'Otros',
               omisos: [],
           },
-          verf: '07/2021',
+          verf: '08/2021',
           f09: {
             db: [],
             estado: {
@@ -151,6 +151,7 @@ const AsistenOne = {
                 { estado: 'Pendiente de pago con abono', value: 'ABP' },
                 { estado: 'Omiso diversas', value: 'DIV' },
                 { estado: 'Omiso IVA', value: 'IVA' },
+                { estado: 'Omiso Actividad', value: 'OMA' },
                 { estado: 'Omiso sugerida', value: 'OSU' },
                 { estado: 'Bajos parametros', value: 'BPA' },
                 { estado: 'Sin registros', value: 'REG' },
@@ -387,7 +388,7 @@ const AsistenOne = {
         })
         this.q.notify({
           progress: true,
-          message: 'Renta agregada',
+          message: 'Renta antigua agregada',
           color: 'positive',
           position: 'top-right',
         })
@@ -446,7 +447,7 @@ const AsistenOne = {
         }),
         this.q.notify({
           progress: true,
-          message: 'agregado',
+          message: 'Agregado',
           color: 'positive',
           position: 'top-right',
         })
@@ -461,7 +462,7 @@ const AsistenOne = {
         }),
         this.q.notify({
           progress: true,
-          message: 'agregado',
+          message: 'Agregado',
           color: 'positive',
           position: 'top-right',
         })

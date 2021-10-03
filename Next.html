@@ -29,8 +29,8 @@
                 <q-checkbox dense keep-color v-model="rsol.posee" label="Resolución (tasacion, multa)" color="teal"></q-checkbox>
               </div>
               <div class="col-xs on-right">
-                <q-btn v-if="rsol.posee" outline icon="edit" size="sm" color="secondary"></q-btn>
-                <q-btn v-else disable flat icon="edit" size="sm" ></q-btn>
+                <q-btn v-if="rsol.posee" flat icon="edit" dense color="secondary"></q-btn>
+                <q-btn v-else disable flat icon="edit" dense ></q-btn>
               </div>
             </div>
           </q-card-section>
@@ -45,7 +45,7 @@
                 <q-checkbox dense keep-color v-model="iva.desinscrito" label="Desinscrito" color="teal"></q-checkbox>
               </div>
               <div class="col-xs">
-                <q-btn icon="event" color="primary" flat >
+                <q-btn icon="event" color="primary" flat>
                   <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
                     <q-date v-model="iva.fecha" mask="DD/MM/YYYY">
                       <div class="row items-center justify-end">
@@ -62,10 +62,10 @@
           <q-card-section>
             <div class="row items-center">
               <div class="col-xs-4">
-                <q-select clearable dense hide-dropdown-icon v-model="prevr.ejer" label="Renta Previa" options-dense :options="ejercicios" behavior="menu" ></q-select>
+                <q-select filled clearable dense hide-dropdown-icon v-model="prevr.ejer" label="Renta Previa" options-dense :options="ejercicios" behavior="default" ></q-select>
               </div>
               <div class="col-xs">
-                <q-btn class="float-right" icon-right="note_add" color="cyan-10" label="Rentas" @click="rta.input.show.anti = true"></q-btn>
+                <q-btn class="float-right" outline   style="width: 100px" icon-right="note_add" color="cyan-10" dense label="Rentas" @click="rta.input.show.anti = true"></q-btn>
               </div>
             </div>
           </q-card-section>
@@ -82,38 +82,35 @@
               <div class="col-xs">
                 <q-checkbox dense keep-color v-model="f.f14.oblig" label="F14" color="teal" :true-value="1" :false-value="0"></q-checkbox>
               </div>
-              <div class="col-xs">
-                <q-btn v-if="nfv" outline class="float-right" icon-right="note_add" size="sm" color="red" label="Omisos"></q-btn>
-                <q-btn v-else disable flat class="float-right" icon-right="note_add" size="sm" label="Omisos"></q-btn>
+              <div class="col-xs-4">
+                <q-btn v-if="nfv" outline   class="full-width" icon-right="note_add" dense color="red" label="Omisos"></q-btn>
+                <q-btn v-else disable outline   class="full-width" icon-right="note_add" dense label="Omisos"></q-btn>
               </div>
             </div>
-          </q-card-section>
-
-          <q-separator inset></q-separator>
-          <q-card-section>
+            <br />
             <div class="row items-center">
               <div class="col-xs-4">
-                <q-input v-if="nfv" dense v-model="f.verf" label="F. verificados hasta"></q-input>
-                <q-input v-else readonly dense v-model="f.verf" label="F. verificados hasta"></q-input>
+                <q-input filled v-if="nfv" filled dense v-model="f.verf" label="F. verificados hasta"></q-input>
+                <q-input filled v-else filled readonly dense v-model="f.verf" label="F. verificados hasta"></q-input>
               </div>
               <div class="col-xs on-right">
-                <q-input v-if="f.f14.oblig == 0" dense autogrow v-model="f.f14.act" label="Actividad Economica"></q-input>
-                <q-input v-else dense readonly autogrow v-model="f.f14.act" label="Actividad Economica"></q-input>
+                <q-input filled v-if="f.f14.oblig == 0" filled dense autogrow v-model="f.f14.act" label="Actividad Economica"></q-input>
+                <q-input filled v-else filled dense readonly autogrow v-model="f.f14.act" label="Actividad Economica"></q-input>
               </div>
             </div>
           </q-card-section>
 
           <q-separator inset></q-separator>
           <q-card-section>
-            <div class="row justify-center">
+            <div class="row q-gutter-xs">
               <div class="col-xs">
-                <q-btn icon-right="add" size="sm" color="teal-10" label="F910 vs F14"></q-btn>
+                <q-btn class="full-width" outline   icon-right="add"  dense color="teal-10" label="F910 vs F14"></q-btn>
               </div>
               <div class="col-xs">
-                <q-btn @click="amp.input.show = true" icon-right="add" size="sm" color="indigo-9" label="Amparadas"></q-btn>
+                <q-btn class="full-width" outline   @click="amp.input.show = true" icon-right="add" dense color="indigo-9" label="Amp."></q-btn>
               </div>
               <div class="col-xs">
-                <q-btn @click="f.input.show.f09 = true" icon-right="add" size="sm" color="light-blue-10" label="TBR(F09)"></q-btn>
+                <q-btn class="full-width" outline   @click="f.input.show.f09 = true" icon-right="add" dense color="light-blue-10" label="TBR(F09)"></q-btn>
               </div>
             </div>
           </q-card-section>
@@ -122,13 +119,13 @@
           <q-card-section>
             <div class="row items-center">
               <div class="col-xs">
-                <q-btn @click="addvmt" icon-right="directions_car" size="sm" dense  color="orange-13" label="Esquelas"></q-btn>
+                <q-btn class="full-width" @click="addvmt" outline   icon-right="directions_car" dense  color="orange-13" label="VMT"></q-btn>
               </div>
-              <div class="col-xs-3 ">
-                <q-input v-if="vmt.esq" dense v-model="vmt.montoesq" label="Monto"></q-input>
+              <div class="col-xs-3 on-right">
+                <q-input filled v-if="vmt.esq" filled dense v-model="vmt.montoesq" label="Monto"></q-input>
               </div>
               <div class="col-xs-6 on-right">
-                <q-select dense v-model="contri.selected" label="Estado Contribuyente" options-dense :options="contri.options" option-value="value" option-label="estado" emit-value map-options behavior="menu" ></q-select>
+                <q-select filled dense v-model="contri.selected" label="Estado Contribuyente" options-dense :options="contri.options" option-value="value" option-label="estado" emit-value map-options behavior="default" ></q-select>
               </div>
             </div>
           </q-card-section>
@@ -136,7 +133,7 @@
       </div>
       
       <div class="col-xs-12 col-sm">
-         <q-btn color="grey-14" label="Generar Marginacion" @click="marginacion = true"></q-btn>
+         <q-btn color="grey-14" class="full-width"label="Generar Marginacion" @click="marginacion = true"></q-btn>
 
       </div>
     </div>
@@ -582,20 +579,14 @@
         <q-separator></q-separator>
 
         <q-tab-panels v-model="tab.rta" animated transition-prev="fade" transition-next="fade">
-          <q-tab-panel name="anti">
-            <q-card-section>
-              <div class="row q-gutter-sm">
-                <div class="col-xs">
-                  <q-select clearable multiple v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios_a" behavior="menu" use-chips ></q-select>
-                </div>
-                <div class="col-xs">
-                  <q-select v-model="rta.input.estadoanti.selected" label="Estado" :options="rta.input.estadoanti.options" option-value="value" option-label="estado" emit-value map-options behavior="menu" ></q-select>
-                </div>
-              </div>
-              <q-input v-model="rta.input.mont" label="Monto"></q-input>
-              <q-input v-model="rta.input.abo" label="Abono"></q-input>
-              <q-input v-model="rtapte" readonly label="Pendiente de pago"></q-input>
-              <q-input v-model="rta.input.fcda" :readonly="rta.input.abo.length > '0'" label="Fecha Cancelado" mask="##/##/####" :rules="['##/##/####']">
+          <q-tab-panel name="anti" class="q-pa-none">
+            <q-card-section class="q-gutter-sm">
+              <q-select filled v-model="rta.input.estadoanti.selected" label="Estado" :options="rta.input.estadoanti.options" option-value="value" option-label="estado" emit-value map-options options-cover behavior="default" ></q-select>
+              <q-select filled clearable multiple v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios_a" options-cover behavior="default" use-chips></q-select>
+              <q-input filled v-model="rta.input.mont" type="number" label="Monto"></q-input>
+              <q-input filled v-model="rta.input.abo" type="number" label="Abono"></q-input>
+              <q-input filled v-model="rtapte" readonly label="Pendiente de pago"></q-input>
+              <q-input filled class="q-pa-none" v-model="rta.input.fcda" :readonly="rta.input.abo.length > '0'" label="Fecha Cancelado" mask="##/##/####" :rules="['##/##/####']">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -615,21 +606,15 @@
             </q-card-actions>
           </q-tab-panel>
 
-          <q-tab-panel name="actu">
-            <q-card-section>
-              <div class="row q-gutter-sm">
-                <div class="col-xs">
-                  <q-select clearable multiple v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios_a" behavior="menu" use-chips ></q-select>
-                </div>
-                <div class="col-xs">
-                  <q-select v-model="rta.input.estado.selected" label="Estado" :options="rta.input.estado.options" option-value="value" option-label="estado" emit-value map-options behavior="menu" ></q-select>
-                </div>
-              </div>
-              <q-input v-model="rta.input.mont" label="Monto"></q-input>
-              <q-input v-model="rta.input.abo" label="Abono"></q-input>
-              <q-input v-model="rtapte" readonly label="Pendiente de pago"></q-input>
-              <q-input v-model="rta.input.resol" label="No Resolucion"></q-input>
-              <q-input v-if="rta.input.resol.length == '0'" v-model="rta.input.fcda" :readonly="rta.input.abo.length > '0'" label="Fecha Cancelado" mask="##/##/####" :rules="['##/##/####']">
+          <q-tab-panel name="actu" class="q-pa-none">
+            <q-card-section class="q-gutter-sm">
+              <q-select filled v-model="rta.input.estado.selected" label="Estado" :options="rta.input.estado.options" option-value="value" option-label="estado" emit-value map-options options-cover behavior="default"></q-select>
+              <q-select filled clearable multiple v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios" behavior="default" options-cover use-chips></q-select>
+              <q-input filled v-model="rta.input.mont" type="number" label="Monto"></q-input>
+              <q-input filled v-model="rta.input.abo" type="number" label="Abono"></q-input>
+              <q-input filled v-model="rtapte" readonly label="Pendiente de pago"></q-input>
+              <q-input filled v-model="rta.input.resol" type="number" label="No Resolucion"></q-input>
+              <q-input filled class="q-pa-none" v-if="rta.input.resol.length == '0'" v-model="rta.input.fcda" :readonly="rta.input.abo.length > '0'" label="Fecha Cancelado" mask="##/##/####" :rules="['##/##/####']">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -642,7 +627,7 @@
                   </q-icon>
                 </template>
               </q-input>
-              <q-input v-else v-model="rta.input.fprox" label="Fecha proximo pago" mask="##/##/####" :rules="['##/##/####']">
+              <q-input filled class="q-pa-none" v-else v-model="rta.input.fprox" label="Fecha proximo pago" mask="##/##/####" :rules="['##/##/####']">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -662,11 +647,11 @@
             </q-card-actions>
           </q-tab-panel>
 
-          <q-tab-panel name="vs">
-            <q-card-section>
-              <q-select v-model="vs.f11.input.vs.selected" label="vs" :options="vs.f11.input.vs.options" option-value="value" option-label="vsf" emit-value map-options behavior="menu"></q-select>
-              <q-select v-model="vs.f11.input.dif.selected" :readonly="vs.f11.input.vs.selected !== 'VS'" label="Estado" :options="vs.f11.input.dif.options" option-value="value" option-label="estado" emit-value map-options behavior="menu"></q-select>
-              <q-select clearable multiple v-model="vs.f11.input.ejer" label="Ejercicio" :options="ejer_vs" behavior="menu" use-chips></q-select>
+          <q-tab-panel name="vs" class="q-pa-none">
+            <q-card-section class="q-gutter-sm">
+              <q-select filled v-model="vs.f11.input.vs.selected" label="vs" :options="vs.f11.input.vs.options" option-value="value" option-label="vsf" emit-value map-options options-cover behavior="default"></q-select>
+              <q-select filled v-model="vs.f11.input.dif.selected" :readonly="vs.f11.input.vs.selected !== 'VS'" label="Estado" :options="vs.f11.input.dif.options" option-value="value" option-label="estado" emit-value map-options options-cover behavior="default"></q-select>
+              <q-select filled clearable multiple v-model="vs.f11.input.ejer" label="Ejercicio" :options="ejer_vs" behavior="default" use-chips></q-select>
               
             </q-card-section>
             <q-card-actions align="right">
@@ -688,33 +673,18 @@
             <q-tooltip class="bg-white text-primary">Close</q-tooltip>
           </q-btn>
         </q-bar>
-          <q-card-section>
-            <div class="row q-gutter-sm">
-              <div class="col-xs">
-                <q-select v-model="amp.input.decreto.selected" label="Decreto" :options="amp.input.decreto.options" option-value="value" option-label="decreto" emit-value map-options behavior="menu"></q-select>
-              </div>
-              <div class="col-xs">
-                <q-select v-model="amp.input.f.selected" label="Formulario" :options="amp.input.f.options" option-value="value" option-label="form" emit-value map-options behavior="menu"></q-select>
-              </div>
-            </div>
-          </q-card-section>
-        <q-separator inset ></q-separator>
         
-          <q-card-section>
-            <div class="row q-gutter-sm">
-              <div class="col-xs">
-                <q-select v-if="amp.input.f.selected === 'RT'" clearable v-model="amp.input.ejer" label="Ejercicio" :options="ejercicios" behavior="menu"></q-select>
-                <q-input v-else v-model="amp.input.ejer" label="Periodo"></q-input>
-              </div>
-              <div class="col-xs">
-                <q-select v-model="amp.input.estado.selected" label="Estado" :options="amp.input.estado.options" option-value="value" option-label="estado" emit-value map-options behavior="menu"></q-select>
-              </div>
-            </div>
-            <q-input v-model="amp.input.mont" label="Monto"></q-input>
-            <q-input v-model="amp.input.abo" label="Abono"></q-input>
-            <q-input v-model="amppte" readonly label="Pendiente de pago"></q-input>
-            <q-input v-model="amp.input.resol" label="No Resolucion"></q-input>
-            <q-input v-if="amp.input.resol.length == '0'" v-model="amp.input.fcda" :readonly="amp.input.abo.length > '0'" label="Fecha Cancelado" mask="##/##/####" :rules="['##/##/####']">
+          <q-card-section class="q-gutter-sm">
+            <q-select filled v-model="amp.input.decreto.selected" label="Decreto" :options="amp.input.decreto.options" option-value="value" option-label="decreto" emit-value map-options behavior="default" options-cover></q-select>
+            <q-select filled v-model="amp.input.f.selected" label="Formulario" :options="amp.input.f.options" option-value="value" option-label="form" emit-value map-options behavior="default" options-cover></q-select>
+            <q-select filled v-model="amp.input.estado.selected" label="Estado" :options="amp.input.estado.options" option-value="value" option-label="estado" emit-value map-options behavior="default" options-cover></q-select>
+            <q-select filled v-if="amp.input.f.selected === 'RT'" clearable v-model="amp.input.ejer" label="Ejercicio" :options="ejercicios" behavior="default" options-cover></q-select>
+            <q-input filled v-else v-model="amp.input.ejer" label="Periodo"></q-input>
+            <q-input filled v-model="amp.input.mont" type="number" label="Monto"></q-input>
+            <q-input filled v-model="amp.input.abo" type="number" label="Abono"></q-input>
+            <q-input filled v-model="amppte" readonly label="Pendiente de pago"></q-input>
+            <q-input filled v-model="amp.input.resol" type="number" label="No Resolucion"></q-input>
+            <q-input filled class="q-pa-none" v-if="amp.input.resol.length == '0'" v-model="amp.input.fcda" :readonly="amp.input.abo.length > '0'" label="Fecha Cancelado" mask="##/##/####" :rules="['##/##/####']">
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
                   <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -727,7 +697,7 @@
                 </q-icon>
               </template>
             </q-input>
-            <q-input v-else v-model="amp.input.fprox" label="Fecha proximo pago" mask="##/##/####" :rules="['##/##/####']">
+            <q-input filled class="q-pa-none" v-else v-model="amp.input.fprox" label="Fecha proximo pago" mask="##/##/####" :rules="['##/##/####']">
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
                   <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -758,20 +728,14 @@
           </q-btn>
         </q-bar>
         
-          <q-card-section>
-            <div class="row q-gutter-sm">
-              <div class="col-xs">
-                <q-input v-model="amp.input.ejer" label="Periodo"></q-input>
-              </div>
-              <div class="col-xs">
-                <q-select v-model="f.f09.estado.selected" label="Estado" :options="f.f09.estado.options" option-value="value" option-label="estado" emit-value map-options behavior="menu"></q-select>
-              </div>
-            </div>
-            <q-input v-model="f.input.mont" label="Monto"></q-input>
-            <q-input v-model="f.input.abo" label="Abono"></q-input>
-            <q-input v-model="tbrmontpte" readonly label="Pendiente de pago"></q-input>
-            <q-input v-model="f.input.resol" label="No Resolucion"></q-input>
-            <q-input v-if="f.input.resol.length == '0'" v-model="f.input.fcda" label="Fecha Transacción/Cancelado" mask="##/##/####" :rules="['##/##/####']">
+          <q-card-section class="q-gutter-sm">
+            <q-select filled v-model="f.f09.estado.selected" label="Estado" :options="f.f09.estado.options" option-value="value" option-label="estado" emit-value map-options behavior="default" options-cover></q-select>
+            <q-input filled v-model="amp.input.ejer" label="Periodo"></q-input>
+            <q-input filled v-model="f.input.mont" type="number" label="Monto"></q-input>
+            <q-input filled v-model="f.input.abo" type="number" label="Abono"></q-input>
+            <q-input filled v-model="tbrmontpte" readonly label="Pendiente de pago"></q-input>
+            <q-input filled v-model="f.input.resol" type="number" label="No Resolucion"></q-input>
+            <q-input filled class="q-pa-none" v-if="f.input.resol.length == '0'" v-model="f.input.fcda" label="Fecha Transacción/Cancelado" mask="##/##/####" :rules="['##/##/####']">
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
                   <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -784,7 +748,7 @@
                 </q-icon>
               </template>
             </q-input>
-            <q-input v-else v-model="f.input.fprox" label="Fecha proximo pago" mask="##/##/####" :rules="['##/##/####']">
+            <q-input filled class="q-pa-none" v-else v-model="f.input.fprox" label="Fecha proximo pago" mask="##/##/####" :rules="['##/##/####']">
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
                   <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
