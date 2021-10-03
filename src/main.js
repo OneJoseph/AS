@@ -1,8 +1,9 @@
-const { useQuasar } = Quasar
+const { useQuasar, exportFile, copyToClipboard } = Quasar
 const AsistenOne = {
     data() {
       return {
         q: useQuasar(),
+        copi: '',
         tecnico: 'DF/AH',
         marginacion: false,
         tab: {
@@ -14,6 +15,7 @@ const AsistenOne = {
                 ],
         ejercicios_a: ['1999', '1998', '1997', '1996', '1995', '1994', '1993', '1992', '1991', '1990'],
         ejer_vs: [' 2020', ' 2019', ' 2018'],
+        ejer_vs2: [' 2020', ' 2019', ' 2018', ' 2017', ' 2016'],
         rsol: {
           posee: false,
           input: {
@@ -107,6 +109,7 @@ const AsistenOne = {
               ],
             },
             ejer: [],
+            periodo: '',
             mont: '',
             fcda: '',
             abo: '',
@@ -396,9 +399,17 @@ const AsistenOne = {
         this.autostatus()
       },
       Addfamp(){
+        if (this.amp.input.periodo.length < 1) {
+          this.q.notify({
+            progress: true,
+            message: 'Campo periodo es requerido',
+            color: 'negative',
+            position: 'top-right'
+          })
+        } else {
         this.amp.db.push({
           tipo: 'AMPARADA',
-          ejer: this.amp.input.ejer,
+          ejer: this.amp.input.f.selected == 'RT' ? this.amp.input.ejer : this.amp.input.periodo,
           decreto: this.amp.input.decreto.selected,
           form: this.amp.input.f.selected,
           estado: this.amp.input.estado.selected,
@@ -417,6 +428,7 @@ const AsistenOne = {
         })
         this.ClearInputs()
         this.autostatus()
+        }
       },
       Addftbr(){
         this.f.f09.db.push({
@@ -488,13 +500,14 @@ const AsistenOne = {
         this.rta.input.resol = '',
         this.rta.input.fprox = '',
         this.rta.input.foli = '',
-        this.f.input.periodo = [],
+        this.f.input.periodo = '',
         this.f.input.mont = '',
         this.f.input.fcda = '',
         this.f.input.abo = '',
         this.f.input.resol = '',
         this.f.input.fprox = '',
         this.amp.input.ejer = [],
+        this.amp.input.periodo = '',
         this.amp.input.mont = '',
         this.amp.input.fcda = '',
         this.amp.input.abo = '',
@@ -568,6 +581,61 @@ const AsistenOne = {
           this.vmt.montoesq = ''
         }
         this.autostatus()
+      },
+      copy_M() {
+        const marg = document.getElementById('textMargi').innerText;
+        
+        this.copi = marg
+        
+          copyToClipboard(marg)
+            .then(() => {
+              this.q.notify({
+                progress: true,
+                message: 'Marginacion Copiada!',
+                position: 'top-right',
+              })
+            })
+            .catch(() => {
+              this.q.notify({
+                progress: true,
+                message: 'No se pudo copiar',
+                position: 'top-right',
+              })
+            })
+      },
+      copy_O() {
+        const obser = document.getElementById('textObser').innerText;
+      
+      
+        copyToClipboard(obser)
+          .then(() => {
+            this.q.notify({
+              progress: true,
+              message: 'Observacion Copiada!',
+              position: 'top-right',
+            })
+          })
+          .catch(() => {
+            this.q.notify({
+              progress: true,
+              message: 'No se pudo copiar',
+              position: 'top-right',
+            })
+          })
+      },
+      Export() {
+        const marg = document.getElementById('textMargi').innerText;
+        const combi = marg + 'beta'
+        
+        const status = exportFile('important.txt', combi)
+        
+        if (status === true) {
+          // browser allowed it
+        }
+        else {
+          // browser denied it
+          console.log('Error: ' + status)
+        }
       },
     },
     computed: {

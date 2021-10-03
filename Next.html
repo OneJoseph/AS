@@ -18,7 +18,7 @@
   <div id="app">
     <div class="row q-pa-sm q-gutter-sm">
       <div class="col-xs-12 col-sm-5">
-        <q-card flat bordered class="my-card">
+        <q-card flat bordered class="my-card q-py-xs">
           <q-card-section class="q-py-xs q-px-md" >
             <q-checkbox dark dense keep-color v-model="dgt" label="Exp. DGT" color="teal"></q-checkbox>
           </q-card-section>
@@ -133,13 +133,12 @@
       </div>
       
       <div class="col-xs-12 col-sm">
-         <q-btn color="grey-14" class="full-width"label="Generar Marginacion" @click="marginacion = true"></q-btn>
-
+         <q-btn color="indigo-6" class="full-width"label="Generar Marginacion" @click="marginacion = true"></q-btn>
       </div>
     </div>
    
     <!-- Dialogos -->
-    <q-dialog v-model="marginacion" full-width persistent transitions-show="slide-down" transition-hide="slide-up">
+    <q-dialog v-model="marginacion" style="width: 500" persistent transitions-show="slide-down" transition-hide="slide-up">
       <q-card class="my-card" flat bordered>
           <q-item>
             <q-item-section>
@@ -156,9 +155,8 @@
     
           <q-separator></q-separator>
     
-          <q-card-section horizontal>
             <q-card-section>
-              <p class="text-justify text-caption">SE VERIF. SIIT Y SITEP. 
+              <p id="textMargi" class=" text-caption">SE VERIF. SIIT Y SITEP. 
                    <template v-if="dgt">C/EXP DGT PTE. </template>
                    <template v-else>S/EXP DGT PTE. </template>
 
@@ -242,8 +240,8 @@
                     CON DECL. AMP.
                     <template v-if="ampd1.length" > AL DECRETO {{ amp.input.decreto.options[0].decreto }}
                       <template v-if="ampd1rt.length"> DE RTA:
-                        <template v-for="(d, index) in ampd1rt" >
-                          {{ index == '0' ? '' : ', ' }} {{ d.ejer }}
+                        <template v-for="d in ampd1rt" >
+                          <template v-for="(ejer, index) in d.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template>
                         </template>.
                       </template>
                       <template v-if="ampd1f06.length"> DE F06:
@@ -378,7 +376,7 @@
                     </template>
                   </template>
                   
-                  <template v-if="!tbrs">SIN TBR(F09). </template>
+                  <template v-if="!tbrs">SIN TBR(F09) PTES. </template>
                   <template v-else>CON TBR(F09) PERIODO:
                       <template v-for="tbr in f.f09.db">
                         <template v-if="tbr.estado == 'PLG'">{{ tbr.periodo }} ${{ tbr.mont }} FECHA DE TRANSACCION {{ tbr.fcda }}, AUN NO EXIGIBLE DEBIDO A QUE NO HAN TRANSCURRIDO LOS 60 DIAS CALENDARIOS PARA REALIZAR EL PAGO. </template>
@@ -516,12 +514,12 @@
                   {{ tecnico + '.'}}
                  </p>
             </q-card-section>
-    
-            <q-separator vertical > </q-separator>
-    
+            
+           <template v-if="vmt.esq || obsaldo.length || rsol.input.obtext.length || obdif11.length || obdif14.length" >
+               
+            <q-separator inset></q-separator>
             <q-card-section class="col-xs-5">
-              <template v-if="vmt.esq || obsaldo.length || rsol.input.obtext.length || obdif11.length || obdif14.length" >
-                <p class="text-justify text-caption">
+               <p id="textObser" class="text-justify text-caption">
                     <template v-if="obdif11.length || obdif14.length">
                       PRESENTA DIFERENCIAS EN:
                       <template v-if="obdif11.length">
@@ -555,9 +553,13 @@
                     </template>
                     <template v-if="vmt.esq"> {{ obsaldo.length ? ' /// ' : '' }} {{ rsol.input.obtext.length ? ' /// ' : '' }} CON SALDO DE ESQUELAS DE TRANSITO POR ${{ vmt.montoesq }}, MAS RECARGOS PENDIENTES DE PAGO. LA INFORMACION REFERENTE A LOS SALDOS DE DEUDA POR ESQUELAS DE TRANSITO, SON RESPONSABILIDAD DEL VMT, Y EN CASO DE INCONSISTENCIAS EN VALORES O ESTADOS DE LAS DEUDAS DEBERAN COMUNICARSE A SERTRACEN O AL VMT.</template>
                   </p>
-              </template>
             </q-card-section>
-          </q-card-section>
+           </template>
+          <q-card-actions align="around">
+            <q-btn color="light-blue-6" label="Copiar marginación" @click="copy_M"></q-btn>
+            <q-btn v-if="vmt.esq || obsaldo.length || rsol.input.obtext.length || obdif11.length || obdif14.length" color="blue-6" label="Copiar Observación" @click="copy_O"></q-btn>
+            <q-btn color="green-8" label="Exportar" @click="Export"></q-btn>
+          </q-card-actions>
         </q-card>
     </q-dialog>
   
@@ -678,12 +680,12 @@
             <q-select filled v-model="amp.input.decreto.selected" label="Decreto" :options="amp.input.decreto.options" option-value="value" option-label="decreto" emit-value map-options behavior="default" options-cover></q-select>
             <q-select filled v-model="amp.input.f.selected" label="Formulario" :options="amp.input.f.options" option-value="value" option-label="form" emit-value map-options behavior="default" options-cover></q-select>
             <q-select filled v-model="amp.input.estado.selected" label="Estado" :options="amp.input.estado.options" option-value="value" option-label="estado" emit-value map-options behavior="default" options-cover></q-select>
-            <q-select filled v-if="amp.input.f.selected === 'RT'" clearable v-model="amp.input.ejer" label="Ejercicio" :options="ejercicios" behavior="default" options-cover></q-select>
-            <q-input filled v-else v-model="amp.input.ejer" label="Periodo"></q-input>
+            <q-select filled v-if="amp.input.f.selected === 'RT'" multiple clearable v-model="amp.input.ejer" label="Ejercicio" :options="ejercicios" behavior="default" options-cover></q-select>
+            <q-input filled v-else v-model="amp.input.periodo" label="Periodo" mask="##/####"></q-input>
             <q-input filled v-model="amp.input.mont" type="number" label="Monto"></q-input>
             <q-input filled v-model="amp.input.abo" type="number" label="Abono"></q-input>
             <q-input filled v-model="amppte" readonly label="Pendiente de pago"></q-input>
-            <q-input filled v-model="amp.input.resol" type="number" label="No Resolucion"></q-input>
+            <q-input filled v-model="amp.input.resol" label="No Resolucion" mask="######"></q-input>
             <q-input filled class="q-pa-none" v-if="amp.input.resol.length == '0'" v-model="amp.input.fcda" :readonly="amp.input.abo.length > '0'" label="Fecha Cancelado" mask="##/##/####" :rules="['##/##/####']">
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
@@ -730,7 +732,7 @@
         
           <q-card-section class="q-gutter-sm">
             <q-select filled v-model="f.f09.estado.selected" label="Estado" :options="f.f09.estado.options" option-value="value" option-label="estado" emit-value map-options behavior="default" options-cover></q-select>
-            <q-input filled v-model="amp.input.ejer" label="Periodo"></q-input>
+            <q-input filled v-model="f.input.periodo" label="Periodo"></q-input>
             <q-input filled v-model="f.input.mont" type="number" label="Monto"></q-input>
             <q-input filled v-model="f.input.abo" type="number" label="Abono"></q-input>
             <q-input filled v-model="tbrmontpte" readonly label="Pendiente de pago"></q-input>
@@ -783,7 +785,7 @@
               <q-select filled v-model="vs.f14.input.vs.selected" label="vs" :options="vs.f14.input.vs.options" option-value="value" option-label="vsf" emit-value map-options options-cover behavior="default"></q-select>
               <q-select v-if="vs.f14.input.vs.selected == 'VS'" filled v-model="vs.f14.input.dif.selected"  label="Estado" :options="vs.f14.input.dif.options" option-value="value" option-label="estado" emit-value map-options options-cover behavior="default"></q-select>
               <q-select v-else filled v-model="vs.f14.input.novs.selected"  label="Estado" :options="vs.f14.input.novs.options" option-value="value" option-label="estado" emit-value map-options options-cover behavior="default"></q-select>
-              <q-select filled clearable multiple v-model="vs.f14.input.ejer" label="Ejercicio" :options="ejer_vs" behavior="default" use-chips></q-select>
+              <q-select filled clearable multiple v-model="vs.f14.input.ejer" label="Ejercicio" :options="ejer_vs2" behavior="default" use-chips></q-select>
               
             </q-card-section>
             <q-card-actions align="right">
