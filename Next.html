@@ -66,7 +66,7 @@
                 <q-select filled clearable dense hide-dropdown-icon v-model="prevr.ejer" label="Renta Previa" options-dense :options="ejercicios" behavior="default" ></q-select>
               </div>
               <div class="col-xs">
-                <q-btn class="float-right" outline   style="width: 100px" icon-right="note_add" color="cyan-10" dense label="Rentas" @click="rta.input.show.anti = true"></q-btn>
+                <q-btn class="float-right" outline   style="width: 100px" icon-right="note_add" color="cyan-10" dense label="Rentas" @click="rta.input.show.rt = true"></q-btn>
               </div>
             </div>
           </q-card-section>
@@ -84,7 +84,7 @@
                 <q-checkbox dense keep-color v-model="f.f14.oblig" label="F14" color="teal" :true-value="1" :false-value="0"></q-checkbox>
               </div>
               <div class="col-xs-4">
-                <q-btn v-if="nfv" outline class="full-width" icon-right="note_add" dense color="red" label="Omisos"></q-btn>
+                <q-btn v-if="nfv" @click="f.input.show.omi = true" outline class="full-width" icon-right="note_add" dense color="red" label="Omisos"></q-btn>
                 <q-btn v-else disable outline class="full-width" icon-right="note_add" dense label="Omisos"></q-btn>
               </div>
             </div>
@@ -153,10 +153,10 @@
             </q-btn>
           </q-item>
     
-          <q-separator></q-separator>
+          <q-separator spaced="xs"></q-separator>
     
             <q-card-section>
-              <p id="textMargi" class=" text-caption">SE VERIF. SIIT Y SITEP. 
+              <p id="textMargi" class="text-justify text-caption">SE VERIF. SIIT Y SITEP. 
                    <template v-if="dgt">C/EXP DGT PTE. </template>
                    <template v-else>S/EXP DGT PTE. </template>
 
@@ -413,8 +413,8 @@
                     <template v-if="obSmor">
                       MOROSO POR:
                       <template v-if="obSrta.length"> RTA 
-                        <template v-for="(s, index) in obSrta">
-                         <template v-if="s.estado == 'PTE' || s.estado =='ABP' || s.estado =='VEN'">{{ index == '0' ? '' : ', ' }}{{ s.ejer }}</template>
+                        <template v-for="s in obSrta">
+                         <template v-if="s.estado == 'PTE' || s.estado =='ABP' || s.estado =='VEN'"><template v-for="(ejer, index) in s.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template></template>
                         </template>.
                       </template>
                       <template v-if="obStbr.length"> F09 
@@ -445,8 +445,8 @@
                     <template v-if="omi">
                       OMISO POR:
                       <template v-if="omirt.length"> RTA
-                        <template v-for="(s, index) in omirt">
-                          {{ index == '0' ? '' : ', ' }}{{ s.ejer }}
+                        <template v-for="s in omirt">
+                          <template v-for="(ejer, index) in s.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template>
                         </template>.
                       </template>
                       <template v-if="f.f06.omisos.length"> F06
@@ -478,8 +478,8 @@
                     <template v-if="!obSmor && !omi && obSaut">
                       AUTORIZADO POR:
                       <template v-if="obSrta.length"> RTA
-                        <template v-for="(s, index) in obSrta">
-                          <template v-if="s.estado == 'VIG'">{{ index == '0' ? '' : ', ' }}{{ s.ejer }}</template>
+                        <template v-for="s in obSrta">
+                          <template v-if="s.estado == 'VIG'"><template v-for="(ejer, index) in s.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template></template>
                         </template>.
                       </template>
                       <template v-if="obStbr.length"> F09
@@ -515,10 +515,9 @@
                  </p>
             </q-card-section>
             
-           <template v-if="vmt.esq || obsaldo.length || rsol.input.obtext.length || obdif11.length || obdif14.length" >
-               
-            <q-separator inset></q-separator>
-            <q-card-section class="col-xs-5">
+           <template v-if="vmt.esq || obsaldo.length || rsol.input.obtext.length || obdif11.length || obdif14.length" >   
+            <q-separator inset spaced="xs"></q-separator>
+            <q-card-section>
                <p id="textObser" class="text-justify text-caption">
                     <template v-if="obdif11.length || obdif14.length">
                       PRESENTA DIFERENCIAS EN:
@@ -534,9 +533,9 @@
                       SALDO ARRIBA DETALLADO CORRESPONDE A:
                       <template v-for="s in obsaldo">
                         <template v-if="s.tipo == 'RENTA'">
-                          <template v-if="s.estado == 'PTE' || s.estado =='ABP'">{{ s.tipo }} {{ s.ejer }} MAS INTERESES, PENDIENTE DE PAGO. </template>
-                          <template v-if="s.estado == 'VIG'">{{ s.tipo }} {{ s.ejer }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}. </template>
-                          <template v-if="s.estado == 'VEN'">{{ s.tipo }} {{ s.ejer }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA. </template>
+                          <template v-if="s.estado == 'PTE' || s.estado =='ABP'">{{ s.tipo }} <template v-for="ejer in s.ejer"> {{ ejer }} </template> MAS INTERESES, PENDIENTE DE PAGO. </template>
+                          <template v-if="s.estado == 'VIG'">{{ s.tipo }} <template v-for="ejer in s.ejer"> {{ ejer }} </template> MAS INTERESES CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}. </template>
+                          <template v-if="s.estado == 'VEN'">{{ s.tipo }} <template v-for="ejer in s.ejer"> {{ ejer }} </template> MAS INTERESES CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA. </template>
                         </template>
                         <template v-if="s.tipo == 'F09'">
                           <template v-if="s.estado == 'PTE' || s.estado =='ABP'">{{ s.tipo }} {{ s.periodo }} MAS INTERESES, PENDIENTE DE PAGO. </template>
@@ -555,15 +554,15 @@
                   </p>
             </q-card-section>
            </template>
-          <q-card-actions align="around">
-            <q-btn color="light-blue-6" label="Copiar marginación" @click="copy_M"></q-btn>
-            <q-btn v-if="vmt.esq || obsaldo.length || rsol.input.obtext.length || obdif11.length || obdif14.length" color="blue-6" label="Copiar Observación" @click="copy_O"></q-btn>
-            <q-btn color="green-8" label="Exportar" @click="Export"></q-btn>
+          <q-card-actions align="right">
+            <q-btn flat color="light-blue-6" label="Copiar marginación" @click="copy_M"></q-btn>
+            <q-btn flat v-if="vmt.esq || obsaldo.length || rsol.input.obtext.length || obdif11.length || obdif14.length" color="blue-6" label="Copiar Observación" @click="copy_O"></q-btn>
+            <q-btn flat color="green-8" label="Exportar" @click="Export"></q-btn>
           </q-card-actions>
         </q-card>
     </q-dialog>
   
-    <q-dialog v-model="rta.input.show.anti" persistent transition-show="slide-up" transition-hide="slide-down" >
+    <q-dialog v-model="rta.input.show.rt" persistent transition-show="slide-up" transition-hide="slide-down" >
       <q-card style="width: 350px">
         <q-bar class="bg-cyan-10 text-white">
           <div class="text-h6">Agregar rentas</div>
@@ -793,6 +792,112 @@
               <q-btn @click="Addvsf14" flat label="Agregar" color="green-8"></q-btn>
             </q-card-actions>
         
+        
+      </q-card>
+    </q-dialog>
+
+    <q-dialog maximized v-model="f.input.show.omi" persistent transition-show="slide-up" transition-hide="slide-down" >
+      <q-card >
+        <q-bar class="bg-red-8  text-white">
+          <div class="text-h6">Agregar Omisos</div>
+          <q-space></q-space>
+          <q-btn dense flat icon="close" v-close-popup>
+            <q-tooltip class="bg-white text-primary">Close</q-tooltip>
+          </q-btn>
+        </q-bar>
+        <q-tabs v-model="tab.fom" dense class="text-grey" active-color="primary"  indicator-color="primary" align="justify" narrow-indicator>
+          <q-tab name="f06" label="F06"></q-tab>
+          <q-tab name="f07" label="F07"></q-tab>
+          <q-tab name="f14" label="F14"></q-tab>
+        </q-tabs>
+
+        <q-separator></q-separator>
+
+        <q-tab-panels v-model="tab.fom" animated transition-prev="fade" transition-next="fade">
+          <q-tab-panel name="f06" class="q-pa-none">
+            <q-card-section class="q-gutter-sm">
+              <div class="row q-gutter-xs">
+                <div class="col-xs">
+                  <q-table dense hide-pagination hide-selected-banner :rows-per-page-options="[12]" :rows="periodo1" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f06.omisos"></q-table>
+                </div>
+                <div class="col-xs">
+                  <q-table dense hide-pagination hide-selected-banner :rows-per-page-options="[12]" :rows="periodo2" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f06.omisos"></q-table>
+                </div>
+                <div class="col-xs">
+                  <q-table dense hide-pagination hide-selected-banner :rows-per-page-options="[12]" :rows="periodo3" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f06.omisos"></q-table>
+                </div>
+                <div class="col-xs">
+                  <q-table dense hide-pagination hide-selected-banner :rows-per-page-options="[12]" :rows="periodo4" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f06.omisos"></q-table>
+                </div>
+                <div class="col-xs">
+                  <q-table dense hide-pagination hide-selected-banner :rows-per-page-options="[12]" :rows="periodo5" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f06.omisos"></q-table>
+                </div>
+                <div class="col-xs">
+                  <q-table dense hide-pagination hide-selected-banner :rows-per-page-options="[12]" :rows="periodo6" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f06.omisos"></q-table>
+                </div>
+              </div>
+              </q-card-section>
+            <q-card-actions align="right">
+              <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
+            </q-card-actions>
+          </q-tab-panel>
+
+          <q-tab-panel name="f07" class="q-pa-none">
+            <q-card-section class="q-gutter-sm">
+              <div class="row q-gutter-xs">
+                <div class="col-xs">
+                  <q-table dense hide-pagination hide-selected-banner :rows-per-page-options="[12]" :rows="periodo1" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f07.omisos"></q-table>
+                </div>
+                <div class="col-xs">
+                  <q-table dense hide-pagination hide-selected-banner :rows-per-page-options="[12]" :rows="periodo2" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f07.omisos"></q-table>
+                </div>
+                <div class="col-xs">
+                  <q-table dense hide-pagination hide-selected-banner :rows-per-page-options="[12]" :rows="periodo3" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f07.omisos"></q-table>
+                </div>
+                <div class="col-xs">
+                  <q-table dense hide-pagination hide-selected-banner :rows-per-page-options="[12]" :rows="periodo4" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f07.omisos"></q-table>
+                </div>
+                <div class="col-xs">
+                  <q-table dense hide-pagination hide-selected-banner :rows-per-page-options="[12]" :rows="periodo5" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f07.omisos"></q-table>
+                </div>
+                <div class="col-xs">
+                  <q-table dense hide-pagination hide-selected-banner :rows-per-page-options="[12]" :rows="periodo6" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f07.omisos"></q-table>
+                </div>
+              </div>
+            </q-card-section>
+            <q-card-actions align="right">
+              <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
+            </q-card-actions>
+          </q-tab-panel>
+          <div class="row q-gutter-xs">
+            <div class="col-xs">
+              <q-table dense hide-pagination hide-selected-banner :rows-per-page-options="[12]" :rows="periodo1" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f14.omisos"></q-table>
+            </div>
+            <div class="col-xs">
+              <q-table dense hide-pagination hide-selected-banner :rows-per-page-options="[12]" :rows="periodo2" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f14.omisos"></q-table>
+            </div>
+            <div class="col-xs">
+              <q-table dense hide-pagination hide-selected-banner :rows-per-page-options="[12]" :rows="periodo3" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f14.omisos"></q-table>
+            </div>
+            <div class="col-xs">
+              <q-table dense hide-pagination hide-selected-banner :rows-per-page-options="[12]" :rows="periodo4" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f14.omisos"></q-table>
+            </div>
+            <div class="col-xs">
+              <q-table dense hide-pagination hide-selected-banner :rows-per-page-options="[12]" :rows="periodo5" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f14.omisos"></q-table>
+            </div>
+            <div class="col-xs">
+              <q-table dense hide-pagination hide-selected-banner :rows-per-page-options="[12]" :rows="periodo6" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f14.omisos"></q-table>
+            </div>
+          </div>
+          <q-tab-panel name="f14" class="q-pa-none">
+            <q-card-section class="q-gutter-sm">
+              
+            </q-card-section>
+            <q-card-actions align="right">
+              <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
+            </q-card-actions>
+          </q-tab-panel>
+        </q-tab-panels>
         
       </q-card>
     </q-dialog>

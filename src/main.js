@@ -8,14 +8,23 @@ const AsistenOne = {
         marginacion: false,
         tab: {
           rta: 'actu',
+          fom: 'f07',
         },
         detalle: true,
         dgt: false,
-        ejercicios: ['2020', '2019', '2018', '2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010', '2009', '2008', '2007', '2006', '2005', '2004', '2003', '2002', '2001', '2000'
-                ],
+
+        ejercicios: ['2020', '2019', '2018', '2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010', '2009', '2008', '2007', '2006', '2005', '2004', '2003', '2002', '2001', '2000'],
         ejercicios_a: ['1999', '1998', '1997', '1996', '1995', '1994', '1993', '1992', '1991', '1990'],
         ejer_vs: [' 2020', ' 2019', ' 2018'],
         ejer_vs2: [' 2020', ' 2019', ' 2018', ' 2017', ' 2016'],
+
+        periodo1: [ { periodo: '01-2021' }, { periodo: '02-2021' }, { periodo: '03-2021' }, { periodo: '04-2021' }, { periodo: '05-2021' }, { periodo: '07-2021' }, { periodo: '08-2021' } ],
+        periodo2: [ { periodo: '01-2020' }, { periodo: '02-2020' }, { periodo: '03-2020' }, { periodo: '04-2020' }, { periodo: '05-2020' }, { periodo: '07-2020' }, { periodo: '08-2020' }, { periodo: '09-2020' }, { periodo: '10-2020' }, { periodo: '11-2020' }, { periodo: '12-2020' } ],
+        periodo3: [ { periodo: '01-2019' }, { periodo: '02-2019' }, { periodo: '03-2019' }, { periodo: '04-2019' }, { periodo: '05-2019' }, { periodo: '07-2019' }, { periodo: '08-2019' }, { periodo: '09-2019' }, { periodo: '10-2019' }, { periodo: '11-2019' }, { periodo: '12-2019' } ], 
+        periodo4: [ { periodo: '01-2018' }, { periodo: '02-2018' }, { periodo: '03-2018' }, { periodo: '04-2018' }, { periodo: '05-2018' }, { periodo: '07-2018' }, { periodo: '08-2018' }, { periodo: '09-2018' }, { periodo: '10-2018' }, { periodo: '11-2018' }, { periodo: '12-2018' } ],
+        periodo5: [ { periodo: '01-2017' }, { periodo: '02-2017' }, { periodo: '03-2017' }, { periodo: '04-2017' }, { periodo: '05-2017' }, { periodo: '07-2017' }, { periodo: '08-2017' }, { periodo: '09-2017' }, { periodo: '10-2017' }, { periodo: '11-2017' }, { periodo: '12-2017' } ],
+        periodo6: [ { periodo: '09-2016' }, { periodo: '10-2016' }, { periodo: '11-2016' }, { periodo: '12-2016' } ],
+
         rsol: {
           posee: false,
           input: {
@@ -35,10 +44,11 @@ const AsistenOne = {
         f: {
           input: {
             show: {
-              f06: false,
-              f07: false,
+              omi: false, // reemplaza a f06, f07 y f14
+              f06: false, // se eliminara 
+              f07: false, // se eliminara 
               f09: false,
-              f14: false
+              f14: false // se eliminara 
             },
             periodo: '',
             mont: '',
@@ -61,6 +71,14 @@ const AsistenOne = {
               omisos: [],
           },
           verf: '08/2021',
+          columns: [
+              { name: 'periodo',
+                required: true,
+                label: 'Periodo',
+                align: 'left',
+                field: 'periodo'
+              },
+            ],
           f09: {
             db: [],
             estado: {
@@ -141,8 +159,8 @@ const AsistenOne = {
           },
           input: {
             show: {
-              rt: false,
-              anti: false,
+              rt: false, // eliminar se dejara directamente true
+              anti: false, // eliminar 
             },
             estado: {
               selected: 'SDO',
@@ -335,7 +353,7 @@ const AsistenOne = {
         this.vs.f14.input.show = false
       },
       // fin de eliminar
-      AddFomiso(){
+      AddFomiso(){ // funcion sera eliminada
         if (this.f.input.show.f06) {
           this.f.f06.omisos.push({
             periodo: this.f.input.periodo
