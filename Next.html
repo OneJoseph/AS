@@ -86,12 +86,12 @@
             </div>
             <div class="row items-center q-gutter-xs">
               <div class="col-xs-4">
-                <q-input filled v-if="nfv" filled dense v-model="f.verf" label="F. verificados hasta"></q-input>
-                <q-input filled v-else filled readonly dense v-model="f.verf" label="F. verificados hasta"></q-input>
+                <q-input filled v-if="nfv" dense v-model="f.verf" label="F. verificados hasta"></q-input>
+                <q-input filled v-else readonly dense v-model="f.verf" label="F. verificados hasta"></q-input>
               </div>
               <div class="col-xs">
                 <q-input filled v-if="f.f14.oblig == 0" filled dense autogrow v-model="f.f14.act" label="Actividad Economica"></q-input>
-                <q-input filled v-else filled dense readonly autogrow v-model="f.f14.act" label="Actividad Economica"></q-input>
+                <q-input filled v-else dense readonly autogrow v-model="f.f14.act" label="Actividad Economica"></q-input>
               </div>
             </div>
           </q-card-section>
@@ -125,8 +125,9 @@
           </q-card-section>
         </q-card>
       </div>
-      <div class="col-xs-12 col-sm">
-        <q-btn color="indigo-6" class="full-width" label="Generar Marginacion" @click="marginacion = true"></q-btn>
+      <div class="col-xs-12 col-sm q-gutter-xs">
+        <q-input filled dense v-model="soli" label="Datos generales solicitud"></q-input>
+        <q-btn color="indigo-6" label="Generar Marginacion" @click="marginacion = true"></q-btn>
       </div>
     </div>
     <!-- Dialogos -->

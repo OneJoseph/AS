@@ -4,6 +4,7 @@ const AsistenOne = {
       return {
         q: useQuasar(),
         copi: '',
+        soli: '',
         tecnico: 'DF/AH',
         marginacion: false,
         tab: {
@@ -643,16 +644,29 @@ const AsistenOne = {
       },
       Export() {
         const marg = document.getElementById('textMargi').innerText;
-        const combi = marg + 'beta'
+        if (document.getElementById('textObser')) {
+          const obser = document.getElementById('textObser').innerText;
+          var combi = this.soli + marg + '\r\n' + obser
+        } else {
+        var combi = this.soli + marg
+        }
+        const namefile = this.soli + '.txt'
         
-        const status = exportFile('important.txt', combi)
+        const status = exportFile(namefile, combi)
         
         if (status === true) {
-          // browser allowed it
+          this.q.notify({
+            progress: true,
+            message: 'Exportacion Exitosa',
+            position: 'top-right',
+          })
         }
         else {
-          // browser denied it
-          console.log('Error: ' + status)
+          this.q.notify({
+            progress: true,
+            message: 'Exportacion Fallida',
+            position: 'top-right',
+          })
         }
       },
     },
