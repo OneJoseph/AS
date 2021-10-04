@@ -646,9 +646,9 @@ const AsistenOne = {
         const marg = document.getElementById('textMargi').innerText;
         if (document.getElementById('textObser')) {
           const obser = document.getElementById('textObser').innerText;
-          var combi = this.soli + marg + '\r\n' + obser
+          var combi = this.soli + '\r\n' + marg + '\r\n' + obser
         } else {
-        var combi = this.soli + marg
+        var combi = this.soli + '\r\n' + marg
         }
         const namefile = this.soli + '.txt'
         
