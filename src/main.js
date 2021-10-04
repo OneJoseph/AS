@@ -8,7 +8,7 @@ const AsistenOne = {
         marginacion: false,
         tab: {
           rta: 'actu',
-          fom: 'f07',
+          fom: '',
         },
         detalle: true,
         dgt: false,
@@ -72,12 +72,12 @@ const AsistenOne = {
           },
           verf: '08/2021',
           columns: [
-              { name: 'periodo',
-                required: true,
-                label: 'Periodo',
-                align: 'left',
-                field: 'periodo'
-              },
+              { name: 'periodo',
+                required: true,
+                label: 'Periodo',
+                align: 'left',
+                field: 'periodo',
+              },
             ],
           f09: {
             db: [],
@@ -87,7 +87,7 @@ const AsistenOne = {
                   { estado: 'Perido legal', value: 'PLG' },
                   { estado: 'Cancelada', value: 'CDA' },
                   { estado: 'Pendiente de pago', value: 'PTE' },
-                  { estado: 'Pendiente de pago con abono', value: 'ABP' },
+                  { estado: 'Con abono', value: 'ABP' },
                   { estado: 'Pago a plazo Vigente', value: 'VIG' },
                   { estado: 'Cuota vencida', value: 'VEN' },
                 ],
@@ -657,6 +657,7 @@ const AsistenOne = {
       },
     },
     computed: {
+      
       ivas(){
         if (this.iva.inscrito && !this.iva.desinscrito) {
           return 1
