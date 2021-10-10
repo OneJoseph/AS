@@ -9,7 +9,6 @@ const AsistenOne = {
         marginacion: false,
         tab: {
           rta: 'actu',
-          fom: '',
         },
         detalle: true,
         dgt: false,
@@ -19,12 +18,68 @@ const AsistenOne = {
         ejer_vs: [' 2020', ' 2019', ' 2018'],
         ejer_vs2: [' 2020', ' 2019', ' 2018', ' 2017', ' 2016'],
 
-        periodo1: [ { periodo: '01-2021' }, { periodo: '02-2021' }, { periodo: '03-2021' }, { periodo: '04-2021' }, { periodo: '05-2021' }, { periodo: '07-2021' }, { periodo: '08-2021' } ],
-        periodo2: [ { periodo: '01-2020' }, { periodo: '02-2020' }, { periodo: '03-2020' }, { periodo: '04-2020' }, { periodo: '05-2020' }, { periodo: '07-2020' }, { periodo: '08-2020' }, { periodo: '09-2020' }, { periodo: '10-2020' }, { periodo: '11-2020' }, { periodo: '12-2020' } ],
-        periodo3: [ { periodo: '01-2019' }, { periodo: '02-2019' }, { periodo: '03-2019' }, { periodo: '04-2019' }, { periodo: '05-2019' }, { periodo: '07-2019' }, { periodo: '08-2019' }, { periodo: '09-2019' }, { periodo: '10-2019' }, { periodo: '11-2019' }, { periodo: '12-2019' } ], 
-        periodo4: [ { periodo: '01-2018' }, { periodo: '02-2018' }, { periodo: '03-2018' }, { periodo: '04-2018' }, { periodo: '05-2018' }, { periodo: '07-2018' }, { periodo: '08-2018' }, { periodo: '09-2018' }, { periodo: '10-2018' }, { periodo: '11-2018' }, { periodo: '12-2018' } ],
-        periodo5: [ { periodo: '01-2017' }, { periodo: '02-2017' }, { periodo: '03-2017' }, { periodo: '04-2017' }, { periodo: '05-2017' }, { periodo: '07-2017' }, { periodo: '08-2017' }, { periodo: '09-2017' }, { periodo: '10-2017' }, { periodo: '11-2017' }, { periodo: '12-2017' } ],
-        periodo6: [ { periodo: '09-2016' }, { periodo: '10-2016' }, { periodo: '11-2016' }, { periodo: '12-2016' } ],
+        omisos: [
+          { periodo: '08/2021', label: 'Agosto 2021' },
+          { periodo: '07/2021', label: 'Julio 2021' },
+          { periodo: '06/2021', label: 'Junio 2021' },
+          { periodo: '05/2021', label: 'Mayo 2021' },
+          { periodo: '04/2021', label: 'Abril 2021' },
+          { periodo: '03/2021', label: 'Marzo 2021' },
+          { periodo: '02/2021', label: 'Febrero 2021' },
+          { periodo: '01/2021', label: 'Enero 2021' },
+          { periodo: '12/2020', label: 'Diciembre 020' },
+          { periodo: '11/2020', label: 'Noviembre 2020' },
+          { periodo: '10/2020', label: 'Octubre 2020' },
+          { periodo: '09/2020', label: 'Septiembre 2020' },
+          { periodo: '08/2020', label: 'Agosto 2020' },
+          { periodo: '07/2020', label: 'Julio 2020' },
+          { periodo: '06/2020', label: 'Junio 2020' },
+          { periodo: '05/2020', label: 'Mayo 2020' },
+          { periodo: '04/2020', label: 'Abril 020' },
+          { periodo: '03/2020', label: 'Marzo 2020' },
+          { periodo: '02/2020', label: 'Febrero 2020' },
+          { periodo: '01/2020', label: 'Enero 2020' },
+          { periodo: '12/2019', label: 'Diciembre 2019' },
+          { periodo: '11/2019', label: 'Noviembre 2019' },
+          { periodo: '10/2019', label: 'Octubre 2019' },
+          { periodo: '09/2019', label: 'Septiembre 2019' },
+          { periodo: '08/2019', label: 'Agosto 2019' },
+          { periodo: '07/2019', label: 'Julio 2019' },
+          { periodo: '06/2019', label: 'Junio 2019' },
+          { periodo: '05/2019', label: 'Mayo 2019' },
+          { periodo: '04/2019', label: 'Abril 2019' },
+          { periodo: '03/2019', label: 'Marzo 2019' },
+          { periodo: '02/2019', label: 'Febrero 2019' },
+          { periodo: '01/2019', label: 'Enero 2019' },
+          { periodo: '12/2018', label: 'Diciembre 2018' },
+          { periodo: '11/2018', label: 'Noviembre 2018' },
+          { periodo: '10/2018', label: 'Octubre 2018' },
+          { periodo: '09/2018', label: 'Septiembre 2018' },
+          { periodo: '08/2018', label: 'Agosto 2018' },
+          { periodo: '07/2018', label: 'Julio 2018' },
+          { periodo: '06/2018', label: 'Junio 2018' },
+          { periodo: '05/2018', label: 'Mayo 2018' },
+          { periodo: '04/2018', label: 'Abril 2018' },
+          { periodo: '03/2018', label: 'Marzo 2018' },
+          { periodo: '02/2018', label: 'Febrero 2018' },
+          { periodo: '01/2018', label: 'Enero 2018' },
+          { periodo: '12/2017', label: 'Diciembre 017' },
+          { periodo: '11/2017', label: 'Noviembre 2017' },
+          { periodo: '10/2017', label: 'Octubre2017' },
+          { periodo: '09/2017', label: 'Septiembre 2017' },
+          { periodo: '08/2017', label: 'Agosto 2017' },
+          { periodo: '07/2017', label: 'Julio 2017' },
+          { periodo: '06/2017', label: 'Junio 2017' },
+          { periodo: '05/2017', label: 'Mayo 2017' },
+          { periodo: '04/2017', label: 'Abril 017' },
+          { periodo: '03/2017', label: 'Marzo 2017' },
+          { periodo: '02/2017', label: 'Febrero 2017' },
+          { periodo: '01/2017', label: 'Enero 2017' },
+          { periodo: '12/2016', label: 'Diciembre 2016' },
+          { periodo: '11/2016', label: 'Noviembre 2016' },
+          { periodo: '10/2016', label: 'Octubre 2016' },
+          { periodo: '09/2016', label: 'Septiembre 2016' }
+        ],
 
         rsol: {
           posee: false,
@@ -72,14 +127,7 @@ const AsistenOne = {
               omisos: [],
           },
           verf: '08/2021',
-          columns: [
-              { name: 'periodo',
-                required: true,
-                label: 'Periodo',
-                align: 'left',
-                field: 'periodo',
-              },
-            ],
+         
           f09: {
             db: [],
             estado: {
@@ -354,7 +402,7 @@ const AsistenOne = {
         this.vs.f14.input.show = false
       },
       // fin de eliminar
-      AddFomiso(){ // funcion sera eliminada
+      AddFomiso(){ 
         if (this.f.input.show.f06) {
           this.f.f06.omisos.push({
             periodo: this.f.input.periodo
@@ -669,6 +717,31 @@ const AsistenOne = {
           })
         }
       },
+      copy_MO() {
+        const marg = document.getElementById('textMargi').innerText;
+        if (document.getElementById('textObser')) {
+          const obser = document.getElementById('textObser').innerText;
+          var combi = this.soli + '\r\n' + marg + '\r\n' + obser
+        } else {
+          var combi = this.soli + '\r\n' + marg
+        }
+      
+        copyToClipboard(combi)
+          .then(() => {
+            this.q.notify({
+              progress: true,
+              message: 'Copiado!',
+              position: 'top-right',
+            })
+          })
+          .catch(() => {
+            this.q.notify({
+              progress: true,
+              message: 'No se pudo copiar',
+              position: 'top-right',
+            })
+          })
+      }
     },
     computed: {
       

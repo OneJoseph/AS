@@ -17,20 +17,19 @@
   <!-- init app-->
   <div id="app">
     <div class="row q-pa-sm q-gutter-sm">
-      <div class="col-xs-12 col-sm-5">
+      <div class="col-xs-12 col-sm-4">
         <q-card flat bordered class="my-card q-py-xs">
           <q-card-section class="q-py-xs q-px-md">
-            <q-checkbox dark dense keep-color v-model="dgt" label="Exp. DGT" color="teal"></q-checkbox>
+            <q-checkbox dark dense keep-color v-model="dgt" label="Exp. DGT" color="primary"></q-checkbox>
           </q-card-section>
           <q-separator inset spaced="xs"></q-separator>
           <q-card-section class="q-py-xs q-px-md">
             <div class="row items-center q-gutter-xs">
               <div class="col-xs-9">
-                <q-checkbox dense keep-color v-model="rsol.posee" label="Resolución (tasacion, multa)" color="teal"></q-checkbox>
+                <q-checkbox dense keep-color v-model="rsol.posee" label="Resolución (tasacion, multa)" color="primary"></q-checkbox>
               </div>
               <div class="col-xs">
-                <q-btn v-if="rsol.posee" flat icon="edit" dense color="secondary"></q-btn>
-                <q-btn v-else disable flat icon="edit" dense></q-btn>
+                <q-btn :disable="!rsol.posee"  flat icon="edit" dense color="primary"></q-btn>
               </div>
             </div>
           </q-card-section>
@@ -38,13 +37,13 @@
           <q-card-section class="q-py-xs q-px-md">
             <div class="row items-center q-gutter-xs">
               <div class="col-xs-5">
-                <q-checkbox dense keep-color v-model="iva.inscrito" label="Inscrito IVA" color="teal"></q-checkbox>
+                <q-checkbox dense keep-color v-model="iva.inscrito" label="Inscrito IVA" color="primary"></q-checkbox>
               </div>
               <div class="col-xs-5">
-                <q-checkbox dense keep-color v-model="iva.desinscrito" label="Desinscrito" color="teal"></q-checkbox>
+                <q-checkbox :disable="!iva.inscrito" dense keep-color v-model="iva.desinscrito" label="Desinscrito" color="primary"></q-checkbox>
               </div>
               <div class="col-xs">
-                <q-btn dense icon="event" color="primary" flat>
+                <q-btn :disable="!iva.inscrito" dense icon="event" color="primary" flat>
                   <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
                     <q-date v-model="iva.fecha" mask="DD/MM/YYYY">
                       <div class="row items-center justify-end">
@@ -60,10 +59,10 @@
           <q-card-section class="q-py-xs q-px-md">
             <div class="row items-center q-gutter-xs">
               <div class="col-xs-4">
-                <q-select filled clearable dense hide-dropdown-icon v-model="prevr.ejer" label="Renta Previa" options-dense :options="ejercicios" behavior="default"></q-select>
+                <q-select outlined clearable dense hide-dropdown-icon v-model="prevr.ejer" label="Renta Previa" options-dense :options="ejercicios" behavior="default"></q-select>
               </div>
               <div class="col-xs">
-                <q-btn class="float-right" outline style="width: 100px" icon-right="note_add" color="cyan-10" dense label="Rentas" @click="rta.input.show.rt = true"></q-btn>
+                <q-btn class="float-right text-caption" flat style="width: 100px" icon-right="note_add" color="cyan-10" dense label="Rentas" @click="rta.input.show.rt = true"></q-btn>
               </div>
             </div>
           </q-card-section>
@@ -71,62 +70,60 @@
           <q-card-section class="q-py-xs q-px-md q-gutter-xs">
             <div class="row items-center q-gutter-xs">
               <div class="col-xs">
-                <q-checkbox dense keep-color v-model="f.f06.oblig" label="F06" color="teal" :true-value="1" :false-value="0"></q-checkbox>
+                <q-checkbox dense keep-color v-model="f.f06.oblig" label="F06" color="primary" :true-value="1" :false-value="0"></q-checkbox>
               </div>
               <div class="col-xs">
-                <q-checkbox dense keep-color v-model="f.f07.oblig" label="F07" color="teal" :true-value="1" :false-value="0"></q-checkbox>
+                <q-checkbox dense keep-color v-model="f.f07.oblig" label="F07" color="primary" :true-value="1" :false-value="0"></q-checkbox>
               </div>
               <div class="col-xs">
-                <q-checkbox dense keep-color v-model="f.f14.oblig" label="F14" color="teal" :true-value="1" :false-value="0"></q-checkbox>
+                <q-checkbox dense keep-color v-model="f.f14.oblig" label="F14" color="primary" :true-value="1" :false-value="0"></q-checkbox>
               </div>
               <div class="col-xs-4">
-                <q-btn v-if="nfv" @click="f.input.show.omi = true" outline class="full-width" icon-right="note_add" dense color="red" label="Omisos"></q-btn>
-                <q-btn v-else disable outline class="full-width" icon-right="note_add" dense label="Omisos"></q-btn>
+                <q-btn :disable="!nfv" @click="f.input.show.omi = true" flat class="full-width text-caption" icon-right="note_add" dense color="red" label="Omisos"></q-btn>
               </div>
             </div>
             <div class="row items-center q-gutter-xs">
               <div class="col-xs-4">
-                <q-input filled v-if="nfv" dense v-model="f.verf" label="F. verificados hasta"></q-input>
-                <q-input filled v-else readonly dense v-model="f.verf" label="F. verificados hasta"></q-input>
+                <q-input outlined :readonly="!nfv" dense v-model="f.verf" label="F. verf. hasta"></q-input>
               </div>
               <div class="col-xs">
-                <q-input filled v-if="f.f14.oblig == 0" filled dense autogrow v-model="f.f14.act" label="Actividad Economica"></q-input>
-                <q-input filled v-else dense readonly autogrow v-model="f.f14.act" label="Actividad Economica"></q-input>
+                <q-input outlined dense :readonly="f.f14.oblig !== 0" autogrow v-model="f.f14.act" label="Actividad Economica"></q-input>
               </div>
             </div>
           </q-card-section>
           <q-separator inset spaced="xs"></q-separator>
           <q-card-section class="q-py-xs q-px-md">
-            <div class="row q-gutter-xs">
+            <div class="row q-gutter-sm">
               <div class="col-xs">
-                <q-btn class="full-width" outline @click="vs.f14.input.show = true" icon-right="add" dense color="teal-10" label="F910 vs F14"></q-btn>
+                <q-btn class="full-width text-caption" flat @click="vs.f14.input.show = true" icon-right="add" dense color="teal-10" label="F910 vs F14"></q-btn>
               </div>
               <div class="col-xs">
-                <q-btn class="full-width" outline @click="amp.input.show = true" icon-right="add" dense color="indigo-9" label="Amp."></q-btn>
-              </div>
-              <div class="col-xs">
-                <q-btn class="full-width" outline @click="f.input.show.f09 = true" icon-right="add" dense color="light-blue-10" label="TBR(F09)"></q-btn>
+                <q-btn class="full-width text-caption" flat @click="amp.input.show = true" icon-right="add" dense color="indigo-9" label="Amparadas"></q-btn>
               </div>
             </div>
           </q-card-section>
           <q-separator inset spaced="xs"></q-separator>
           <q-card-section class="q-py-xs q-px-md">
-            <div class="row items-center q-gutter-xs">
+            <div class="row items-center q-gutter-sm">
               <div class="col-xs">
-                <q-btn class="full-width" @click="addvmt" outline icon-right="directions_car" dense color="orange-13" label="VMT"></q-btn>
+                <q-btn class="full-width text-caption" flat @click="f.input.show.f09 = true" icon-right="add" dense color="light-blue-10" label="TBR"></q-btn>
               </div>
-              <div class="col-xs-3">
-                <q-input filled v-if="vmt.esq" filled dense v-model="vmt.montoesq" label="Monto"></q-input>
+              <div class="col-xs">
+                <q-btn class="full-width text-caption" @click="addvmt" flat icon-right="directions_car" dense color="orange-13" label="VMT"></q-btn>
               </div>
-              <div class="col-xs-6">
-                <q-select filled dense v-model="contri.selected" label="Estado Contribuyente" options-dense :options="contri.options" option-value="value" option-label="estado" emit-value map-options behavior="default"></q-select>
+              <div class="col-xs">
+                <q-input outlined :readonly="!vmt.esq" dense v-model="vmt.montoesq" label="Monto esquela"></q-input>
               </div>
             </div>
+          </q-card-section>
+          <q-separator inset spaced="xs"></q-separator>
+          <q-card-section class="q-py-xs q-px-md">
+            <q-select dense outlined v-model="contri.selected" label="Estado Contribuyente" options-dense :options="contri.options" option-value="value" option-label="estado" emit-value map-options behavior="default"></q-select>
           </q-card-section>
         </q-card>
       </div>
       <div class="col-xs-12 col-sm q-gutter-xs">
-        <q-input filled dense v-model="soli" label="Datos generales solicitud"></q-input>
+        <q-input dense outlined v-model="soli" label="Datos generales solicitud"></q-input>
         <q-btn color="indigo-6" label="Generar Marginacion" @click="marginacion = true"></q-btn>
       </div>
     </div>
@@ -392,8 +389,8 @@
               <template v-if="obSmor">
                 MOROSO POR:
                 <template v-if="obSrta.length"> RTA
-                  <template v-for="s in obSrta">
-                    <template v-if="s.estado == 'PTE' || s.estado =='ABP' || s.estado =='VEN'"><template v-for="(ejer, index) in s.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template></template>
+                  <template v-for="(s, index) in obSrta">
+                    <template v-if="s.estado == 'PTE' || s.estado =='ABP' || s.estado =='VEN'">{{ index == '0' ? '' : ', ' }}<template v-for="(ejer, index) in s.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template></template>
                   </template>.
                 </template>
                 <template v-if="obStbr.length"> F09
@@ -423,8 +420,8 @@
               <template v-if="omi">
                 OMISO POR:
                 <template v-if="omirt.length"> RTA
-                  <template v-for="s in omirt">
-                    <template v-for="(ejer, index) in s.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template>
+                  <template v-for="(s, index) in omirt">
+                    {{ index == '0' ? '' : ', ' }}<template v-for="(ejer, index) in s.ejer"> {{ (index == '0' ? ' ' : ', ') + ejer }} </template>
                   </template>.
                 </template>
                 <template v-if="f.f06.omisos.length"> F06
@@ -446,17 +443,17 @@
                   DIF F910-F11<template v-for="(d, index) in obdif11">{{ index == 0 ? '' : ', ' }} {{ d.ejer }}</template>.
                 </template>
                 <template v-if="obdif14.length">
-                  DIF F910-14<template v-for="(d, index) in obdif14">{{ index == 0 ? '' : ', ' }} {{ d.ejer }}</template>.
+                  DIF F910-F14<template v-for="(d, index) in obdif14">{{ index == 0 ? '' : ', ' }} {{ d.ejer }}</template>.
                 </template>
                 <template v-if="omif910.length">
-                  <template v-for="(d, index) in omif910">{{ 'F910/' + (index == 0 ? '' : ', ') + d.ejer }}</template>.
+                  F910 <template v-for="(d, index) in omif910">{{ (index == 0 ? '' : ', ') + d.ejer }}</template>.
                 </template>
               </template>
               <template v-if="!obSmor && !omi && obSaut">
                 AUTORIZADO POR:
                 <template v-if="obSrta.length"> RTA
-                  <template v-for="s in obSrta">
-                    <template v-if="s.estado == 'VIG'"><template v-for="(ejer, index) in s.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template></template>
+                  <template v-for="(s, index) in obSrta">
+                    <template v-if="s.estado == 'VIG'">{{ index == '0' ? '' : ', ' }}<template v-for="(ejer, index) in s.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template></template>
                   </template>.
                 </template>
                 <template v-if="obStbr.length"> F09
@@ -531,12 +528,12 @@
         <q-card-actions align="right">
           <q-btn flat color="light-blue-6" label="Copiar marginación" @click="copy_M"></q-btn>
           <q-btn flat v-if="vmt.esq || obsaldo.length || rsol.input.obtext.length || obdif11.length || obdif14.length" color="blue-6" label="Copiar Observación" @click="copy_O"></q-btn>
-          <q-btn flat color="green-8" label="Exportar" @click="Export"></q-btn>
+          <q-btn flat color="green-8" label="Copiar Todo" @click="copy_MO"></q-btn>
         </q-card-actions>
       </q-card>
     </q-dialog>
     <q-dialog v-model="rta.input.show.rt" persistent transition-show="slide-up" transition-hide="slide-down">
-      <q-card style="width: 350px">
+      <q-card flat style="width: 350px">
         <q-bar class="bg-cyan-10 text-white">
           <div class="text-h6">Agregar rentas</div>
           <q-space></q-space>
@@ -553,12 +550,13 @@
         <q-tab-panels v-model="tab.rta" animated transition-prev="fade" transition-next="fade">
           <q-tab-panel name="anti" class="q-pa-none">
             <q-card-section class="q-gutter-sm">
-              <q-select filled v-model="rta.input.estadoanti.selected" label="Estado" :options="rta.input.estadoanti.options" option-value="value" option-label="estado" emit-value map-options options-cover behavior="default"></q-select>
-              <q-select filled clearable multiple v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios_a" options-cover behavior="default" use-chips></q-select>
-              <q-input filled v-model="rta.input.mont" type="number" label="Monto"></q-input>
-              <q-input filled v-model="rta.input.abo" type="number" label="Abono"></q-input>
-              <q-input filled v-model="rtapte" readonly label="Pendiente de pago"></q-input>
-              <q-input filled class="q-pa-none" v-model="rta.input.fcda" :readonly="rta.input.abo.length > '0'" label="Fecha Cancelado" mask="##/##/####" :rules="['##/##/####']">
+              <q-select dense outlined v-model="rta.input.estadoanti.selected" label="Estado" :options="rta.input.estadoanti.options" option-value="value" option-label="estado" emit-value map-options options-dense behavior="default"></q-select>
+              <q-select v-if="rta.input.estadoanti.selected == 'SDO' || rta.input.estadoanti.selected == 'DEV'" dense outlined clearable multiple v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios_a" options-dense behavior="default" use-chips></q-select>
+              <q-select v-else dense outlined clearable v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios_a" options-dense behavior="default"></q-select>
+              <q-input dense outlined v-model="rta.input.mont" type="number" label="Monto"></q-input>
+              <q-input dense outlined v-model="rta.input.abo" type="number" label="Abono"></q-input>
+              <q-input dense outlined v-model="rtapte" readonly label="Pendiente de pago"></q-input>
+              <q-input dense outlined class="q-pa-none" v-model="rta.input.fcda" :readonly="rta.input.abo.length > '0'" label="Fecha Cancelado" mask="##/##/####" :rules="['##/##/####']">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -580,13 +578,13 @@
           </q-tab-panel>
           <q-tab-panel name="actu" class="q-pa-none">
             <q-card-section class="q-gutter-sm">
-              <q-select filled v-model="rta.input.estado.selected" label="Estado" :options="rta.input.estado.options" option-value="value" option-label="estado" emit-value map-options options-cover behavior="default"></q-select>
-              <q-select filled clearable multiple v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios" behavior="default" options-cover use-chips></q-select>
-              <q-input filled v-model="rta.input.mont" type="number" label="Monto"></q-input>
-              <q-input filled v-model="rta.input.abo" type="number" label="Abono"></q-input>
-              <q-input filled v-model="rtapte" readonly label="Pendiente de pago"></q-input>
-              <q-input filled v-model="rta.input.resol" type="number" label="No Resolucion"></q-input>
-              <q-input filled class="q-pa-none" v-if="rta.input.resol.length == '0'" v-model="rta.input.fcda" :readonly="rta.input.abo.length > '0'" label="Fecha Cancelado" mask="##/##/####" :rules="['##/##/####']">
+              <q-select dense outlined v-model="rta.input.estado.selected" label="Estado" :options="rta.input.estado.options" option-value="value" option-label="estado" emit-value map-options options-dense behavior="default"></q-select>
+              <q-select dense outlined clearable multiple v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios" behavior="default" options-dense use-chips></q-select>
+              <q-input dense outlined v-model="rta.input.mont" type="number" label="Monto"></q-input>
+              <q-input dense outlined v-model="rta.input.abo" type="number" label="Abono"></q-input>
+              <q-input dense outlined v-model="rtapte" readonly label="Pendiente de pago"></q-input>
+              <q-input dense outlined v-model="rta.input.resol" type="number" label="No Resolucion"></q-input>
+              <q-input dense outlined class="q-pa-none" v-if="rta.input.resol.length == '0'" v-model="rta.input.fcda" :readonly="rta.input.abo.length > '0'" label="Fecha Cancelado" mask="##/##/####" :rules="['##/##/####']">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -600,7 +598,7 @@
                   </q-icon>
                 </template>
               </q-input>
-              <q-input filled class="q-pa-none" v-else v-model="rta.input.fprox" label="Fecha proximo pago" mask="##/##/####" :rules="['##/##/####']">
+              <q-input dense outlined class="q-pa-none" v-else v-model="rta.input.fprox" label="Fecha proximo pago" mask="##/##/####" :rules="['##/##/####']">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -622,9 +620,9 @@
           </q-tab-panel>
           <q-tab-panel name="vs" class="q-pa-none">
             <q-card-section class="q-gutter-sm">
-              <q-select filled v-model="vs.f11.input.vs.selected" label="vs" :options="vs.f11.input.vs.options" option-value="value" option-label="vsf" emit-value map-options options-cover behavior="default"></q-select>
-              <q-select filled v-model="vs.f11.input.dif.selected" :readonly="vs.f11.input.vs.selected !== 'VS'" label="Estado" :options="vs.f11.input.dif.options" option-value="value" option-label="estado" emit-value map-options options-cover behavior="default"></q-select>
-              <q-select filled clearable multiple v-model="vs.f11.input.ejer" label="Ejercicio" :options="ejer_vs" behavior="default" use-chips></q-select>
+              <q-select dense outlined v-model="vs.f11.input.vs.selected" label="vs" :options="vs.f11.input.vs.options" option-value="value" option-label="vsf" emit-value map-options options-dense behavior="default"></q-select>
+              <q-select dense outlined v-model="vs.f11.input.dif.selected" :readonly="vs.f11.input.vs.selected !== 'VS'" label="Estado" :options="vs.f11.input.dif.options" option-value="value" option-label="estado" emit-value map-options options-dense behavior="default"></q-select>
+              <q-select dense outlined clearable multiple v-model="vs.f11.input.ejer" label="Ejercicio" :options="ejer_vs" behavior="default" use-chips></q-select>
             </q-card-section>
             <q-card-actions align="right">
               <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
@@ -635,7 +633,7 @@
       </q-card>
     </q-dialog>
     <q-dialog v-model="amp.input.show" persistent transition-show="slide-up" transition-hide="slide-down">
-      <q-card style="width: 350px">
+      <q-card flat style="width: 350px">
         <q-bar class="bg-indigo-9 text-white">
           <div class="text-h6">Agregar declaración amparada</div>
           <q-space></q-space>
@@ -644,16 +642,16 @@
           </q-btn>
         </q-bar>
         <q-card-section class="q-gutter-sm">
-          <q-select filled v-model="amp.input.decreto.selected" label="Decreto" :options="amp.input.decreto.options" option-value="value" option-label="decreto" emit-value map-options behavior="default" options-cover></q-select>
-          <q-select filled v-model="amp.input.f.selected" label="Formulario" :options="amp.input.f.options" option-value="value" option-label="form" emit-value map-options behavior="default" options-cover></q-select>
-          <q-select filled v-model="amp.input.estado.selected" label="Estado" :options="amp.input.estado.options" option-value="value" option-label="estado" emit-value map-options behavior="default" options-cover></q-select>
-          <q-select filled v-if="amp.input.f.selected === 'RT'" multiple clearable v-model="amp.input.ejer" label="Ejercicio" :options="ejercicios" behavior="default" options-cover></q-select>
-          <q-input filled v-else v-model="amp.input.periodo" label="Periodo" mask="##/####"></q-input>
-          <q-input filled v-model="amp.input.mont" type="number" label="Monto"></q-input>
-          <q-input filled v-model="amp.input.abo" type="number" label="Abono"></q-input>
-          <q-input filled v-model="amppte" readonly label="Pendiente de pago"></q-input>
-          <q-input filled v-model="amp.input.resol" label="No Resolucion" mask="######"></q-input>
-          <q-input filled class="q-pa-none" v-if="amp.input.resol.length == '0'" v-model="amp.input.fcda" :readonly="amp.input.abo.length > '0'" label="Fecha Cancelado" mask="##/##/####" :rules="['##/##/####']">
+          <q-select dense outlined v-model="amp.input.decreto.selected" label="Decreto" :options="amp.input.decreto.options" option-value="value" option-label="decreto" emit-value map-options behavior="default" options-dense></q-select>
+          <q-select dense outlined v-model="amp.input.f.selected" label="Formulario" :options="amp.input.f.options" option-value="value" option-label="form" emit-value map-options behavior="default" options-dense></q-select>
+          <q-select dense outlined v-model="amp.input.estado.selected" label="Estado" :options="amp.input.estado.options" option-value="value" option-label="estado" emit-value map-options behavior="default" options-dense></q-select>
+          <q-select dense outlined v-if="amp.input.f.selected === 'RT'" multiple clearable v-model="amp.input.ejer" label="Ejercicio" :options="ejercicios" behavior="default" options-dense></q-select>
+          <q-input dense outlined v-else v-model="amp.input.periodo" label="Periodo" mask="##/####"></q-input>
+          <q-input dense outlined v-model="amp.input.mont" type="number" label="Monto"></q-input>
+          <q-input dense outlined v-model="amp.input.abo" type="number" label="Abono"></q-input>
+          <q-input dense outlined v-model="amppte" readonly label="Pendiente de pago"></q-input>
+          <q-input dense outlined v-model="amp.input.resol" label="No Resolucion" mask="######"></q-input>
+          <q-input dense outlined class="q-pa-none" v-if="amp.input.resol.length == '0'" v-model="amp.input.fcda" :readonly="amp.input.abo.length > '0'" label="Fecha Cancelado" mask="##/##/####" :rules="['##/##/####']">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -667,7 +665,7 @@
               </q-icon>
             </template>
           </q-input>
-          <q-input filled class="q-pa-none" v-else v-model="amp.input.fprox" label="Fecha proximo pago" mask="##/##/####" :rules="['##/##/####']">
+          <q-input dense outlined class="q-pa-none" v-else v-model="amp.input.fprox" label="Fecha proximo pago" mask="##/##/####" :rules="['##/##/####']">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -689,7 +687,7 @@
       </q-card>
     </q-dialog>
     <q-dialog v-model="f.input.show.f09" persistent transition-show="slide-up" transition-hide="slide-down">
-      <q-card style="width: 350px">
+      <q-card flat style="width: 350px">
         <q-bar class="bg-light-blue-10 text-white">
           <div class="text-h6">Agregar TBR (F09)</div>
           <q-space></q-space>
@@ -698,13 +696,13 @@
           </q-btn>
         </q-bar>
         <q-card-section class="q-gutter-sm">
-          <q-select filled v-model="f.f09.estado.selected" label="Estado" :options="f.f09.estado.options" option-value="value" option-label="estado" emit-value map-options behavior="default" options-cover></q-select>
-          <q-input filled v-model="f.input.periodo" label="Periodo"></q-input>
-          <q-input filled v-model="f.input.mont" type="number" label="Monto"></q-input>
-          <q-input filled v-model="f.input.abo" type="number" label="Abono"></q-input>
-          <q-input filled v-model="tbrmontpte" readonly label="Pendiente de pago"></q-input>
-          <q-input filled v-model="f.input.resol" type="number" label="No Resolucion"></q-input>
-          <q-input filled class="q-pa-none" v-if="f.input.resol.length == '0'" v-model="f.input.fcda" label="Fecha Transacción/Cancelado" mask="##/##/####" :rules="['##/##/####']">
+          <q-select dense outlined v-model="f.f09.estado.selected" label="Estado" :options="f.f09.estado.options" option-value="value" option-label="estado" emit-value map-options behavior="default" options-dense></q-select>
+          <q-input dense outlined v-model="f.input.periodo" label="Periodo"></q-input>
+          <q-input dense outlined v-model="f.input.mont" type="number" label="Monto"></q-input>
+          <q-input dense outlined v-model="f.input.abo" type="number" label="Abono"></q-input>
+          <q-input dense outlined v-model="tbrmontpte" readonly label="Pendiente de pago"></q-input>
+          <q-input dense outlined v-model="f.input.resol" type="number" label="No Resolucion"></q-input>
+          <q-input dense outlined class="q-pa-none" v-if="f.input.resol.length == '0'" v-model="f.input.fcda" label="Fecha Transacción/Cancelado" mask="##/##/####" :rules="['##/##/####']">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -718,7 +716,7 @@
               </q-icon>
             </template>
           </q-input>
-          <q-input filled class="q-pa-none" v-else v-model="f.input.fprox" label="Fecha proximo pago" mask="##/##/####" :rules="['##/##/####']">
+          <q-input dense outlined class="q-pa-none" v-else v-model="f.input.fprox" label="Fecha proximo pago" mask="##/##/####" :rules="['##/##/####']">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -740,7 +738,7 @@
       </q-card>
     </q-dialog>
     <q-dialog v-model="vs.f14.input.show" persistent transition-show="slide-up" transition-hide="slide-down">
-      <q-card style="width: 350px">
+      <q-card flat style="width: 350px">
         <q-bar class="bg-cyan-10 text-white">
           <div class="text-h6">Agregar VS F910-F14</div>
           <q-space></q-space>
@@ -749,10 +747,10 @@
           </q-btn>
         </q-bar>
         <q-card-section class="q-gutter-sm">
-          <q-select filled v-model="vs.f14.input.vs.selected" label="vs" :options="vs.f14.input.vs.options" option-value="value" option-label="vsf" emit-value map-options options-cover behavior="default"></q-select>
-          <q-select v-if="vs.f14.input.vs.selected == 'VS'" filled v-model="vs.f14.input.dif.selected" label="Estado" :options="vs.f14.input.dif.options" option-value="value" option-label="estado" emit-value map-options options-cover behavior="default"></q-select>
-          <q-select v-else filled v-model="vs.f14.input.novs.selected" label="Estado" :options="vs.f14.input.novs.options" option-value="value" option-label="estado" emit-value map-options options-cover behavior="default"></q-select>
-          <q-select filled clearable multiple v-model="vs.f14.input.ejer" label="Ejercicio" :options="ejer_vs2" behavior="default" use-chips></q-select>
+          <q-select dense outlined v-model="vs.f14.input.vs.selected" label="vs" :options="vs.f14.input.vs.options" option-value="value" option-label="vsf" emit-value map-options options-dense behavior="default"></q-select>
+          <q-select dense v-if="vs.f14.input.vs.selected == 'VS'" outlined v-model="vs.f14.input.dif.selected" label="Estado" :options="vs.f14.input.dif.options" option-value="value" option-label="estado" emit-value map-options options-dense behavior="default"></q-select>
+          <q-select dense v-else outlined v-model="vs.f14.input.novs.selected" label="Estado" :options="vs.f14.input.novs.options" option-value="value" option-label="estado" emit-value map-options options-dense behavior="default"></q-select>
+          <q-select dense outlined clearable multiple v-model="vs.f14.input.ejer" label="Ejercicio" :options="ejer_vs2" behavior="default" use-chips></q-select>
         </q-card-section>
         <q-card-actions align="right">
           <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
@@ -760,8 +758,8 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
-    <q-dialog full-width v-model="f.input.show.omi" persistent transition-show="slide-up" transition-hide="slide-down">
-      <q-card>
+    <q-dialog v-model="f.input.show.omi" persistent transition-show="slide-up" transition-hide="slide-down">
+      <q-card flat>
         <q-bar class="bg-red-8  text-white">
           <div class="text-h6">Agregar Omisos</div>
           <q-space></q-space>
@@ -769,167 +767,20 @@
             <q-tooltip class="bg-white text-primary">Close</q-tooltip>
           </q-btn>
         </q-bar>
-        <q-tabs v-model="tab.fom" dense class="text-grey" active-color="primary" indicator-color="primary" align="justify" narrow-indicator>
-          <q-tab :disable="f.f06.oblig == 0" name="f06" label="F06"></q-tab>
-          <q-tab :disable="f.f07.oblig == 0" name="f07" label="F07"></q-tab>
-          <q-tab :disable="f.f14.oblig == 0" name="f14" label="F14"></q-tab>
-        </q-tabs>
-        <q-separator></q-separator>
-        <q-tab-panels v-model="tab.fom" animated transition-prev="fade" transition-next="fade">
-          <q-tab-panel :disable="f.f06.oblig == 0" name="f06" class="q-pa-none">
-            <q-card-section class="q-gutter-sm">
-              <div class="row q-gutter-xs">
-                <div class="col-xs-12 col-sm">
-                  <q-table dense hide-pagination hide-selected-banner separator="none" flat :rows-per-page-options="[12]" :rows="periodo1" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f06.omisos"><template v-slot:header-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> <template v-slot:body-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> </q-table>
-                </div>
-                <div class="col-xs-12 col-sm">
-                  <q-table dense hide-pagination hide-selected-banner separator="none" flat :rows-per-page-options="[12]" :rows="periodo2" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f06.omisos"><template v-slot:header-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> <template v-slot:body-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> </q-table>
-                </div>
-                <div class="col-xs-12 col-sm">
-                  <q-table dense hide-pagination hide-selected-banner separator="none" flat :rows-per-page-options="[12]" :rows="periodo3" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f06.omisos"><template v-slot:header-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> <template v-slot:body-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> </q-table>
-                </div>
-                <div class="col-xs-12 col-sm">
-                  <q-table dense hide-pagination hide-selected-banner separator="none" flat :rows-per-page-options="[12]" :rows="periodo4" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f06.omisos"><template v-slot:header-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> <template v-slot:body-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> </q-table>
-                </div>
-                <div class="col-xs-12 col-sm">
-                  <q-table dense hide-pagination hide-selected-banner separator="none" flat :rows-per-page-options="[12]" :rows="periodo5" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f06.omisos"><template v-slot:header-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> <template v-slot:body-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> </q-table>
-                </div>
-                <div class="col-xs-12 col-sm">
-                  <q-table dense hide-pagination hide-selected-banner separator="none" flat :rows-per-page-options="[12]" :rows="periodo6" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f06.omisos"><template v-slot:header-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> <template v-slot:body-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> </q-table>
-                </div>
-              </div>
-            </q-card-section>
-            <q-card-actions align="right">
-              <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
-            </q-card-actions>
-          </q-tab-panel>
-          <q-tab-panel :disable="f.f07.oblig == 0" name="f07" class="q-pa-none">
-            <q-card-section class="q-gutter-sm">
-              <div class="row q-gutter-xs">
-                <div class="col-xs-12 col-sm">
-                  <q-table dense hide-pagination hide-selected-banner separator="none" flat :rows-per-page-options="[12]" :rows="periodo1" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f07.omisos"><template v-slot:header-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> <template v-slot:body-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> </q-table>
-                </div>
-                <div class="col-xs-12 col-sm">
-                  <q-table dense hide-pagination hide-selected-banner separator="none" flat :rows-per-page-options="[12]" :rows="periodo2" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f07.omisos"><template v-slot:header-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> <template v-slot:body-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> </q-table>
-                </div>
-                <div class="col-xs-12 col-sm">
-                  <q-table dense hide-pagination hide-selected-banner separator="none" flat :rows-per-page-options="[12]" :rows="periodo3" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f07.omisos"><template v-slot:header-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> <template v-slot:body-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> </q-table>
-                </div>
-                <div class="col-xs-12 col-sm">
-                  <q-table dense hide-pagination hide-selected-banner separator="none" flat :rows-per-page-options="[12]" :rows="periodo4" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f07.omisos"><template v-slot:header-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> <template v-slot:body-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> </q-table>
-                </div>
-                <div class="col-xs-12 col-sm">
-                  <q-table dense hide-pagination hide-selected-banner separator="none" flat :rows-per-page-options="[12]" :rows="periodo5" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f07.omisos"><template v-slot:header-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> <template v-slot:body-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> </q-table>
-                </div>
-                <div class="col-xs-12 col-sm">
-                  <q-table dense hide-pagination hide-selected-banner separator="none" flat :rows-per-page-options="[12]" :rows="periodo6" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f07.omisos"><template v-slot:header-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> <template v-slot:body-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> </q-table>
-                </div>
-              </div>
-            </q-card-section>
-            <q-card-actions align="right">
-              <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
-            </q-card-actions>
-          </q-tab-panel>
-          <q-tab-panel :disable="f.f14.oblig == 0" name="f14" class="q-pa-none">
-            <q-card-section class="q-gutter-sm">
-              <div class="row q-gutter-xs">
-                <div class="col-xs-12 col-sm">
-                  <q-table dense hide-pagination hide-selected-banner separator="none" flat :rows-per-page-options="[12]" :rows="periodo1" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f14.omisos"><template v-slot:header-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> <template v-slot:body-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> </q-table>
-                </div>
-                <div class="col-xs-12 col-sm">
-                  <q-table dense hide-pagination hide-selected-banner separator="none" flat :rows-per-page-options="[12]" :rows="periodo2" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f14.omisos"><template v-slot:header-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> <template v-slot:body-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> </q-table>
-                </div>
-                <div class="col-xs-12 col-sm">
-                  <q-table dense hide-pagination hide-selected-banner separator="none" flat :rows-per-page-options="[12]" :rows="periodo3" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f14.omisos"><template v-slot:header-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> <template v-slot:body-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> </q-table>
-                </div>
-                <div class="col-xs-12 col-sm">
-                  <q-table dense hide-pagination hide-selected-banner separator="none" flat :rows-per-page-options="[12]" :rows="periodo4" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f14.omisos"><template v-slot:header-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> <template v-slot:body-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> </q-table>
-                </div>
-                <div class="col-xs-12 col-sm">
-                  <q-table dense hide-pagination hide-selected-banner separator="none" flat :rows-per-page-options="[12]" :rows="periodo5" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f14.omisos"><template v-slot:header-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> <template v-slot:body-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> </q-table>
-                </div>
-                <div class="col-xs-12 col-sm">
-                  <q-table dense hide-pagination hide-selected-banner separator="none" flat :rows-per-page-options="[12]" :rows="periodo6" :columns="f.columns" row-key="periodo" selection="multiple" v-model:selected="f.f14.omisos"><template v-slot:header-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> <template v-slot:body-selection="scope">
-                      <q-toggle v-model="scope.selected"></q-toggle>
-                    </template> </q-table>
-                </div>
-              </div>
-            </q-card-section>
-            <q-card-actions align="right">
-              <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
-            </q-card-actions>
-          </q-tab-panel>
-        </q-tab-panels>
+        <q-card-section>
+        
+        <div class="row q-gutter-md">
+          <div class="col-xs">
+           <q-select dense multiple clearable outlined v-model="f.f06.omisos" label="Seleccioné periodos omisos" :options="omisos" map-options options-dense behavior="default"></q-select>
+          </div>
+          <div class="col-xs">
+           <q-input dense outlined v-model="f.input.periodo" label="Periodo"></q-input>
+           <q-btn @click="" flat label="Agregar" color="green-8"></q-btn>
+          </div>
+        </div>
+          
+        </q-card-section>
+        
       </q-card>
     </q-dialog>
   </div>
