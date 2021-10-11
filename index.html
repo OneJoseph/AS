@@ -134,11 +134,14 @@
           <q-item-section>
             <q-item-label>Marginación</q-item-label>
             <q-item-label caption>
-              
-            <q-checkbox dark dense keep-color v-model="detalle" label="Detalle al final" color="teal"></q-checkbox>
+             <q-checkbox dense size="xs" keep-color v-model="detalle" label="Detalle al final" color="primary"></q-checkbox>
+            </q-item-label>
+            <q-item-label caption>
+              {{ soli }}  
             </q-item-label>
           </q-item-section>
-          <q-space></q-space>
+         
+          <q-space></q-space>      
           <q-btn dense flat icon="close" v-close-popup>
             <q-tooltip class="bg-white text-primary">Close</q-tooltip>
           </q-btn>
@@ -160,9 +163,9 @@
               <template v-for="srta in rta.db.anti">
                 <template v-if="srta.estado == 'SDO'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> S/CAP. </template>
                 <template v-if="srta.estado == 'DEV'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> DEV. </template>
-                <template v-if="srta.estado == 'CDA'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> {{ srta.mont }} (Colones) CDA {{ srta.fcda }}. </template>
-                <template v-if="srta.estado == 'PTE'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> {{ srta.mont }} (Colones) PTE DE PAGO. </template>
-                <template v-if="srta.estado == 'ABP'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> {{ srta.mont }} (Colones) HA CDO ${{ srta.abo }} PTE DE PAGO ${{ srta.pte }}. </template>
+                <template v-if="srta.estado == 'CDA'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> - {{ srta.mont }} (Colones) CDA {{ srta.total == false ? '' : 'TOTALMENTE '}} {{ srta.fcda }}. </template>
+                <template v-if="srta.estado == 'PTE'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> - {{ srta.mont }} (Colones) PTE DE PAGO. </template>
+                <template v-if="srta.estado == 'ABP'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> - {{ srta.mont }} (Colones) HA CDO ${{ srta.abo }} PTE DE PAGO ${{ srta.pte }}. </template>
               </template>
             </template>
             <template v-if="rta.db.actu.length">
@@ -175,7 +178,7 @@
                 <template v-if="srta.estado == 'BPA'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> SIN OBLIG B/PARAMETROS S/CARP ELECT. </template>
                 <template v-if="srta.estado == 'REG'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> SIN INGS S/CARP ELECT. </template>
                 <template v-if="srta.estado == 'NSU'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> SIN OBLIG S/SUG. </template>
-                <template v-if="srta.estado == 'CDA'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> ${{ srta.mont }} CDA {{ srta.fcda }}. </template>
+                <template v-if="srta.estado == 'CDA'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> ${{ srta.mont }} CDA {{ srta.total == false ? '' : 'TOTALMENTE '}} {{ srta.fcda }}. </template>
                 <template v-if="srta.estado == 'PTE'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> ${{ srta.mont }} PTE DE PAGO. </template>
                 <template v-if="srta.estado == 'ABP'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> ${{ srta.mont }} HA CDO ${{ srta.abo }} PTE DE PAGO ${{ srta.pte }}. </template>
                 <template v-if="srta.estado == 'VIG'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> ${{ srta.mont }} HA CDO ${{ srta.abo }} PTE ${{ srta.pte }} C/RESOL DE PAGO A PLAZO No {{ srta.resol }} PROX CUOTA VENCE EL {{ srta.fprox }}. </template>
@@ -226,7 +229,7 @@
                 </template>
                 <template v-if="ampd1f06.length"> DE F06:
                   <template v-for="d in ampd1f06">
-                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.fcda }}. </template>
+                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.total == false ? '' : 'TOTALMENTE '}} {{ d.fcda }}. </template>
                     <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
                     <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
                     <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
@@ -235,7 +238,7 @@
                 </template>
                 <template v-if="ampd1f07.length"> DE F07:
                   <template v-for="d in ampd1f07">
-                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.fcda }}. </template>
+                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.total == false ? '' : 'TOTALMENTE '}} {{ d.total == false ? '' : 'TOTALMENTE '}} {{ d.fcda }}. </template>
                     <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
                     <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
                     <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
@@ -244,7 +247,7 @@
                 </template>
                 <template v-if="ampd1f14.length"> DE F14:
                   <template v-for="d in ampd1f14">
-                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.fcda }}. </template>
+                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }}  {{ d.total == false ? '' : 'TOTALMENTE '}} {{ d.fcda }}. </template>
                     <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
                     <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
                     <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
@@ -260,7 +263,7 @@
                 </template>
                 <template v-if="ampd2f06.length"> DE F06:
                   <template v-for="d in ampd2f06">
-                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.fcda }}. </template>
+                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.total == false ? '' : 'TOTALMENTE '}} {{ d.fcda }}. </template>
                     <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
                     <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
                     <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
@@ -269,7 +272,7 @@
                 </template>
                 <template v-if="ampd2f07.length"> DE F07:
                   <template v-for="d in ampd2f07">
-                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.fcda }}. </template>
+                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.total == false ? '' : 'TOTALMENTE '}} {{ d.fcda }}. </template>
                     <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
                     <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
                     <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
@@ -278,7 +281,7 @@
                 </template>
                 <template v-if="ampd2f14.length"> DE F14:
                   <template v-for="d in ampd2f14">
-                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.fcda }}. </template>
+                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} {{ d.total == false ? '' : 'TOTALMENTE '}} CDA {{ d.fcda }}. </template>
                     <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
                     <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
                     <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
@@ -294,7 +297,7 @@
                 </template>
                 <template v-if="ampd3f06.length"> DE F06:
                   <template v-for="d in ampd3f06">
-                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.fcda }}. </template>
+                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.total == false ? '' : 'TOTALMENTE '}} {{ d.fcda }}. </template>
                     <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
                     <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
                     <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
@@ -303,7 +306,7 @@
                 </template>
                 <template v-if="ampd3f07.length"> DE F07:
                   <template v-for="d in ampd3f07">
-                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.fcda }}. </template>
+                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.total == false ? '' : 'TOTALMENTE '}} {{ d.fcda }}. </template>
                     <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
                     <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
                     <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
@@ -312,7 +315,7 @@
                 </template>
                 <template v-if="ampd3f14.length"> DE F14:
                   <template v-for="d in ampd3f14">
-                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.fcda }}. </template>
+                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.total == false ? '' : 'TOTALMENTE '}} {{ d.fcda }}. </template>
                     <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
                     <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
                     <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
@@ -328,7 +331,7 @@
                 </template>
                 <template v-if="ampd4f06.length"> DE F06:
                   <template v-for="d in ampd4f06">
-                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.fcda }}. </template>
+                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.total == false ? '' : 'TOTALMENTE '}} {{ d.fcda }}. </template>
                     <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
                     <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
                     <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
@@ -337,7 +340,7 @@
                 </template>
                 <template v-if="ampd4f07.length"> DE F07:
                   <template v-for="d in ampd4f07">
-                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.fcda }}. </template>
+                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.total == false ? '' : 'TOTALMENTE '}} {{ d.fcda }}. </template>
                     <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
                     <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
                     <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
@@ -346,7 +349,41 @@
                 </template>
                 <template v-if="ampd4f14.length"> DE F14:
                   <template v-for="d in ampd4f14">
-                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.fcda }}. </template>
+                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.total == false ? '' : 'TOTALMENTE '}} {{ d.fcda }}. </template>
+                    <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
+                    <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
+                    <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
+                    <template v-if="d.estado == 'VEN'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} CON CUOTA VENCIDA. </template>
+                  </template>
+                </template>
+              </template>
+              <template v-if="ampd5.length"> AL DECRETO {{ amp.input.decreto.options[4].decreto }}
+                <template v-if="ampd5rt.length"> DE RTA:
+                  <template v-for="(d, index) in ampd4rt">
+                    {{ index == '0' ? '' : ', ' }} {{ d.ejer }}
+                  </template>.
+                </template>
+                <template v-if="ampd5f06.length"> DE F06:
+                  <template v-for="d in ampd4f06">
+                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.total == false ? '' : 'TOTALMENTE '}} {{ d.fcda }}. </template>
+                    <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
+                    <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
+                    <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
+                    <template v-if="d.estado == 'VEN'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} CON CUOTA VENCIDA. </template>
+                  </template>
+                </template>
+                <template v-if="ampd5f07.length"> DE F07:
+                  <template v-for="d in ampd4f07">
+                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.total == false ? '' : 'TOTALMENTE '}}{{ d.fcda }}. </template>
+                    <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
+                    <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
+                    <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
+                    <template v-if="d.estado == 'VEN'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} CON CUOTA VENCIDA. </template>
+                  </template>
+                </template>
+                <template v-if="ampd5f14.length"> DE F14:
+                  <template v-for="d in ampd4f14">
+                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.total == false ? '' : 'TOTALMENTE '}}{{ d.fcda }}. </template>
                     <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
                     <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
                     <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
@@ -359,7 +396,7 @@
             <template v-else>CON TBR(F09) PERIODO:
               <template v-for="tbr in f.f09.db">
                 <template v-if="tbr.estado == 'PLG'">{{ tbr.periodo }} ${{ tbr.mont }} FECHA DE TRANSACCION {{ tbr.fcda }}, AUN NO EXIGIBLE DEBIDO A QUE NO HAN TRANSCURRIDO LOS 60 DIAS CALENDARIOS PARA REALIZAR EL PAGO. </template>
-                <template v-if="tbr.estado == 'CDA'">{{ tbr.periodo }} ${{ tbr.mont }} CDA {{ tbr.fcda }}. </template>
+                <template v-if="tbr.estado == 'CDA'">{{ tbr.periodo }} ${{ tbr.mont }} CDA {{ d.total == false ? '' : 'TOTALMENTE '}} {{ tbr.fcda }}. </template>
                 <template v-if="tbr.estado == 'PTE'">{{ tbr.periodo }} ${{ tbr.mont }} PTE DE PAGO.</template>
                 <template v-if="tbr.estado == 'ABP'">{{ tbr.periodo }} ${{ tbr.mont }} ABO ${{ tbr.abo }} PTE DE PAGO ${{ tbr.pte }}. </template>
                 <template v-if="tbr.estado == 'VIG'">{{ tbr.periodo }} ${{ tbr.mont }} ABO ${{ tbr.abo }} PTE ${{ tbr.pte }} C/RESOL DE PAGO A PLAZO No {{ tbr.resol }} PROX CUOTA VENCE EL {{ tbr.fprox }}. </template>
@@ -569,6 +606,7 @@
                   </q-icon>
                 </template>
               </q-input>
+              <q-checkbox dense :disable="rta.input.estadoanti.selected !== 'CDA'" keep-color v-model="rta.input.total" label="CDA EN PAGOS" color="primary"></q-checkbox>
             </q-card-section>
             <q-card-actions align="right">
               <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
@@ -611,6 +649,7 @@
                   </q-icon>
                 </template>
               </q-input>
+              <q-checkbox dense :disable="rta.input.estado.selected !== 'CDA'" keep-color v-model="rta.input.total" label="CDA EN PAGOS" color="primary"></q-checkbox>
             </q-card-section>
             <q-card-actions align="right">
               <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
@@ -678,6 +717,7 @@
               </q-icon>
             </template>
           </q-input>
+          <q-checkbox  :disable="amp.input.estado.selected !== 'CDA'" keep-color v-model="amp.input.total" label="CDA EN PAGOS" color="primary"></q-checkbox>
         </q-card-section>
         <q-card-actions align="right">
           <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
@@ -729,6 +769,7 @@
               </q-icon>
             </template>
           </q-input>
+          <q-checkbox :disable="f.f09.estado.selected !== 'CDA'" keep-color v-model="f.input.total" label="CDA EN PAGOS" color="primary"></q-checkbox>
         </q-card-section>
         <q-card-actions align="right">
           <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>

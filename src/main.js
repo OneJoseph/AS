@@ -115,6 +115,7 @@ const AsistenOne = {
             abo: '',
             resol: '',
             fprox: '',
+            total: false
           },
           f06: {
               oblig: 0,
@@ -153,10 +154,11 @@ const AsistenOne = {
             decreto: {
               selected: 'D1',
                 options: [
-                      { decreto: '521/2019', value: 'D1' },
-                      { decreto: '804/2017', value: 'D2' },
-                      { decreto: '793/2014', value: 'D3' },
-                      { decreto: '652/2008', value: 'D4' },
+                      { decreto: '178/2021', value: 'D1' },
+                      { decreto: '521/2019', value: 'D2' },
+                      { decreto: '804/2017', value: 'D3' },
+                      { decreto: '793/2014', value: 'D4' },
+                      { decreto: '652/2008', value: 'D5' },
                     ],
             },
             f: {
@@ -186,6 +188,7 @@ const AsistenOne = {
             resol: '',
             fprox: '',
             foli: '',
+            total: false
           },
         },
         vmt: {
@@ -250,7 +253,8 @@ const AsistenOne = {
             abo: '',
             resol: '',
             fprox: '',
-            foli: '', 
+            foli: '',
+            total: false 
           },
         },
         vs: {
@@ -500,7 +504,8 @@ const AsistenOne = {
           pte: this.rtapte,
           resol: this.rta.input.resol,
           fprox: this.rta.input.fprox,
-          foli: this.rta.input.foli
+          foli: this.rta.input.foli,
+          total: this.rta.input.total,
         })
         this.q.notify({
           // group: false,
@@ -520,7 +525,8 @@ const AsistenOne = {
           mont: this.rta.input.mont,
           fcda: this.rta.input.fcda,
           abo: this.rta.input.abo,
-          pte: this.rtapte
+          pte: this.rtapte,
+          total: this.rta.input.total,
         })
         this.q.notify({
           progress: true,
@@ -551,7 +557,8 @@ const AsistenOne = {
           abo: this.amp.input.abo,
           pte: this.amppte,
           resol: this.amp.input.resol,
-          fprox: this.amp.input.fprox
+          fprox: this.amp.input.fprox,
+          total: this.amp.input.total,
         })
         this.q.notify({
           progress: true,
@@ -573,7 +580,8 @@ const AsistenOne = {
           abo: this.f.input.abo,
           pte: this.tbrmontpte,
           resol: this.f.input.resol,
-          fprox: this.f.input.fprox
+          fprox: this.f.input.fprox,
+          total: this.f.input.total
         })
         this.q.notify({
           progress: true,
@@ -633,6 +641,7 @@ const AsistenOne = {
         this.rta.input.resol = '',
         this.rta.input.fprox = '',
         this.rta.input.foli = '',
+        this.rta.input.total = false,
         this.f.input.periodo = '',
         this.f.input.periodo6 = '',
         this.f.input.periodo7 = '',
@@ -642,6 +651,7 @@ const AsistenOne = {
         this.f.input.abo = '',
         this.f.input.resol = '',
         this.f.input.fprox = '',
+        this.f.input.total = false,
         this.amp.input.ejer = [],
         this.amp.input.periodo = '',
         this.amp.input.mont = '',
@@ -649,7 +659,8 @@ const AsistenOne = {
         this.amp.input.abo = '',
         this.amp.input.resol = '',
         this.amp.input.fprox = '',
-        this.amp.input.foli = ''
+        this.amp.input.foli = '',
+        this.amp.input.total = false
       },
       RemoveF(index, tipo){
         switch (tipo) {
@@ -865,6 +876,9 @@ const AsistenOne = {
       ampd4() {
         return this.filtros(this.amp.db, 'D4', false, false)
       },
+      ampd5() {
+        return this.filtros(this.amp.db, 'D5', false, false)
+      },
       ampd1rt(){
         return this.filtros(this.amp.db, 'D1', 'RT', false)
       },
@@ -912,6 +926,18 @@ const AsistenOne = {
       },
       ampd4f14(){
         return this.filtros(this.amp.db, 'D4', 'F4', false)
+      },
+      ampd5rt(){
+        return this.filtros(this.amp.db, 'D5', 'RT', false)
+      },
+      ampd5f06(){
+        return this.filtros(this.amp.db, 'D5', 'F6', false)
+      },
+      ampd5f07(){
+        return this.filtros(this.amp.db, 'D5', 'F7', false)
+      },
+      ampd5f14(){
+        return this.filtros(this.amp.db, 'D5', 'F4', false)
       },
 
       // funciones para el tbr optimizadas
