@@ -107,6 +107,9 @@ const AsistenOne = {
               f14: false // se eliminara 
             },
             periodo: '',
+            periodo6: '',
+            periodo7: '',
+            periodo14: '',
             mont: '',
             fcda: '',
             abo: '',
@@ -402,24 +405,87 @@ const AsistenOne = {
         this.vs.f14.input.show = false
       },
       // fin de eliminar
-      AddFomiso(){ 
-        if (this.f.input.show.f06) {
+      AddF06omiso(){ 
+        if (this.f.input.periodo6.length !== 0) {
           this.f.f06.omisos.push({
-            periodo: this.f.input.periodo
+            periodo: this.f.input.periodo6,
+            label: this.f.input.periodo6
           }),
-          this.ClearInputs()
-          this.autostatus()
-        } else if (this.f.input.show.f07) {
-          this.f.f07.omisos.push({
-            periodo: this.f.input.periodo
+          this.omisos.push({
+            periodo: this.f.input.periodo6,
+            label: this.f.input.periodo6
           }),
+          this.q.notify({
+            progress: true,
+            message: 'Omiso agregado',
+            color: 'positive',
+            position: 'top-right',
+          })
           this.ClearInputs()
           this.autostatus()
         } else {
-          this.f.f14.omisos.push({
-            periodo: this.f.input.periodo
+          this.q.notify({
+            progress: true,
+            message: 'Campo periodo omiso',
+            color: 'positive',
+            position: 'top-right',
+          })
+          this.autostatus()
+        }
+      },
+      AddF07omiso(){ 
+        if (this.f.input.periodo7.length !== 0) {
+          this.f.f07.omisos.push({
+            periodo: this.f.input.periodo7,
+            label: this.f.input.periodo7
+          }),
+          this.omisos.push({
+            periodo: this.f.input.periodo7,
+            label: this.f.input.periodo7
+          }),
+          this.q.notify({
+            progress: true,
+            message: 'Omiso agregado',
+            color: 'positive',
+            position: 'top-right',
           })
           this.ClearInputs()
+          this.autostatus()
+        } else {
+          this.q.notify({
+            progress: true,
+            message: 'Campo periodo omiso',
+            color: 'positive',
+            position: 'top-right',
+          })
+          this.autostatus()
+        }
+      },
+      AddF14omiso(){ 
+        if (this.f.input.periodo14.length !== 0) {
+          this.f.f14.omisos.push({
+            periodo: this.f.input.periodo14,
+            label: this.f.input.periodo14
+          }),
+          this.omisos.push({
+            periodo: this.f.input.periodo14,
+            label: this.f.input.periodo14
+          }),
+          this.q.notify({
+            progress: true,
+            message: 'Omiso agregado',
+            color: 'positive',
+            position: 'top-right',
+          })
+          this.ClearInputs()
+          this.autostatus()
+        } else {
+          this.q.notify({
+            progress: true,
+            message: 'Campo periodo omiso',
+            color: 'positive',
+            position: 'top-right',
+          })
           this.autostatus()
         }
       },
@@ -568,6 +634,9 @@ const AsistenOne = {
         this.rta.input.fprox = '',
         this.rta.input.foli = '',
         this.f.input.periodo = '',
+        this.f.input.periodo6 = '',
+        this.f.input.periodo7 = '',
+        this.f.input.periodo14 = '',
         this.f.input.mont = '',
         this.f.input.fcda = '',
         this.f.input.abo = '',

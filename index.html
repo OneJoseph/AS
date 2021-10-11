@@ -551,8 +551,7 @@
           <q-tab-panel name="anti" class="q-pa-none">
             <q-card-section class="q-gutter-sm">
               <q-select dense outlined v-model="rta.input.estadoanti.selected" label="Estado" :options="rta.input.estadoanti.options" option-value="value" option-label="estado" emit-value map-options options-dense behavior="default"></q-select>
-              <q-select v-if="rta.input.estadoanti.selected == 'SDO' || rta.input.estadoanti.selected == 'DEV'" dense outlined clearable multiple v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios_a" options-dense behavior="default" use-chips></q-select>
-              <q-select v-else dense outlined clearable v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios_a" options-dense behavior="default"></q-select>
+              <q-select dense outlined clearable multiple v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios_a" options-dense behavior="default" use-chips></q-select>
               <q-input dense outlined v-model="rta.input.mont" type="number" label="Monto"></q-input>
               <q-input dense outlined v-model="rta.input.abo" type="number" label="Abono"></q-input>
               <q-input dense outlined v-model="rtapte" readonly label="Pendiente de pago"></q-input>
@@ -583,7 +582,7 @@
               <q-input dense outlined v-model="rta.input.mont" type="number" label="Monto"></q-input>
               <q-input dense outlined v-model="rta.input.abo" type="number" label="Abono"></q-input>
               <q-input dense outlined v-model="rtapte" readonly label="Pendiente de pago"></q-input>
-              <q-input dense outlined v-model="rta.input.resol" type="number" label="No Resolucion"></q-input>
+              <q-input dense outlined v-model="rta.input.resol" mask="######" label="No Resolucion"></q-input>
               <q-input dense outlined class="q-pa-none" v-if="rta.input.resol.length == '0'" v-model="rta.input.fcda" :readonly="rta.input.abo.length > '0'" label="Fecha Cancelado" mask="##/##/####" :rules="['##/##/####']">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
@@ -697,11 +696,11 @@
         </q-bar>
         <q-card-section class="q-gutter-sm">
           <q-select dense outlined v-model="f.f09.estado.selected" label="Estado" :options="f.f09.estado.options" option-value="value" option-label="estado" emit-value map-options behavior="default" options-dense></q-select>
-          <q-input dense outlined v-model="f.input.periodo" label="Periodo"></q-input>
+          <q-input dense outlined v-model="f.input.periodo" mask="##/####" label="Periodo"></q-input>
           <q-input dense outlined v-model="f.input.mont" type="number" label="Monto"></q-input>
           <q-input dense outlined v-model="f.input.abo" type="number" label="Abono"></q-input>
           <q-input dense outlined v-model="tbrmontpte" readonly label="Pendiente de pago"></q-input>
-          <q-input dense outlined v-model="f.input.resol" type="number" label="No Resolucion"></q-input>
+          <q-input dense outlined v-model="f.input.resol" mask="######" label="No Resolucion"></q-input>
           <q-input dense outlined class="q-pa-none" v-if="f.input.resol.length == '0'" v-model="f.input.fcda" label="Fecha Transacción/Cancelado" mask="##/##/####" :rules="['##/##/####']">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
@@ -759,7 +758,7 @@
       </q-card>
     </q-dialog>
     <q-dialog v-model="f.input.show.omi" persistent transition-show="slide-up" transition-hide="slide-down">
-      <q-card flat>
+      <q-card flat style="width: 500px;">
         <q-bar class="bg-red-8  text-white">
           <div class="text-h6">Agregar Omisos</div>
           <q-space></q-space>
@@ -767,19 +766,70 @@
             <q-tooltip class="bg-white text-primary">Close</q-tooltip>
           </q-btn>
         </q-bar>
-        <q-card-section>
-        
-        <div class="row q-gutter-md">
+        <q-card-section v-if="f.f06.oblig === 1"> 
+        <div class="text-caption">F06</div>
+         <div class="row items-center q-gutter-md">
           <div class="col-xs">
-           <q-select dense multiple clearable outlined v-model="f.f06.omisos" label="Seleccioné periodos omisos" :options="omisos" map-options options-dense behavior="default"></q-select>
+           <q-select dense use-chips multiple outlined v-model="f.f06.omisos" label="Seleccioné periodos omisos" :options="omisos" map-options options-dense behavior="default"></q-select>
           </div>
           <div class="col-xs">
-           <q-input dense outlined v-model="f.input.periodo" label="Periodo"></q-input>
-           <q-btn @click="" flat label="Agregar" color="green-8"></q-btn>
+            <q-card flat bordered class="my-card q-px-sm">
+              <div class="row items-center">
+                <div class="col-xs-9">
+                  <q-input dense borderless v-model="f.input.periodo6" label="Periodo (rango)"></q-input>
+                </div>
+                <div class="col-xs">
+                  <q-btn  @click="AddF06omiso" icon="add" flat color="primary"></q-btn>
+                </div>
+              </div>
+            </q-card>
           </div>
-        </div>
-          
+         </div> 
         </q-card-section>
+        <q-separator v-if="f.f06.oblig === 1"  inset spaced="xs"></q-separator>
+
+        <q-card-section v-if="f.f07.oblig === 1" > 
+          <div class="text-caption">F07</div>
+           <div class="row items-center q-gutter-md">
+            <div class="col-xs">
+             <q-select use-chips dense multiple outlined v-model="f.f07.omisos" label="Seleccioné periodos omisos" :options="omisos" map-options options-dense behavior="default"></q-select>
+            </div>
+            <div class="col-xs">
+              <q-card flat bordered class="my-card q-px-sm">
+                <div class="row items-center">
+                  <div class="col-xs-9">
+                    <q-input dense borderless v-model="f.input.periodo7" label="Periodo (rango)"></q-input>
+                  </div>
+                  <div class="col-xs">
+                    <q-btn  @click="AddF07omiso" icon="add" flat color="primary"></q-btn>
+                  </div>
+                </div>
+              </q-card>
+            </div>
+           </div> 
+          </q-card-section>
+          <q-separator v-if="f.f14.oblig === 1" inset spaced="xs"></q-separator>
+
+          <q-card-section v-if="f.f14.oblig === 1"> 
+            <div class="text-caption">F14</div>
+             <div class="row items-center q-gutter-md">
+              <div class="col-xs">
+               <q-select use-chips dense multiple outlined v-model="f.f14.omisos" label="Seleccioné periodos omisos" :options="omisos" map-options options-dense behavior="default"></q-select>
+              </div>
+              <div class="col-xs">
+                <q-card flat bordered class="my-card q-px-sm">
+                  <div class="row items-center">
+                    <div class="col-xs-9">
+                      <q-input dense borderless v-model="f.input.periodo14" label="Periodo (rango)"></q-input>
+                    </div>
+                    <div class="col-xs">
+                      <q-btn  @click="AddF14omiso" icon="add" flat color="primary"></q-btn>
+                    </div>
+                  </div>
+                </q-card>
+              </div>
+             </div> 
+            </q-card-section>
         
       </q-card>
     </q-dialog>
