@@ -247,6 +247,9 @@ const AsistenOne = {
                 { estado: 'Pendiente de pago con abono', value: 'ABP' },
                ],
             },
+            columns:  [
+               { name: 'ejercicio', required: true, label: 'Ejercicio', align: 'left', field: 'ejer' },
+            ],
             ejer: [],
             mont: '',
             fcda: '',
