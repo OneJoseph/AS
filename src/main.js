@@ -5,6 +5,9 @@ const AsistenOne = {
         q: useQuasar(),
         copi: '',
         soli: '',
+        solvencia: false,
+        razonado: false,
+        unidad: '',
         tecnico: 'DF/AH',
         marginacion: false,
         tab: {
@@ -130,7 +133,7 @@ const AsistenOne = {
               act: 'Otros',
               omisos: [],
           },
-          verf: '08/2021',
+          verf: '09/2021',
          
           f09: {
             db: [],
@@ -827,6 +830,50 @@ const AsistenOne = {
       }
     },
     computed: {
+      emite() {
+        if (!this.solvencia && !this.razonado && this.contri.selected == 'SS') {
+          return 'SE EMITE ESTADO DE CUENTA SOLVENTE PARA PUBLICO'
+        }
+        if (!this.solvencia && !this.razonado && this.contri.selected == 'NC') {
+          return 'SE EMITE CONSTANCIA DE NO CONTRIBUYENTE'
+        }
+        if (!this.solvencia && !this.razonado && this.contri.selected == 'IO') {
+          return 'SE EMITE ESTADO DE CUENTA INSOLVENTE PARA PUBLICO'
+        }
+        if (!this.solvencia && !this.razonado && this.contri.selected == 'MO') {
+          return 'SE EMITE ESTADO DE CUENTA INSOLVENTE PARA PUBLICO'
+        }
+        if (!this.solvencia && !this.razonado && this.contri.selected == 'IM') {
+          return 'SE EMITE ESTADO DE CUENTA INSOLVENTE PARA PUBLICO'
+        }
+        if (!this.solvencia && !this.razonado && this.contri.selected == 'AP') {
+          return 'SE EMITE AUTORIZACIÓN DE PAGO A PLAZO'
+        }
+        if (!this.solvencia && this.razonado && this.contri.selected == 'SS') {
+          return 'SE EMITE ESTADO DE CUENTA RAZONADO SOLVENTE'
+        }
+        if (!this.solvencia && this.razonado && this.contri.selected == 'IO') {
+          return 'SE EMITE ESTADO DE CUENTA RAZONADO INSOLVENTE'
+        }
+        if (!this.solvencia && this.razonado && this.contri.selected == 'MO') {
+          return 'SE EMITE ESTADO DE CUENTA RAZONADO INSOLVENTE'
+        }
+        if (!this.solvencia && this.razonado && this.contri.selected == 'IM') {
+          return 'SE EMITE ESTADO DE CUENTA RAZONADO INSOLVENTE'
+        }
+        if (this.solvencia && !this.razonado && this.contri.selected == 'SS') {
+          return 'SE EMITE SOLVENCIA PARA PUBLICO'
+        }
+        if (this.solvencia && !this.razonado && this.contri.selected == 'IO') {
+          return 'SE RECHAZA SOLVENCIA, SE EMITE ESTADO DE CUENTA INSOLVENTE PARA PUBLICO'
+        }
+        if (this.solvencia && !this.razonado && this.contri.selected == 'MO') {
+          return 'SE RECHAZA SOLVENCIA, SE EMITE ESTADO DE CUENTA INSOLVENTE PARA PUBLICO'
+        }
+        if (this.solvencia && !this.razonado && this.contri.selected == 'IM') {
+          return 'SE RECHAZA SOLVENCIA, SE EMITE ESTADO DE CUENTA INSOLVENTE PARA PUBLICO'
+        }
+      },
       
       ivas(){
         if (this.iva.inscrito && !this.iva.desinscrito) {

@@ -124,15 +124,101 @@
       </div>
       <div class="col-xs-12 col-sm q-gutter-xs">
         <q-input dense outlined v-model="soli" label="Datos generales solicitud"></q-input>
+        <q-checkbox keep-color v-model="solvencia" label="Solvencia" color="primary"></q-checkbox>
+        <q-checkbox keep-color v-model="razonado" label="Estado de cuenta razonado" color="primary"></q-checkbox>
+        <q-input dense outlined v-model="unidad" label="Unidad"></q-input>    
         <q-btn color="indigo-6" label="Generar Marginacion" @click="marginacion = true"></q-btn>
       
       <!-- Tablas -->
-        <div class="row q-gutter-xs">
-          <div class="col-xs">
-            
-          </div>
-          
-        </div>
+      <q-card flat bordered class="q-py-xs">
+        
+        <q-card-section v-if="rtaz" class="q-py-xs q-px-md q-gutter-xs">
+          Rentas:
+          <template v-for="(rta, index) in rta.db.actu">
+            <q-chip dense removable @remove="RemoveF(index, 'RT')" color="deep-purple-3" text-color="white" >
+              <template v-for="r in rta.ejer"> {{ r + ' ' }} </template>  {{ rta.mont ? '| $' + rta.mont : '' }} 
+            </q-chip>
+          </template>
+          <template v-for="(rta, index) in rta.db.anti">
+            <q-chip dense removable @remove="RemoveF(index, 'RA')" color="lime-3" text-color="white">
+              <template v-for="r in rta.ejer"> {{ r + ' ' }} </template> {{ rta.mont ? '| $' + rta.mont : '' }}
+            </q-chip>
+          </template>
+        </q-card-section>
+        <q-separator v-if="vs.f11.db.length" inset spaced="xs"></q-separator>
+        <q-card-section v-if="vs.f11.db.length" class="q-py-xs q-px-md q-gutter-xs">
+          F910vsF11:
+          <template v-for="(v, index) in vs.f11.db">
+            <q-chip dense removable @remove="RemoveF(index, 'V1')" color="cyan-3" text-color="white">
+              <template v-for="st in vs.f11.input.vs.options">
+                <template v-if="st.value == v.vsf">{{ st.vsf }}</template>
+              </template>
+              {{ '| ' + v.ejer }}
+            </q-chip>
+          </template>
+        </q-card-section>
+        <q-separator v-if="vs.f14.db.length" inset spaced="xs"></q-separator>
+        <q-card-section v-if="vs.f14.db.length" class="q-py-xs q-px-md q-gutter-xs">
+          F910vsF14:
+          <template v-for="(v, index) in vs.f14.db">
+            <q-chip dense removable @remove="RemoveF(index, 'V2')" color="light-blue-3" text-color="white">
+              <template v-for="st in vs.f14.input.vs.options">
+                <template v-if="st.value == v.vsf">{{ st.vsf }}</template>
+              </template>
+              {{ '| ' + v.ejer }}
+            </q-chip>
+          </template>
+        </q-card-section>
+        <q-separator v-if="f.f06.omisos.length" inset spaced="xs"></q-separator>
+        <q-card-section v-if="f.f06.omisos.length" class="q-py-xs q-px-md q-gutter-xs">
+          F06:
+          <template v-for="(f06, index) in f.f06.omisos">
+            <q-chip dense removable @remove="RemoveF(index, 'F6')" color="deep-orange-3" text-color="white">
+              {{ f06.periodo }}
+            </q-chip>
+          </template>
+        </q-card-section>
+        <q-separator v-if="f.f07.omisos.length" inset spaced="xs"></q-separator>
+        <q-card-section v-if="f.f07.omisos.length" class="q-py-xs q-px-md q-gutter-xs">
+          F07:
+          <template v-for="(f07, index) in f.f07.omisos">
+            <q-chip dense removable @remove="RemoveF(index, 'F7')" color="light-green-3" text-color="white">
+              {{ f07.periodo }}
+            </q-chip>
+          </template>
+        </q-card-section>
+        <q-separator v-if="f.f14.omisos.length" inset spaced="xs"></q-separator>
+        <q-card-section v-if="f.f14.omisos.length" class="q-py-xs q-px-md q-gutter-xs">
+          F14:
+          <template v-for="(f14, index) in f.f14.omisos">
+            <q-chip dense removable @remove="RemoveF(index, 'F4')" color="amber-3" text-color="white">
+              {{ f14.periodo }}
+            </q-chip>
+          </template>
+        </q-card-section>
+        <q-separator v-if="amps" inset spaced="xs"></q-separator>
+        <q-card-section v-if="amps" class="q-py-xs q-px-md q-gutter-xs">
+          Amparadas:
+          <template v-for="(am, index) in amp.db">
+            <q-chip dense removable @remove="RemoveF(index, 'DL')" color="pink-3" text-color="white">
+              <template v-for="d in amp.input.decreto.options">
+                <template v-if="d.value == am.decreto">{{ d.decreto + '| ' }}</template>
+              </template>
+              {{ am.ejer }} {{ am.mont ? '| $' + am.mont : ''   }}
+            </q-chip>
+          </template>
+        </q-card-section>
+        <q-separator v-if="tbrs" inset spaced="xs"></q-separator>
+        <q-card-section v-if="tbrs" class="q-py-xs q-px-md q-gutter-xs">
+          TBR:
+          <template v-for="(f09, index) in f.f09.db">
+            <q-chip dense removable @remove="RemoveF(index, 'RT')" color="red-3" text-color="white">
+              {{ f09.periodo }} {{ '| $' + f09.mont }}
+            </q-chip>
+          </template>
+        </q-card-section>
+        
+      </q-card>
       
       </div>
     </div>
@@ -147,6 +233,11 @@
             </q-item-label>
             <q-item-label caption>
               {{ soli }}  
+            </q-item-label>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label caption>
+            <q-select dense hide-dropdown-icon outlined readonly v-model="contri.selected" label="Estado Contribuyente" options-dense :options="contri.options" option-value="value" option-label="estado" emit-value map-options behavior="default"></q-select>
             </q-item-label>
           </q-item-section>
          
@@ -247,7 +338,7 @@
                 </template>
                 <template v-if="ampd1f07.length"> DE F07:
                   <template v-for="d in ampd1f07">
-                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.total == false ? '' : 'TOTALMENTE '}} {{ d.total == false ? '' : 'TOTALMENTE '}} {{ d.fcda }}. </template>
+                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.total == false ? '' : 'TOTALMENTE '}} {{ d.fcda }}. </template>
                     <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
                     <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
                     <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
@@ -526,10 +617,8 @@
                 </template>
               </template>
             </template>
-            SE DETERMINA
-            <template v-for="st in contri.options">
-              <template v-if="st.value == contri.selected">{{ st.estado.toUpperCase() + '. ' }}</template>
-            </template>
+            {{ emite + '.' }}
+            {{ unidad.length ? 'VIA ' + unidad : '' }}
             {{ tecnico + '.'}}
           </p>
         </q-card-section>
