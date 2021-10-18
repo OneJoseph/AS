@@ -839,8 +839,11 @@ const AsistenOne = {
         if (!this.solvencia && this.razonado && this.contri.selected == 'IM') {
           return 'SE EMITE ESTADO DE CUENTA RAZONADO INSOLVENTE'
         }
+        if (!this.solvencia && this.razonado && this.contri.selected == 'AP') {
+          return 'SE EMITE AUTORIZACIÓN DE PAGO A PLAZO'
+        }
         if (this.solvencia && !this.razonado && this.contri.selected == 'SS') {
-          return 'SE EMITE SOLVENCIA PARA: '
+          return 'SE EMITE SOLVENCIA PARA TRAMITES DIVERSOS'
         }
         if (this.solvencia && !this.razonado && this.contri.selected == 'IO') {
           return 'SE RECHAZA SOLVENCIA, SE EMITE ESTADO DE CUENTA INSOLVENTE PARA PUBLICO'
@@ -850,6 +853,9 @@ const AsistenOne = {
         }
         if (this.solvencia && !this.razonado && this.contri.selected == 'IM') {
           return 'SE RECHAZA SOLVENCIA, SE EMITE ESTADO DE CUENTA INSOLVENTE PARA PUBLICO'
+        }
+        if (this.solvencia && !this.razonado && this.contri.selected == 'AP') {
+          return 'SE EMITE AUTORIZACIÓN DE PAGO A PLAZO'
         }
       },
       
