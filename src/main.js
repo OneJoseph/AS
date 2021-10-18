@@ -3,7 +3,7 @@ const AsistenOne = {
     data() {
       return {
         q: useQuasar(),
-        copi: '',
+        //copi: '',
         soli: '',
         solvencia: false,
         razonado: false,
@@ -140,12 +140,13 @@ const AsistenOne = {
             estado: {
               selected: 'PLG',
               options: [
+                  { estado: 'A Pagar', value: 'PGO' },
                   { estado: 'Perido legal', value: 'PLG' },
-                  { estado: 'Cancelada', value: 'CDA' },
-                  { estado: 'Pendiente de pago', value: 'PTE' },
-                  { estado: 'Con abono', value: 'ABP' },
-                  { estado: 'Pago a plazo Vigente', value: 'VIG' },
-                  { estado: 'Cuota vencida', value: 'VEN' },
+                  //{ estado: 'Cancelada', value: 'CDA' },
+                  //{ estado: 'Pendiente de pago', value: 'PTE' },
+                  //{ estado: 'Con abono', value: 'ABP' },
+                  //{ estado: 'Pago a plazo Vigente', value: 'VIG' },
+                  //{ estado: 'Cuota vencida', value: 'VEN' },
                 ],
             },
           },
@@ -157,7 +158,7 @@ const AsistenOne = {
             decreto: {
               selected: 'D1',
                 options: [
-                      { decreto: '178/2021', value: 'D1' },
+                      { decreto: '173/2021', value: 'D1' },
                       { decreto: '521/2019', value: 'D2' },
                       { decreto: '804/2017', value: 'D3' },
                       { decreto: '793/2014', value: 'D4' },
@@ -174,13 +175,14 @@ const AsistenOne = {
                     ],
             },
             estado: {
-              selected: 'CDA',
+              selected: 'PGO',
               options: [
-                { estado: 'Cancelada', value: 'CDA' },
-                { estado: 'Pendiente de pago', value: 'PTE' },
-                { estado: 'Con abono', value: 'ABP' },
-                { estado: 'Pago a plazo', value: 'VIG' },
-                { estado: 'Cuota vencida', value: 'VEN' },
+                { estado: 'A Pagar', value: 'PGO' },
+                //{ estado: 'Cancelada', value: 'CDA' },
+                //{ estado: 'Pendiente de pago', value: 'PTE' },
+                //{ estado: 'Con abono', value: 'ABP' },
+                //{ estado: 'Pago a plazo', value: 'VIG' },
+                //{ estado: 'Cuota vencida', value: 'VEN' },
               ],
             },
             ejer: [],
@@ -223,11 +225,12 @@ const AsistenOne = {
             estado: {
               selected: 'SDO',
               options: [
+                { estado: 'A Pagar', value: 'PGO' },
                 { estado: 'Sin Saldo', value: 'SDO' },
                 { estado: 'Devolucion', value: 'DEV' },
-                { estado: 'Cancelada', value: 'CDA' },
-                { estado: 'Pendiente de pago', value: 'PTE' },
-                { estado: 'Pendiente de pago con abono', value: 'ABP' },
+               //{ estado: 'Cancelada', value: 'CDA' },
+               //{ estado: 'Pendiente de pago', value: 'PTE' },
+               //{ estado: 'Pendiente de pago con abono', value: 'ABP' },
                 { estado: 'Omiso diversas', value: 'DIV' },
                 { estado: 'Omiso IVA', value: 'IVA' },
                 { estado: 'Omiso Actividad', value: 'OMA' },
@@ -235,24 +238,22 @@ const AsistenOne = {
                 { estado: 'Bajos parametros', value: 'BPA' },
                 { estado: 'Sin registros', value: 'REG' },
                 { estado: 'No obligada sugerida', value: 'NSU' },
-                { estado: 'Pago a plazo Vigente', value: 'VIG' },
-                { estado: 'Cuota vencida', value: 'VEN' },
-                //{ estado: 'No Procede', value: 'NPR' }
+               //{ estado: 'Pago a plazo Vigente', value: 'VIG' },
+               //{ estado: 'Cuota vencida', value: 'VEN' },
+               //{ estado: 'No Procede', value: 'NPR' }
               ],
             },
             estadoanti: {
               selected: 'SDO',
               options: [
+                { estado: 'A Pagar', value: 'PGO' },
                 { estado: 'Sin Saldo', value: 'SDO' },
                 { estado: 'Devolucion', value: 'DEV' },
-                { estado: 'Cancelada', value: 'CDA' },
-                { estado: 'Pendiente de pago', value: 'PTE' },
-                { estado: 'Pendiente de pago con abono', value: 'ABP' },
+                //{ estado: 'Cancelada', value: 'CDA' },
+                //{ estado: 'Pendiente de pago', value: 'PTE' },
+                //{ estado: 'Pendiente de pago con abono', value: 'ABP' },
                ],
             },
-            columns:  [
-               { name: 'ejercicio', required: true, label: 'Ejercicio', align: 'left', field: 'ejer' },
-            ],
             ejer: [],
             mont: '',
             fcda: '',
@@ -321,100 +322,12 @@ const AsistenOne = {
       }
     },
     methods: {
-      // seran eliminados 
-      ShowRtaInput(){
-        if (!this.rta.input.show.rt) {
-          this.OcultarInput(),
-          this.rta.input.show.rt = true
-        } else {
-          this.OcultarInput()
-        }
+      
+      ShowM(){
+        this.marginacion = true
+        this.autostatus()
       },
-      ShowRantInput(){
-        if (!this.rta.input.show.anti) {
-          this.OcultarInput(),
-          this.rta.input.show.anti = true
-        } else {
-          this.OcultarInput()
-        }
-      },
-      Showfo6Input() {
-        if (!this.f.input.show.f06) {
-          this.OcultarInput(),
-            this.f.input.show.f06 = true
-        } else {
-          this.OcultarInput()
-        }
-      },
-      Showfo7Input() {
-        if (!this.f.input.show.f07) {
-          this.OcultarInput(),
-            this.f.input.show.f07 = true
-        } else {
-          this.OcultarInput()
-        }
-      },
-      Showf14Input() {
-        if (!this.f.input.show.f14) {
-          this.OcultarInput(),
-            this.f.input.show.f14 = true
-        } else {
-          this.OcultarInput()
-        }
-      },
-      Showf09Input() {
-        if (!this.f.input.show.f09) {
-          this.OcultarInput(),
-            this.f.input.show.f09 = true
-        } else {
-          this.OcultarInput()
-        }
-      },
-      ShowAmpInput() {
-        if (!this.amp.input.show) {
-          this.OcultarInput(),
-            this.amp.input.show = true
-        } else {
-          this.OcultarInput()
-        }
-      },
-      ShowRsolInput() {
-        if (!this.rsol.input.show) {
-          this.OcultarInput(),
-            this.rsol.input.show = true
-        } else {
-          this.OcultarInput()
-        }
-      },
-      ShowVs11Input() {
-        if (!this.vs.f11.input.show) {
-          this.OcultarInput(),
-            this.vs.f11.input.show = true
-        } else {
-          this.OcultarInput()
-        }
-      },
-      ShowVs14Input() {
-        if (!this.vs.f14.input.show) {
-          this.OcultarInput(),
-            this.vs.f14.input.show = true
-        } else {
-          this.OcultarInput()
-        }
-      },
-      OcultarInput(){
-        this.rta.input.show.rt = false,
-        this.rta.input.show.anti = false,
-        this.f.input.show.f06 = false,
-        this.f.input.show.f07 = false,
-        this.f.input.show.f14 = false,
-        this.f.input.show.f09 = false,
-        this.amp.input.show = false,
-        this.rsol.input.show = false,
-        this.vs.f11.input.show = false,
-        this.vs.f14.input.show = false
-      },
-      // fin de eliminar
+     
       AddF06omiso(){ 
         if (this.f.input.periodo6.length !== 0) {
           this.f.f06.omisos.push({
@@ -500,10 +413,29 @@ const AsistenOne = {
         }
       },
       Addfrta() {
+        var t = 'RENTA'
+        var s = this.rta.input.estado.selected
+        if (this.rta.input.estado.selected == 'PGO' && this.rta.input.mont.length !== 0 && this.rta.input.abo.length == 0 && this.rta.input.fcda.length !== 0 && this.rta.input.resol.length == 0 && this.rta.input.fprox.length == 0) {
+          s = 'CDA'
+        }
+        if (this.rta.input.estado.selected == 'PGO' && this.rta.input.mont.length !== 0 && this.rta.input.abo.length == 0 && this.rta.input.fcda.length == 0 && this.rta.input.resol.length == 0 && this.rta.input.fprox.length == 0) {
+          s = 'PTE'
+        }
+        if (this.rta.input.estado.selected == 'PGO' && this.rta.input.mont.length !== 0 && this.rta.input.abo.length !== 0 && this.rta.input.fcda.length == 0 && this.rta.input.resol.length == 0 && this.rta.input.fprox.length == 0) {
+          s = 'ABP'
+        }
+        if (this.rta.input.estado.selected == 'PGO' && this.rta.input.mont.length !== 0 && this.rta.input.abo.length !== 0 && this.rta.input.fcda.length == 0 && this.rta.input.resol.length !== 0 && this.rta.input.fprox.length !== 0) {
+          s = 'VIG',
+          t = 'RENTAZ'
+        }
+        if (this.rta.input.estado.selected == 'PGO' && this.rta.input.mont.length !== 0 && this.rta.input.abo.length !== 0 && this.rta.input.fcda.length == 0 && this.rta.input.resol.length !== 0 && this.rta.input.fprox.length == 0) {
+          s = 'VEN'
+        }
+        
         this.rta.db.actu.push({
-          tipo: 'RENTA',
+          tipo: t,
           ejer: this.rta.input.ejer,
-          estado: this.rta.input.estado.selected,
+          estado: s,
           mont: this.rta.input.mont,
           fcda: this.rta.input.fcda,
           abo: this.rta.input.abo,
@@ -524,10 +456,22 @@ const AsistenOne = {
         this.autostatus()
       },
       Addfranti() {
+        
+        var s = this.rta.input.estadoanti.selected
+        if (this.rta.input.estadoanti.selected == 'PGO' && this.rta.input.mont.length !== 0 && this.rta.input.abo.length == 0 && this.rta.input.fcda.length !== 0) {
+          s = 'CDA'
+        }
+        if (this.rta.input.estadoanti.selected == 'PGO' && this.rta.input.mont.length !== 0 && this.rta.input.abo.length == 0 && this.rta.input.fcda.length == 0) {
+          s = 'PTE'
+        }
+        if (this.rta.input.estadoanti.selected == 'PGO' && this.rta.input.mont.length !== 0 && this.rta.input.abo.length !== 0 && this.rta.input.fcda.length == 0) {
+          s = 'ABP'
+        }
+        
         this.rta.db.anti.push({
           tipo: 'RENTA',
           ejer: this.rta.input.ejer,
-          estado: this.rta.input.estadoanti.selected,
+          estado: s,
           mont: this.rta.input.mont,
           fcda: this.rta.input.fcda,
           abo: this.rta.input.abo,
@@ -544,10 +488,28 @@ const AsistenOne = {
         this.autostatus()
       },
       Addfamp(){
-        if (this.amp.input.periodo.length < 1) {
+        var s = this.amp.input.estado.selected
+        if (this.amp.input.estado.selected == 'PGO' && this.amp.input.mont.length !== 0 && this.amp.input.abo.length == 0 && this.amp.input.fcda.length !== 0 && this.amp.input.resol.length == 0 && this.amp.input.fprox.length == 0) {
+          s = 'CDA'
+        }
+        if (this.amp.input.estado.selected == 'PGO' && this.amp.input.mont.length !== 0 && this.amp.input.abo.length == 0 && this.amp.input.fcda.length == 0 && this.amp.input.resol.length == 0 && this.amp.input.fprox.length == 0) {
+          s = 'PTE'
+        }
+        if (this.amp.input.estado.selected == 'PGO' && this.amp.input.mont.length !== 0 && this.amp.input.abo.length !== 0 && this.amp.input.fcda.length == 0 && this.amp.input.resol.length == 0 && this.amp.input.fprox.length == 0) {
+          s = 'ABP'
+        }
+        if (this.amp.input.estado.selected == 'PGO' && this.amp.input.mont.length !== 0 && this.amp.input.abo.length !== 0 && this.amp.input.fcda.length == 0 && this.amp.input.resol.length !== 0 && this.amp.input.fprox.length !== 0) {
+          s = 'VIG'
+        }
+        if (this.amp.input.estado.selected == 'PGO' && this.amp.input.mont.length !== 0 && this.amp.input.abo.length !== 0 && this.amp.input.fcda.length == 0 && this.amp.input.resol.length !== 0 && this.amp.input.fprox.length == 0) {
+          s = 'VEN'
+        }
+        
+        var periodo_ejer = this.amp.input.periodo.length + this.amp.input.ejer.length
+        if (periodo_ejer == 0) {
           this.q.notify({
             progress: true,
-            message: 'Campo periodo es requerido',
+            message: 'Campo periodo/ejercicio es requerido',
             color: 'negative',
             position: 'top-right'
           })
@@ -557,7 +519,7 @@ const AsistenOne = {
           ejer: this.amp.input.f.selected == 'RT' ? this.amp.input.ejer : this.amp.input.periodo,
           decreto: this.amp.input.decreto.selected,
           form: this.amp.input.f.selected,
-          estado: this.amp.input.estado.selected,
+          estado: s,
           mont: this.amp.input.mont,
           fcda: this.amp.input.fcda,
           abo: this.amp.input.abo,
@@ -577,10 +539,27 @@ const AsistenOne = {
         }
       },
       Addftbr(){
+        var s = this.f.f09.estado.selected
+        if (this.f.f09.estado.selected == 'PGO' && this.f.input.mont.length !== 0 && this.f.input.abo.length == 0 && this.f.input.fcda.length !== 0 && this.f.input.resol.length == 0 && this.f.input.fprox.length == 0) {
+          s = 'CDA'
+        }
+        if (this.f.f09.estado.selected == 'PGO' && this.f.input.mont.length !== 0 && this.f.input.abo.length == 0 && this.f.input.fcda.length == 0 && this.f.input.resol.length == 0 && this.f.input.fprox.length == 0) {
+          s = 'PTE'
+        }
+        if (this.f.f09.estado.selected == 'PGO' && this.f.input.mont.length !== 0 && this.f.input.abo.length !== 0 && this.f.input.fcda.length == 0 && this.f.input.resol.length == 0 && this.f.input.fprox.length == 0) {
+          s = 'ABP'
+        }
+        if (this.f.f09.estado.selected == 'PGO' && this.f.input.mont.length !== 0 && this.f.input.abo.length !== 0 && this.f.input.fcda.length == 0 && this.f.input.resol.length !== 0 && this.f.input.fprox.length !== 0) {
+          s = 'VIG'
+        }
+        if (this.f.f09.estado.selected == 'PGO' && this.f.input.mont.length !== 0 && this.f.input.abo.length !== 0 && this.f.input.fcda.length == 0 && this.f.input.resol.length !== 0 && this.f.input.fprox.length == 0) {
+          s = 'VEN'
+        }
+        
         this.f.f09.db.push({
           tipo: 'F09',
           periodo: this.f.input.periodo,
-          estado: this.f.f09.estado.selected,
+          estado: s,
           mont: this.f.input.mont,
           fcda: this.f.input.fcda,
           abo: this.f.input.abo,
@@ -738,7 +717,7 @@ const AsistenOne = {
       copy_M() {
         const marg = document.getElementById('textMargi').innerText;
         
-        this.copi = marg
+        //this.copi = marg
         
           copyToClipboard(marg)
             .then(() => {
@@ -758,8 +737,7 @@ const AsistenOne = {
       },
       copy_O() {
         const obser = document.getElementById('textObser').innerText;
-      
-      
+    
         copyToClipboard(obser)
           .then(() => {
             this.q.notify({
@@ -862,7 +840,7 @@ const AsistenOne = {
           return 'SE EMITE ESTADO DE CUENTA RAZONADO INSOLVENTE'
         }
         if (this.solvencia && !this.razonado && this.contri.selected == 'SS') {
-          return 'SE EMITE SOLVENCIA PARA PUBLICO'
+          return 'SE EMITE SOLVENCIA PARA: '
         }
         if (this.solvencia && !this.razonado && this.contri.selected == 'IO') {
           return 'SE RECHAZA SOLVENCIA, SE EMITE ESTADO DE CUENTA INSOLVENTE PARA PUBLICO'
@@ -1035,8 +1013,8 @@ const AsistenOne = {
       },
       obSmor() {
         const mor = this.obsaldo.filter(filtro => filtro.estado === 'PTE')
-                .concat(this.obsaldo.filter(filtro => filtro.estado === 'ABP'))
-                .concat(this.obsaldo.filter(filtro => filtro.estado === 'VEN'))
+          .concat(this.obsaldo.filter(filtro => filtro.estado === 'ABP'))
+          .concat(this.obsaldo.filter(filtro => filtro.estado === 'VEN'))
         return mor.length + this.vmt.montoesq.length
       },
       obSaut() {
@@ -1054,6 +1032,9 @@ const AsistenOne = {
       },
       obSrta(){
         return this.obsaldo.filter(filtro => filtro.tipo === 'RENTA')
+      },
+      obSrtaz() {
+        return this.obsaldo.filter(filtro => filtro.tipo === 'RENTAZ')
       },
       obStbr() {
         return this.obsaldo.filter(filtro => filtro.tipo === 'F09')

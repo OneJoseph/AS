@@ -127,7 +127,7 @@
         <q-checkbox keep-color v-model="solvencia" label="Solvencia" color="primary"></q-checkbox>
         <q-checkbox keep-color v-model="razonado" label="Estado de cuenta razonado" color="primary"></q-checkbox>
         <q-input dense outlined v-model="unidad" label="Unidad"></q-input>    
-        <q-btn color="indigo-6" label="Generar Marginacion" @click="marginacion = true"></q-btn>
+        <q-btn color="indigo-6" label="Generar Marginacion" @click="ShowM"></q-btn>
       
       <!-- Tablas -->
       <q-card flat bordered class="q-py-xs">
@@ -136,7 +136,16 @@
           Rentas:
           <template v-for="(rta, index) in rta.db.actu">
             <q-chip dense removable @remove="RemoveF(index, 'RT')" color="deep-purple-3" text-color="white" >
-              <template v-for="r in rta.ejer"> {{ r + ' ' }} </template>  {{ rta.mont ? '| $' + rta.mont : '' }} 
+              
+              <template v-if="rta.estado == 'CDA' || rta.estado == 'PTE' || rta.estado == 'ABP' || rta.estado == 'VIG' || rta.estado == 'VEN' ">
+                {{ rta.ejer }}
+              </template>
+              <template v-else> 
+                <template v-for="r in rta.ejer"> {{ r + ' ' }} </template> 
+              </template>
+              
+              
+              {{ rta.mont ? '| $' + rta.mont : '' }} 
             </q-chip>
           </template>
           <template v-for="(rta, index) in rta.db.anti">
@@ -212,7 +221,7 @@
         <q-card-section v-if="tbrs" class="q-py-xs q-px-md q-gutter-xs">
           TBR:
           <template v-for="(f09, index) in f.f09.db">
-            <q-chip dense removable @remove="RemoveF(index, 'RT')" color="red-3" text-color="white">
+            <q-chip dense removable @remove="RemoveF(index, 'F9')" color="red-3" text-color="white">
               {{ f09.periodo }} {{ '| $' + f09.mont }}
             </q-chip>
           </template>
@@ -237,7 +246,7 @@
           </q-item-section>
           <q-item-section>
             <q-item-label caption>
-            <q-select dense hide-dropdown-icon outlined readonly v-model="contri.selected" label="Estado Contribuyente" options-dense :options="contri.options" option-value="value" option-label="estado" emit-value map-options behavior="default"></q-select>
+            <q-select dense hide-dropdown-icon outlined v-model="contri.selected" label="Estado Contribuyente" options-dense :options="contri.options" option-value="value" option-label="estado" emit-value map-options behavior="default"></q-select>
             </q-item-label>
           </q-item-section>
          
@@ -263,9 +272,9 @@
               <template v-for="srta in rta.db.anti">
                 <template v-if="srta.estado == 'SDO'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> S/CAP. </template>
                 <template v-if="srta.estado == 'DEV'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> DEV. </template>
-                <template v-if="srta.estado == 'CDA'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> - {{ srta.mont }} (Colones) CDA {{ srta.total == false ? '' : 'TOTALMENTE '}} {{ srta.fcda }}. </template>
-                <template v-if="srta.estado == 'PTE'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> - {{ srta.mont }} (Colones) PTE DE PAGO. </template>
-                <template v-if="srta.estado == 'ABP'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> - {{ srta.mont }} (Colones) HA CDO ${{ srta.abo }} PTE DE PAGO ${{ srta.pte }}. </template>
+                <template v-if="srta.estado == 'CDA'">RTA {{ srta.ejer }} - {{ srta.mont }} (Colones) CDA {{ srta.total == false ? '' : 'TOTALMENTE '}} {{ srta.fcda }}. </template>
+                <template v-if="srta.estado == 'PTE'">RTA {{ srta.ejer }} - {{ srta.mont }} (Colones) PTE DE PAGO. </template>
+                <template v-if="srta.estado == 'ABP'">RTA {{ srta.ejer }} - {{ srta.mont }} (Colones) HA CDO ${{ srta.abo }} PTE DE PAGO ${{ srta.pte }}. </template>
               </template>
             </template>
             <template v-if="rta.db.actu.length">
@@ -278,12 +287,12 @@
                 <template v-if="srta.estado == 'BPA'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> SIN OBLIG B/PARAMETROS S/CARP ELECT. </template>
                 <template v-if="srta.estado == 'REG'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> SIN INGS S/CARP ELECT. </template>
                 <template v-if="srta.estado == 'NSU'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> SIN OBLIG S/SUG. </template>
-                <template v-if="srta.estado == 'CDA'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> ${{ srta.mont }} CDA {{ srta.total == false ? '' : 'TOTALMENTE '}} {{ srta.fcda }}. </template>
-                <template v-if="srta.estado == 'PTE'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> ${{ srta.mont }} PTE DE PAGO. </template>
-                <template v-if="srta.estado == 'ABP'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> ${{ srta.mont }} HA CDO ${{ srta.abo }} PTE DE PAGO ${{ srta.pte }}. </template>
-                <template v-if="srta.estado == 'VIG'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> ${{ srta.mont }} HA CDO ${{ srta.abo }} PTE ${{ srta.pte }} C/RESOL DE PAGO A PLAZO No {{ srta.resol }} PROX CUOTA VENCE EL {{ srta.fprox }}. </template>
-                <template v-if="srta.estado == 'VEN'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> ${{ srta.mont }} HA CDO ${{ srta.abo }} PTE ${{ srta.pte }} C/RESOL DE PAGO A PLAZO No {{ srta.resol }} CON CUOTA VENCIDA. </template>
-                <template v-if="srta.estado == 'NPR'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> ${{ srta.mont }} CON FOLIO No {{ srta.foli }}. </template>
+                <template v-if="srta.estado == 'CDA'">RTA {{ srta.ejer }} ${{ srta.mont }} CDA {{ srta.total == false ? '' : 'TOTALMENTE '}} {{ srta.fcda }}. </template>
+                <template v-if="srta.estado == 'PTE'">RTA {{ srta.ejer }} ${{ srta.mont }} PTE DE PAGO. </template>
+                <template v-if="srta.estado == 'ABP'">RTA {{ srta.ejer }} ${{ srta.mont }} HA CDO ${{ srta.abo }} PTE DE PAGO ${{ srta.pte }}. </template>
+                <template v-if="srta.estado == 'VIG'">RTA {{ srta.ejer }} ${{ srta.mont }} HA CDO ${{ srta.abo }} PTE ${{ srta.pte }} C/RESOL DE PAGO A PLAZO No {{ srta.resol }} PROX CUOTA VENCE EL {{ srta.fprox }}. </template>
+                <template v-if="srta.estado == 'VEN'">RTA {{ srta.ejer }} ${{ srta.mont }} HA CDO ${{ srta.abo }} PTE ${{ srta.pte }} C/RESOL DE PAGO A PLAZO No {{ srta.resol }} CON CUOTA VENCIDA. </template>
+                <template v-if="srta.estado == 'NPR'">RTA {{ srta.ejer }} ${{ srta.mont }} CON FOLIO No {{ srta.foli }}. </template>
               </template>
             </template>
             <template v-if="vs.f11.db.length">
@@ -318,13 +327,14 @@
               </template>
             </template>
             <template v-if="f.f14.oblig == 0"> F14 Y F910 NO OBLIG S/ACT ECONOMICA{{ f.f14.act.length ? ' (' + f.f14.act + '). ' : '. '}} </template>
-            <template v-if="!amp.db.length">SIN DECL. AMP. AL DECRETO 521/2019. </template>
+            <template v-if="!amp.db.length">SIN DECL. AMP. AL DECRETO 173/2021 Y 521/2019. </template>
             <template v-else>
-              CON DECL. AMP.
+              CON DECL. AMP. {{ ampd1 }}
               <template v-if="ampd1.length"> AL DECRETO {{ amp.input.decreto.options[0].decreto }}
                 <template v-if="ampd1rt.length"> DE RTA:
                   <template v-for="d in ampd1rt">
-                    <template v-for="(ejer, index) in d.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template>
+                    <template v-for="(ejer, index) in d.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} 
+                    </template>
                   </template>.
                 </template>
                 <template v-if="ampd1f06.length"> DE F06:
@@ -527,7 +537,7 @@
                 MOROSO POR:
                 <template v-if="obSrta.length"> RTA
                   <template v-for="(s, index) in obSrta">
-                    <template v-if="s.estado == 'PTE' || s.estado =='ABP' || s.estado =='VEN'">{{ index == '0' ? '' : ', ' }}<template v-for="(ejer, index) in s.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template></template>
+                    {{ index == '0' ? '' : ', ' }} {{ s.ejer }}
                   </template>.
                 </template>
                 <template v-if="obStbr.length"> F09
@@ -587,10 +597,10 @@
                 </template>
               </template>
               <template v-if="!obSmor && !omi && obSaut">
-                AUTORIZADO POR:
-                <template v-if="obSrta.length"> RTA
-                  <template v-for="(s, index) in obSrta">
-                    <template v-if="s.estado == 'VIG'">{{ index == '0' ? '' : ', ' }}<template v-for="(ejer, index) in s.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template></template>
+                AUTORIZADO POR: 
+                <template v-if="obSrtaz.length"> RTA
+                  <template v-for="(s, index) in obSrtaz">
+                    {{ index == '0' ? '' : ', ' }} {{ s.ejer }}
                   </template>.
                 </template>
                 <template v-if="obStbr.length"> F09
@@ -618,7 +628,7 @@
               </template>
             </template>
             {{ emite + '.' }}
-            {{ unidad.length ? 'VIA ' + unidad : '' }}
+            {{ unidad.length ? 'VIA ' + unidad + '.' : '' }}
             {{ tecnico + '.'}}
           </p>
         </q-card-section>
@@ -638,9 +648,9 @@
               <template v-if="obsaldo.length || rsol.input.obtext.length">
                 SALDO ARRIBA DETALLADO CORRESPONDE A:
                 <template v-for="s in obsaldo">
-                  <template v-if="s.tipo == 'RENTA'">
+                  <template v-if="s.tipo == 'RENTA' || s.tipo == 'RENTAZ'">
                     <template v-if="s.estado == 'PTE' || s.estado =='ABP'">{{ s.tipo }} <template v-for="ejer in s.ejer"> {{ ejer }} </template> MAS INTERESES, PENDIENTE DE PAGO. </template>
-                    <template v-if="s.estado == 'VIG'">{{ s.tipo }} <template v-for="ejer in s.ejer"> {{ ejer }} </template> MAS INTERESES CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}. </template>
+                    <template v-if="s.estado == 'VIG'">{{ s.tipo.substr(0,5) }} <template v-for="ejer in s.ejer"> {{ ejer }} </template> MAS INTERESES CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}. </template>
                     <template v-if="s.estado == 'VEN'">{{ s.tipo }} <template v-for="ejer in s.ejer"> {{ ejer }} </template> MAS INTERESES CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA. </template>
                   </template>
                   <template v-if="s.tipo == 'F09'">
@@ -686,7 +696,8 @@
           <q-tab-panel name="anti" class="q-pa-none">
             <q-card-section class="q-gutter-sm">
               <q-select dense outlined v-model="rta.input.estadoanti.selected" label="Estado" :options="rta.input.estadoanti.options" option-value="value" option-label="estado" emit-value map-options options-dense behavior="default"></q-select>
-              <q-select dense outlined clearable multiple v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios_a" options-dense behavior="default" use-chips></q-select>
+              <q-select v-if="rta.input.estadoanti.selected !== 'PGO'" dense outlined clearable multiple v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios_a" options-dense behavior="default" use-chips></q-select>
+              <q-select v-else dense outlined clearable v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios_a" options-dense behavior="default"></q-select>
               <q-input dense outlined v-model="rta.input.mont" type="number" label="Monto"></q-input>
               <q-input dense outlined v-model="rta.input.abo" type="number" label="Abono"></q-input>
               <q-input dense outlined v-model="rtapte" readonly label="Pendiente de pago"></q-input>
@@ -704,7 +715,7 @@
                   </q-icon>
                 </template>
               </q-input>
-              <q-checkbox dense :disable="rta.input.estadoanti.selected !== 'CDA'" keep-color v-model="rta.input.total" label="CDA EN PAGOS" color="primary"></q-checkbox>
+              <q-checkbox dense :disable="rta.input.fcda.length == '0'" keep-color v-model="rta.input.total" label="CDA EN PAGOS" color="primary"></q-checkbox>
             </q-card-section>
             <q-card-actions align="right">
               <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
@@ -714,7 +725,8 @@
           <q-tab-panel name="actu" class="q-pa-none">
             <q-card-section class="q-gutter-sm">
               <q-select dense outlined v-model="rta.input.estado.selected" label="Estado" :options="rta.input.estado.options" option-value="value" option-label="estado" emit-value map-options options-dense behavior="default"></q-select>
-              <q-select dense outlined clearable multiple v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios" behavior="default" options-dense use-chips></q-select>
+              <q-select v-if="rta.input.estado.selected === 'PGO'" dense outlined clearable v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios" behavior="default" options-dense></q-select>
+              <q-select v-else dense outlined clearable multiple v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios" behavior="default" options-dense use-chips></q-select>
               <q-input dense outlined v-model="rta.input.mont" type="number" label="Monto"></q-input>
               <q-input dense outlined v-model="rta.input.abo" type="number" label="Abono"></q-input>
               <q-input dense outlined v-model="rtapte" readonly label="Pendiente de pago"></q-input>
@@ -747,7 +759,7 @@
                   </q-icon>
                 </template>
               </q-input>
-              <q-checkbox dense :disable="rta.input.estado.selected !== 'CDA'" keep-color v-model="rta.input.total" label="CDA EN PAGOS" color="primary"></q-checkbox>
+              <q-checkbox dense :disable="rta.input.fcda.length == '0'" keep-color v-model="rta.input.total" label="CDA EN PAGOS" color="primary"></q-checkbox>
             </q-card-section>
             <q-card-actions align="right">
               <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
@@ -815,7 +827,7 @@
               </q-icon>
             </template>
           </q-input>
-          <q-checkbox  :disable="amp.input.estado.selected !== 'CDA'" keep-color v-model="amp.input.total" label="CDA EN PAGOS" color="primary"></q-checkbox>
+          <q-checkbox  :disable="amp.input.fcda.length == '0'" keep-color v-model="amp.input.total" label="CDA EN PAGOS" color="primary"></q-checkbox>
         </q-card-section>
         <q-card-actions align="right">
           <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
@@ -867,7 +879,7 @@
               </q-icon>
             </template>
           </q-input>
-          <q-checkbox :disable="f.f09.estado.selected !== 'CDA'" keep-color v-model="f.input.total" label="CDA EN PAGOS" color="primary"></q-checkbox>
+          <q-checkbox :disable="f.input.fcda.length == '0'" keep-color v-model="f.input.total" label="CDA EN PAGOS" color="primary"></q-checkbox>
         </q-card-section>
         <q-card-actions align="right">
           <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
