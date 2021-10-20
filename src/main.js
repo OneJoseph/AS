@@ -7,7 +7,7 @@ const AsistenOne = {
         soli: '',
         solvencia: false,
         razonado: false,
-        unidad: '',
+        unidad: 'UNIDAD RECEPTORA VIRTUAL',
         tecnico: 'DF/AH',
         marginacion: false,
         tab: {
@@ -22,6 +22,7 @@ const AsistenOne = {
         ejer_vs2: [' 2020', ' 2019', ' 2018', ' 2017', ' 2016'],
 
         omisos: [
+          { periodo: '09/2021', label: 'Septiembre 2021' },
           { periodo: '08/2021', label: 'Agosto 2021' },
           { periodo: '07/2021', label: 'Julio 2021' },
           { periodo: '06/2021', label: 'Junio 2021' },
@@ -68,7 +69,7 @@ const AsistenOne = {
           { periodo: '01/2018', label: 'Enero 2018' },
           { periodo: '12/2017', label: 'Diciembre 017' },
           { periodo: '11/2017', label: 'Noviembre 2017' },
-          { periodo: '10/2017', label: 'Octubre2017' },
+          { periodo: '10/2017', label: 'Octubre 2017' },
           { periodo: '09/2017', label: 'Septiembre 2017' },
           { periodo: '08/2017', label: 'Agosto 2017' },
           { periodo: '07/2017', label: 'Julio 2017' },
@@ -81,7 +82,6 @@ const AsistenOne = {
           { periodo: '12/2016', label: 'Diciembre 2016' },
           { periodo: '11/2016', label: 'Noviembre 2016' },
           { periodo: '10/2016', label: 'Octubre 2016' },
-          { periodo: '09/2016', label: 'Septiembre 2016' }
         ],
 
         rsol: {
@@ -103,11 +103,9 @@ const AsistenOne = {
         f: {
           input: {
             show: {
-              omi: false, // reemplaza a f06, f07 y f14
-              f06: false, // se eliminara 
-              f07: false, // se eliminara 
+              omi: false, 
               f09: false,
-              f14: false // se eliminara 
+
             },
             periodo: '',
             periodo6: '',
@@ -220,7 +218,7 @@ const AsistenOne = {
           input: {
             show: {
               rt: false, // eliminar se dejara directamente true
-              anti: false, // eliminar 
+
             },
             estado: {
               selected: 'SDO',
