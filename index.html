@@ -795,7 +795,7 @@
             <q-card-section class="q-gutter-sm">
               <q-select dense outlined v-model="vs.f11.input.vs.selected" label="vs" :options="vs.f11.input.vs.options" option-value="value" option-label="vsf" emit-value map-options options-dense behavior="default"></q-select>
               <q-select dense outlined v-model="vs.f11.input.dif.selected" :readonly="vs.f11.input.vs.selected !== 'VS'" label="Estado" :options="vs.f11.input.dif.options" option-value="value" option-label="estado" emit-value map-options options-dense behavior="default"></q-select>
-              <q-select dense outlined clearable multiple v-model="vs.f11.input.ejer" label="Ejercicio" :options="ejer_vs" behavior="default" use-chips></q-select>
+              <q-select dense outlined clearable multiple v-model="vs.f11.input.ejer" label="Ejercicio" :options="ejer_vs" behavior="default" options-dense use-chips></q-select>
             </q-card-section>
             <q-card-actions align="right">
               <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
