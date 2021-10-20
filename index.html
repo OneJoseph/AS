@@ -329,7 +329,7 @@
             <template v-if="f.f14.oblig == 0"> F14 Y F910 NO OBLIG S/ACT ECONOMICA{{ f.f14.act.length ? ' (' + f.f14.act + '). ' : '. '}} </template>
             <template v-if="!amp.db.length">SIN DECL. AMP. AL DECRETO 173/2021 Y 521/2019. </template>
             <template v-else>
-              CON DECL. AMP. {{ ampd1 }}
+              CON DECL. AMP.
               <template v-if="ampd1.length"> AL DECRETO {{ amp.input.decreto.options[0].decreto }}
                 <template v-if="ampd1rt.length"> DE RTA:
                   <template v-for="d in ampd1rt">
@@ -367,8 +367,9 @@
               </template>
               <template v-if="ampd2.length"> AL DECRETO {{ amp.input.decreto.options[1].decreto }}
                 <template v-if="ampd2rt.length"> DE RTA:
-                  <template v-for="(d, index) in ampd2rt">
-                    {{ index == '0' ? '' : ', ' }} {{ d.ejer }}
+                  <template v-for="d, in ampd2rt">
+                    <template v-for="(ejer, index) in d.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} 
+                    </template>
                   </template>.
                 </template>
                 <template v-if="ampd2f06.length"> DE F06:
@@ -401,8 +402,9 @@
               </template>
               <template v-if="ampd3.length"> AL DECRETO {{ amp.input.decreto.options[2].decreto }}
                 <template v-if="ampd3rt.length"> DE RTA:
-                  <template v-for="(d, index) in ampd3rt">
-                    {{ index == '0' ? '' : ', ' }} {{ d.ejer }}
+                  <template v-for="d in ampd3rt">
+                    <template v-for="(ejer, index) in d.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} 
+                    </template>
                   </template>.
                 </template>
                 <template v-if="ampd3f06.length"> DE F06:
@@ -435,8 +437,9 @@
               </template>
               <template v-if="ampd4.length"> AL DECRETO {{ amp.input.decreto.options[3].decreto }}
                 <template v-if="ampd4rt.length"> DE RTA:
-                  <template v-for="(d, index) in ampd4rt">
-                    {{ index == '0' ? '' : ', ' }} {{ d.ejer }}
+                  <template v-for="d in ampd4rt">
+                    <template v-for="(ejer, index) in d.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} 
+                    </template>
                   </template>.
                 </template>
                 <template v-if="ampd4f06.length"> DE F06:
@@ -469,8 +472,9 @@
               </template>
               <template v-if="ampd5.length"> AL DECRETO {{ amp.input.decreto.options[4].decreto }}
                 <template v-if="ampd5rt.length"> DE RTA:
-                  <template v-for="(d, index) in ampd4rt">
-                    {{ index == '0' ? '' : ', ' }} {{ d.ejer }}
+                  <template v-for="d in ampd4rt">
+                    <template v-for="(ejer, index) in d.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} 
+                    </template>
                   </template>.
                 </template>
                 <template v-if="ampd5f06.length"> DE F06:
@@ -506,7 +510,7 @@
             <template v-else>CON TBR(F09) PERIODO:
               <template v-for="tbr in f.f09.db">
                 <template v-if="tbr.estado == 'PLG'">{{ tbr.periodo }} ${{ tbr.mont }} FECHA DE TRANSACCION {{ tbr.fcda }}, AUN NO EXIGIBLE DEBIDO A QUE NO HAN TRANSCURRIDO LOS 60 DIAS CALENDARIOS PARA REALIZAR EL PAGO. </template>
-                <template v-if="tbr.estado == 'CDA'">{{ tbr.periodo }} ${{ tbr.mont }} CDA {{ d.total == false ? '' : 'TOTALMENTE '}} {{ tbr.fcda }}. </template>
+                <template v-if="tbr.estado == 'CDA'">{{ tbr.periodo }} ${{ tbr.mont }} CDA {{ tbr.total == false ? '' : 'TOTALMENTE '}} {{ tbr.fcda }}. </template>
                 <template v-if="tbr.estado == 'PTE'">{{ tbr.periodo }} ${{ tbr.mont }} PTE DE PAGO.</template>
                 <template v-if="tbr.estado == 'ABP'">{{ tbr.periodo }} ${{ tbr.mont }} ABO ${{ tbr.abo }} PTE DE PAGO ${{ tbr.pte }}. </template>
                 <template v-if="tbr.estado == 'VIG'">{{ tbr.periodo }} ${{ tbr.mont }} ABO ${{ tbr.abo }} PTE ${{ tbr.pte }} C/RESOL DE PAGO A PLAZO No {{ tbr.resol }} PROX CUOTA VENCE EL {{ tbr.fprox }}. </template>
@@ -516,16 +520,21 @@
             <template v-if="vs.f14.db.length">
               <template v-for="v in vs.f14.db">
                 <template v-for="st in vs.f14.input.vs.options">
-                  <template v-if="st.value == v.vsf">{{ st.vsf + ' EJER' + v.ejer + ' '}}</template>
+                  <template v-if="st.value == v.vsf">{{ st.vsf + ' EJER'}}
+			<template v-for="(ejer, index) in v.ejer">
+				{{ index == 0 ? '' : ', ' }}{{ ejer }} 
+			
+		  	</template>
+		  </template>
                 </template>
                 <template v-if="v.vsf =='VS'">
                   <template v-for="st in vs.f14.input.dif.options">
-                    <template v-if="st.value == v.estado">{{ st.estado + '. '}}</template>
+                    <template v-if="st.value == v.estado">{{ ' ' + st.estado + '. '}}</template>
                   </template>
                 </template>
                 <template v-else>
                   <template v-for="st in vs.f14.input.novs.options">
-                    <template v-if="st.value == v.estado">{{ v.estado == 'D' ? 'SIN PODER DETERMINAR OBLIG POR OMISOS F14. ' : st.estado + '. '}}</template>
+                    <template v-if="st.value == v.estado">{{ v.estado == 'D' ? ' SIN PODER DETERMINAR OBLIG POR OMISOS F14. ' :  ' ' +  st.estado + '. '}}</template>
                   </template>
                 </template>
               </template>
@@ -587,10 +596,18 @@
                   </template>.
                 </template>
                 <template v-if="obdif11.length">
-                  DIF F910-F11<template v-for="(d, index) in obdif11">{{ index == 0 ? '' : ', ' }} {{ d.ejer }}</template>.
+                  DIF F910-F11<template v-for="(d, index) in obdif11">{{ index == 0 ? '' : ', ' }}
+			<template v-for="(ejer, index) in d.ejer">
+				{{ index == 0 ? '' : ', ' }} {{ ejer }}
+		  	</template>
+		</template>.
                 </template>
                 <template v-if="obdif14.length">
-                  DIF F910-F14<template v-for="(d, index) in obdif14">{{ index == 0 ? '' : ', ' }} {{ d.ejer }}</template>.
+                  DIF F910-F14<template v-for="(d, index) in obdif14">{{ index == 0 ? '' : ', ' }}
+			<template v-for="(ejer, index) in d.ejer">
+				{{ index == 0 ? '' : ', ' }} {{ ejer }}
+		  	</template>
+		</template>.
                 </template>
                 <template v-if="omif910.length">
                   F910 <template v-for="(d, index) in omif910">{{ (index == 0 ? '' : ', ') + d.ejer }}</template>.
@@ -639,10 +656,18 @@
               <template v-if="obdif11.length || obdif14.length">
                 PRESENTA DIFERENCIAS EN:
                 <template v-if="obdif11.length">
-                  F910 VS F11 EJERCICIO <template v-for="(d, index) in obdif11">{{ index == 0 ? '' : ', ' }} {{ d.ejer }}</template>.
+                  F910 VS F11 EJERCICIO <template v-for="(d, index) in obdif11">{{ index == 0 ? '' : ', ' }}
+			<template v-for="(ejer, index) in d.ejer">
+				{{ index == 0 ? '' : ', ' }} {{ ejer }}
+		  	</template>
+		</template>.
                 </template>
                 <template v-if="obdif14.length">
-                  F910 VS F14 EJERCICIO <template v-for="(d, index) in obdif14">{{ index == 0 ? '' : ', ' }} {{ d.ejer }}</template>.
+                  F910 VS F14 EJERCICIO <template v-for="(d, index) in obdif14">{{ index == 0 ? '' : ', ' }}
+			<template v-for="(ejer, index) in d.ejer">
+				{{ index == 0 ? '' : ', ' }} {{ ejer }}
+		  	</template>
+		</template>.
                 </template>
               </template>
               <template v-if="obsaldo.length || rsol.input.obtext.length">
