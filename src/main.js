@@ -1007,6 +1007,7 @@ const AsistenOne = {
       omirt(){
         return this.filtros(this.rta.db.actu, false, false, 'DIV')
           .concat(this.filtros(this.rta.db.actu, false, false, 'IVA'))
+          .concat(this.filtros(this.rta.db.actu, false, false, 'OMA'))
           .concat(this.filtros(this.rta.db.actu, false, false, 'OSU'))
           .concat(this.filtros(this.rta.db.anti, false, false, 'DIV'))
           .concat(this.filtros(this.rta.db.anti, false, false, 'IVA'))
