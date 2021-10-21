@@ -36,22 +36,27 @@
           <q-separator inset spaced="xs"></q-separator>
           <q-card-section class="q-py-xs q-px-md">
             <div class="row items-center q-gutter-xs">
-              <div class="col-xs-5">
+              <div class="col-xs">
                 <q-checkbox dense keep-color v-model="iva.inscrito" label="Inscrito IVA" color="primary"></q-checkbox>
               </div>
-              <div class="col-xs-5">
+              <div class="col-xs">
                 <q-checkbox :disable="!iva.inscrito" dense keep-color v-model="iva.desinscrito" label="Desinscrito" color="primary"></q-checkbox>
               </div>
               <div class="col-xs">
-                <q-btn :disable="!iva.inscrito" dense icon="event" color="primary" flat>
-                  <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                    <q-date v-model="iva.fecha" mask="DD/MM/YYYY">
-                      <div class="row items-center justify-end">
-                        <q-btn v-close-popup label="Cerrar" color="primary" flat></q-btn>
-                      </div>
-                    </q-date>
-                  </q-popup-proxy>
-                </q-btn>
+                <q-input :disable="!iva.inscrito" dense outlined class="q-pa-none" v-model="iva.fecha" label="Fecha" mask="##/##/####" :rules="['##/##/####']">
+                  <template v-slot:append>
+                    <q-icon name="event" class="cursor-pointer">
+                      <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                        <q-date v-model="iva.fecha" mask="DD/MM/YYYY">
+                          <div class="row items-center justify-end">
+                            <q-btn v-close-popup label="Cerrar" color="primary" flat>
+                              </q-toggle>
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
               </div>
             </div>
           </q-card-section>
