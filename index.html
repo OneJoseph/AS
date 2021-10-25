@@ -688,14 +688,11 @@
                 </template>
                 <template v-if="vmt.esq"> {{ obsaldo.length ? ' /// ' : '' }} {{ rsol.input.obtext.length ? ' /// ' : '' }} CON SALDO DE ESQUELAS DE TRANSITO POR ${{ vmt.montoesq }}, MAS RECARGOS PENDIENTES DE PAGO. LA INFORMACION REFERENTE A LOS SALDOS DE DEUDA POR ESQUELAS DE TRANSITO, SON RESPONSABILIDAD DEL VMT, Y EN CASO DE INCONSISTENCIAS EN VALORES O ESTADOS DE LAS DEUDAS DEBERAN COMUNICARSE A SERTRACEN O AL VMT.</template>
               </template>
-              <template v-else >
+              <template v-else>
                 <template v-if="contri.selected === 'IO' || contri.selected === 'IM' || contri.selected === 'MO' || contri.selected === 'AP'">
-                  
-                  SE ACTUALIZA ESTADO DE CUENTA EN FECHA  . CONTRIBUYENTE PRESENTA
-                 
-         
+                  SE ACTUALIZA ESTADO DE CUENTA EN FECHA . CONTRIBUYENTE PRESENTA
                   <template v-if="omiDecl">
-                    OMISIONES 
+                    OMISIONES
                     <template v-if="omirt.length"> DE RENTA
                       <template v-for="(s, index) in omirt">
                         {{ index == '0' ? '' : ', ' }}<template v-for="(ejer, index) in s.ejer"> {{ (index == '0' ? ' ' : ', ') + ejer }} </template>
@@ -720,9 +717,8 @@
                       DE F910 EJERCICIO<template v-for="(d, index) in omif910">{{ (index == 0 ? '' : ', ') + d.ejer }}</template>.
                     </template>
                   </template>
-                  
                   <template v-if="obsaldo.length || rsol.input.obtext.length">
-                    DEUDA TRIBUTARIA DE  
+                    DEUDA TRIBUTARIA DE
                     <template v-for="s in obsaldo">
                       <template v-if="s.tipo == 'RENTA' || s.tipo == 'RENTAZ'">
                         <template v-if="s.estado == 'PTE' || s.estado =='ABP'">{{ s.tipo }} <template v-for="ejer in s.ejer"> {{ ejer }} </template> MAS INTERESES, PENDIENTE DE PAGO. </template>
@@ -742,7 +738,6 @@
                     </template>
                     <template v-if='rsol.posee'>{{ obsaldo.length ? ' /// ' : '' }} {{ rsol.input.obtext }}</template>
                   </template>
-                  
                   <template v-if="omiDif">
                     DIFERENCIAS
                     <template v-if="obdif11.length">
@@ -761,9 +756,7 @@
                     </template>
                   </template>
                   <template v-if="vmt.esq"> SALDO DE ESQUELAS DE TRANSITO POR ${{ vmt.montoesq }}, MAS RECARGOS PENDIENTES DE PAGO. LA INFORMACION REFERENTE A LOS SALDOS DE DEUDA POR ESQUELAS DE TRANSITO, SON RESPONSABILIDAD DEL VMT, Y EN CASO DE INCONSISTENCIAS EN VALORES O ESTADOS DE LAS DEUDAS DEBERAN COMUNICARSE A SERTRACEN O AL VMT.</template>
-              
-                   {{ contri.selected === 'AP' ? 'SE EMITE AUTORIZACIÓN DE PAGO A PLAZO.' : 'SE EMITE ESTADO DE CUENTA RAZONADO INSOLVENTE.'}}
-                  
+                  {{ contri.selected === 'AP' ? 'SE EMITE AUTORIZACIÓN DE PAGO A PLAZO.' : 'SE EMITE ESTADO DE CUENTA RAZONADO INSOLVENTE.'}}
                 </template>
                 <template v-else>
                   SE EMITE ESTADO DE CUENTA RAZONADO SOLVENTE.
