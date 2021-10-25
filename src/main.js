@@ -1,4 +1,4 @@
-const { useQuasar, exportFile, copyToClipboard } = Quasar
+const { useQuasar, exportFile, copyToClipboard, date } = Quasar
 const AsistenOne = {
   data() {
     return {
@@ -806,6 +806,11 @@ const AsistenOne = {
     }
   },
   computed: {
+    fechaM(){
+      const f = Date.now()
+      const ff = date.formatDate(f, 'D/MM/YYYY')
+      return ff
+    },
     emite() {
       if (!this.solvencia && !this.razonado && this.contri.selected == 'SS') {
         return 'SE EMITE ESTADO DE CUENTA SOLVENTE PARA PUBLICO'

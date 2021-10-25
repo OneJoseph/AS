@@ -126,8 +126,8 @@
       </div>
       <div class="col-xs-12 col-sm q-gutter-xs">
         <q-input dense outlined v-model="soli" label="Datos generales solicitud"></q-input>
-        <q-checkbox keep-color v-model="solvencia" label="Solvencia" color="primary"></q-checkbox>
-        <q-checkbox keep-color v-model="razonado" label="Estado de cuenta razonado" color="primary"></q-checkbox>
+        <q-checkbox keep-color v-model="solvencia" :disable="razonado" label="Solvencia" color="primary"></q-checkbox>
+        <q-checkbox keep-color v-model="razonado" :disable="solvencia" label="Estado de cuenta razonado" color="primary"></q-checkbox>
         <q-input dense outlined v-model="unidad" label="Unidad"></q-input>
         <q-btn color="indigo-6" label="Generar Marginacion" @click="ShowM"></q-btn>
         <!-- Tablas -->
@@ -228,28 +228,31 @@
     </div>
     <!-- Dialogos -->
     <q-dialog v-model="marginacion" style="width: 500" persistent transitions-show="slide-down" transition-hide="slide-up">
-      <q-card class="my-card" flat bordered>
+      <q-card class="my-card" flat>
+        <q-bar class="bg-cyan-10 text-white">
+          <div class="text-h6">Marginacion</div>
+          <q-space></q-space>
+          <q-btn dense flat icon="close" v-close-popup>
+            <q-tooltip class="bg-white text-primary">Close</q-tooltip>
+          </q-btn>
+        </q-bar>
         <q-item>
           <q-item-section>
-            <q-item-label>Marginación</q-item-label>
             <q-item-label caption>
-              <q-checkbox dense size="xs" keep-color v-model="detalle" label="Detalle al final" color="primary"></q-checkbox>
+              <q-checkbox dense size="xs" keep-color v-model="detalle" label="Datallar Omiso, Moroso, Autorizado al final" color="primary"></q-checkbox>
             </q-item-label>
             <q-item-label caption>
               {{ soli }}
             </q-item-label>
           </q-item-section>
+          <q-space></q-space>
           <q-item-section>
             <q-item-label caption>
               <q-select dense hide-dropdown-icon outlined v-model="contri.selected" label="Estado Contribuyente" options-dense :options="contri.options" option-value="value" option-label="estado" emit-value map-options behavior="default"></q-select>
             </q-item-label>
           </q-item-section>
-          <q-space></q-space>
-          <q-btn dense flat icon="close" v-close-popup>
-            <q-tooltip class="bg-white text-primary">Close</q-tooltip>
-          </q-btn>
         </q-item>
-        <q-separator spaced="xs"></q-separator>
+         <q-separator spaced="xs"></q-separator>
         <q-card-section>
           <p id="textMargi" class="text-justify text-caption">SE VERIF. SIIT Y SITEP.
             <template v-if="dgt">C/EXP DGT PTE. </template>
@@ -690,7 +693,7 @@
               </template>
               <template v-else>
                 <template v-if="contri.selected === 'IO' || contri.selected === 'IM' || contri.selected === 'MO' || contri.selected === 'AP'">
-                  SE ACTUALIZA ESTADO DE CUENTA EN FECHA . CONTRIBUYENTE PRESENTA
+                  SE ACTUALIZA ESTADO DE CUENTA EN FECHA {{ fechaM }}. CONTRIBUYENTE PRESENTA
                   <template v-if="omiDecl">
                     OMISIONES
                     <template v-if="omirt.length"> DE RENTA
