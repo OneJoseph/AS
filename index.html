@@ -231,6 +231,8 @@
       <q-card class="my-card" flat>
         <q-bar class="bg-cyan-10 text-white">
           <div class="text-h6">Marginacion</div>
+          
+             
           <q-space></q-space>
           <q-btn dense flat icon="close" v-close-popup>
             <q-tooltip class="bg-white text-primary">Close</q-tooltip>
@@ -239,9 +241,6 @@
         <q-item>
           <q-item-section>
             <q-item-label caption>
-              <q-checkbox dense size="xs" keep-color v-model="detalle" label="Datallar Omiso, Moroso, Autorizado al final" color="primary"></q-checkbox>
-            </q-item-label>
-            <q-item-label caption>
               {{ soli }}
             </q-item-label>
           </q-item-section>
@@ -249,6 +248,8 @@
           <q-item-section>
             <q-item-label caption>
               <q-select dense hide-dropdown-icon outlined v-model="contri.selected" label="Estado Contribuyente" options-dense :options="contri.options" option-value="value" option-label="estado" emit-value map-options behavior="default"></q-select>
+            <q-checkbox dense size="xs" keep-color v-model="detalle" label="Detallar motivo de estado" color="primary"></q-checkbox>
+          
             </q-item-label>
           </q-item-section>
         </q-item>
