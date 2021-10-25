@@ -643,49 +643,132 @@
             {{ tecnico + '.'}}
           </p>
         </q-card-section>
-        <template v-if="vmt.esq || obsaldo.length || rsol.input.obtext.length || obdif11.length || obdif14.length">
+        <template v-if="razonado || vmt.esq || obsaldo.length || rsol.input.obtext.length || obdif11.length || obdif14.length">
           <q-separator inset spaced="xs"></q-separator>
           <q-card-section>
             <p id="textObser" class="text-justify text-caption">
-              <template v-if="obdif11.length || obdif14.length">
-                PRESENTA DIFERENCIAS EN:
-                <template v-if="obdif11.length">
-                  F910 VS F11 EJERCICIO <template v-for="(d, index) in obdif11">{{ index == 0 ? '' : ', ' }}
-                    <template v-for="(ejer, index) in d.ejer">
-                      {{ index == 0 ? '' : ', ' }} {{ ejer }}
-                    </template>
-                  </template>.
+              <template v-if="!razonado">
+                <template v-if="obdif11.length || obdif14.length">
+                  PRESENTA DIFERENCIAS EN:
+                  <template v-if="obdif11.length">
+                    F910 VS F11 EJERCICIO <template v-for="(d, index) in obdif11">{{ index == 0 ? '' : ', ' }}
+                      <template v-for="(ejer, index) in d.ejer">
+                        {{ index == 0 ? '' : ', ' }} {{ ejer }}
+                      </template>
+                    </template>.
+                  </template>
+                  <template v-if="obdif14.length">
+                    F910 VS F14 EJERCICIO <template v-for="(d, index) in obdif14">{{ index == 0 ? '' : ', ' }}
+                      <template v-for="(ejer, index) in d.ejer">
+                        {{ index == 0 ? '' : ', ' }} {{ ejer }}
+                      </template>
+                    </template>.
+                  </template>
                 </template>
-                <template v-if="obdif14.length">
-                  F910 VS F14 EJERCICIO <template v-for="(d, index) in obdif14">{{ index == 0 ? '' : ', ' }}
-                    <template v-for="(ejer, index) in d.ejer">
-                      {{ index == 0 ? '' : ', ' }} {{ ejer }}
+                <template v-if="obsaldo.length || rsol.input.obtext.length">
+                  SALDO ARRIBA DETALLADO CORRESPONDE A:
+                  <template v-for="s in obsaldo">
+                    <template v-if="s.tipo == 'RENTA' || s.tipo == 'RENTAZ'">
+                      <template v-if="s.estado == 'PTE' || s.estado =='ABP'">{{ s.tipo }} <template v-for="ejer in s.ejer"> {{ ejer }} </template> MAS INTERESES, PENDIENTE DE PAGO. </template>
+                      <template v-if="s.estado == 'VIG'">{{ s.tipo.substr(0,5) }} <template v-for="ejer in s.ejer"> {{ ejer }} </template> MAS INTERESES CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}. </template>
+                      <template v-if="s.estado == 'VEN'">{{ s.tipo }} <template v-for="ejer in s.ejer"> {{ ejer }} </template> MAS INTERESES CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA. </template>
                     </template>
-                  </template>.
+                    <template v-if="s.tipo == 'F09'">
+                      <template v-if="s.estado == 'PTE' || s.estado =='ABP'">{{ s.tipo }} {{ s.periodo }} MAS INTERESES, PENDIENTE DE PAGO. </template>
+                      <template v-if="s.estado == 'VIG'">{{ s.tipo }} {{ s.periodo }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}. </template>
+                      <template v-if="s.estado == 'VEN'">{{ s.tipo }} {{ s.periodo }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA. </template>
+                    </template>
+                    <template v-if="s.tipo == 'AMPARADA'">
+                      <template v-if="s.estado == 'PTE' || s.estado =='ABP'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }} MAS INTERESES, PENDIENTE DE PAGO. </template>
+                      <template v-if="s.estado == 'VIG'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}. </template>
+                      <template v-if="s.estado == 'VEN'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA. </template>
+                    </template>
+                  </template>
+                  <template v-if='rsol.posee'>{{ obsaldo.length ? ' /// ' : '' }} {{ rsol.input.obtext }}</template>
+                </template>
+                <template v-if="vmt.esq"> {{ obsaldo.length ? ' /// ' : '' }} {{ rsol.input.obtext.length ? ' /// ' : '' }} CON SALDO DE ESQUELAS DE TRANSITO POR ${{ vmt.montoesq }}, MAS RECARGOS PENDIENTES DE PAGO. LA INFORMACION REFERENTE A LOS SALDOS DE DEUDA POR ESQUELAS DE TRANSITO, SON RESPONSABILIDAD DEL VMT, Y EN CASO DE INCONSISTENCIAS EN VALORES O ESTADOS DE LAS DEUDAS DEBERAN COMUNICARSE A SERTRACEN O AL VMT.</template>
+              </template>
+              <template v-else >
+                <template v-if="contri.selected === 'IO' || contri.selected === 'IM' || contri.selected === 'MO' || contri.selected === 'AP'">
+                  
+                  SE ACTUALIZA ESTADO DE CUENTA EN FECHA  . CONTRIBUYENTE PRESENTA
+                 
+         
+                  <template v-if="omiDecl">
+                    OMISIONES 
+                    <template v-if="omirt.length"> DE RENTA
+                      <template v-for="(s, index) in omirt">
+                        {{ index == '0' ? '' : ', ' }}<template v-for="(ejer, index) in s.ejer"> {{ (index == '0' ? ' ' : ', ') + ejer }} </template>
+                      </template>.
+                    </template>
+                    <template v-if="f.f06.omisos.length"> DE F06
+                      <template v-for="(f, index) in f.f06.omisos">
+                        {{ index == '0' ? '' : ', ' }} {{ f.label.toUpperCase() }}
+                      </template>.
+                    </template>
+                    <template v-if="f.f07.omisos.length"> DE F07
+                      <template v-for="(f, index) in f.f07.omisos">
+                        {{ index == '0' ? '' : ', ' }} {{ f.label.toUpperCase() }}
+                      </template>.
+                    </template>
+                    <template v-if="f.f14.omisos.length"> DE F14
+                      <template v-for="(f, index) in f.f14.omisos">
+                        {{ index == '0' ? '' : ', ' }} {{ f.label.toUpperCase() }}
+                      </template>.
+                    </template>
+                    <template v-if="omif910.length">
+                      DE F910 EJERCICIO<template v-for="(d, index) in omif910">{{ (index == 0 ? '' : ', ') + d.ejer }}</template>.
+                    </template>
+                  </template>
+                  
+                  <template v-if="obsaldo.length || rsol.input.obtext.length">
+                    DEUDA TRIBUTARIA DE  
+                    <template v-for="s in obsaldo">
+                      <template v-if="s.tipo == 'RENTA' || s.tipo == 'RENTAZ'">
+                        <template v-if="s.estado == 'PTE' || s.estado =='ABP'">{{ s.tipo }} <template v-for="ejer in s.ejer"> {{ ejer }} </template> MAS INTERESES, PENDIENTE DE PAGO. </template>
+                        <template v-if="s.estado == 'VIG'">{{ s.tipo.substr(0,5) }} <template v-for="ejer in s.ejer"> {{ ejer }} </template> MAS INTERESES CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}. </template>
+                        <template v-if="s.estado == 'VEN'">{{ s.tipo }} <template v-for="ejer in s.ejer"> {{ ejer }} </template> MAS INTERESES CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA. </template>
+                      </template>
+                      <template v-if="s.tipo == 'F09'">
+                        <template v-if="s.estado == 'PTE' || s.estado =='ABP'">{{ s.tipo }} {{ s.periodo }} MAS INTERESES, PENDIENTE DE PAGO. </template>
+                        <template v-if="s.estado == 'VIG'">{{ s.tipo }} {{ s.periodo }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}. </template>
+                        <template v-if="s.estado == 'VEN'">{{ s.tipo }} {{ s.periodo }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA. </template>
+                      </template>
+                      <template v-if="s.tipo == 'AMPARADA'">
+                        <template v-if="s.estado == 'PTE' || s.estado =='ABP'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }} MAS INTERESES, PENDIENTE DE PAGO. </template>
+                        <template v-if="s.estado == 'VIG'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}. </template>
+                        <template v-if="s.estado == 'VEN'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA. </template>
+                      </template>
+                    </template>
+                    <template v-if='rsol.posee'>{{ obsaldo.length ? ' /// ' : '' }} {{ rsol.input.obtext }}</template>
+                  </template>
+                  
+                  <template v-if="omiDif">
+                    DIFERENCIAS
+                    <template v-if="obdif11.length">
+                      EN F910 VS F11 EJERCICIO <template v-for="(d, index) in obdif11">{{ index == 0 ? '' : ', ' }}
+                        <template v-for="(ejer, index) in d.ejer">
+                          {{ index == 0 ? '' : ', ' }} {{ ejer }}
+                        </template>
+                      </template>.
+                    </template>
+                    <template v-if="obdif14.length">
+                      EN F910 VS F14 EJERCICIO<template v-for="(d, index) in obdif14">{{ index == 0 ? '' : ', ' }}
+                        <template v-for="(ejer, index) in d.ejer">
+                          {{ index == 0 ? '' : ', ' }} {{ ejer }}
+                        </template>
+                      </template>.
+                    </template>
+                  </template>
+                  <template v-if="vmt.esq"> SALDO DE ESQUELAS DE TRANSITO POR ${{ vmt.montoesq }}, MAS RECARGOS PENDIENTES DE PAGO. LA INFORMACION REFERENTE A LOS SALDOS DE DEUDA POR ESQUELAS DE TRANSITO, SON RESPONSABILIDAD DEL VMT, Y EN CASO DE INCONSISTENCIAS EN VALORES O ESTADOS DE LAS DEUDAS DEBERAN COMUNICARSE A SERTRACEN O AL VMT.</template>
+              
+                   {{ contri.selected === 'AP' ? 'SE EMITE AUTORIZACIÓN DE PAGO A PLAZO.' : 'SE EMITE ESTADO DE CUENTA RAZONADO INSOLVENTE.'}}
+                  
+                </template>
+                <template v-else>
+                  SE EMITE ESTADO DE CUENTA RAZONADO SOLVENTE.
                 </template>
               </template>
-              <template v-if="obsaldo.length || rsol.input.obtext.length">
-                SALDO ARRIBA DETALLADO CORRESPONDE A:
-                <template v-for="s in obsaldo">
-                  <template v-if="s.tipo == 'RENTA' || s.tipo == 'RENTAZ'">
-                    <template v-if="s.estado == 'PTE' || s.estado =='ABP'">{{ s.tipo }} <template v-for="ejer in s.ejer"> {{ ejer }} </template> MAS INTERESES, PENDIENTE DE PAGO. </template>
-                    <template v-if="s.estado == 'VIG'">{{ s.tipo.substr(0,5) }} <template v-for="ejer in s.ejer"> {{ ejer }} </template> MAS INTERESES CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}. </template>
-                    <template v-if="s.estado == 'VEN'">{{ s.tipo }} <template v-for="ejer in s.ejer"> {{ ejer }} </template> MAS INTERESES CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA. </template>
-                  </template>
-                  <template v-if="s.tipo == 'F09'">
-                    <template v-if="s.estado == 'PTE' || s.estado =='ABP'">{{ s.tipo }} {{ s.periodo }} MAS INTERESES, PENDIENTE DE PAGO. </template>
-                    <template v-if="s.estado == 'VIG'">{{ s.tipo }} {{ s.periodo }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}. </template>
-                    <template v-if="s.estado == 'VEN'">{{ s.tipo }} {{ s.periodo }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA. </template>
-                  </template>
-                  <template v-if="s.tipo == 'AMPARADA'">
-                    <template v-if="s.estado == 'PTE' || s.estado =='ABP'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }} MAS INTERESES, PENDIENTE DE PAGO. </template>
-                    <template v-if="s.estado == 'VIG'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}. </template>
-                    <template v-if="s.estado == 'VEN'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA. </template>
-                  </template>
-                </template>
-                <template v-if='rsol.posee'>{{ obsaldo.length ? ' /// ' : '' }} {{ rsol.input.obtext }}</template>
-              </template>
-              <template v-if="vmt.esq"> {{ obsaldo.length ? ' /// ' : '' }} {{ rsol.input.obtext.length ? ' /// ' : '' }} CON SALDO DE ESQUELAS DE TRANSITO POR ${{ vmt.montoesq }}, MAS RECARGOS PENDIENTES DE PAGO. LA INFORMACION REFERENTE A LOS SALDOS DE DEUDA POR ESQUELAS DE TRANSITO, SON RESPONSABILIDAD DEL VMT, Y EN CASO DE INCONSISTENCIAS EN VALORES O ESTADOS DE LAS DEUDAS DEBERAN COMUNICARSE A SERTRACEN O AL VMT.</template>
             </p>
           </q-card-section>
         </template>

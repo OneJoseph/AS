@@ -1014,7 +1014,13 @@ const AsistenOne = {
         .concat(this.filtros(this.rta.db.anti, false, false, 'OSU'))
     },
     omi() {
-      return this.omif + this.omirt.length + this.obdif11.length + this.obdif14.length + this.omif910.length
+      return this.omiDecl + this.omiDif
+    },
+    omiDecl() {
+      return this.omif + this.omirt.length + this.omif910.length
+    },
+    omiDif() {
+      return this.obdif11.length + this.obdif14.length
     },
     obSmor() {
       const mor = this.obsaldo.filter(filtro => filtro.estado === 'PTE')
