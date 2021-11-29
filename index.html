@@ -15,6 +15,14 @@
   <div id="app">
     <div class="row q-pa-sm q-gutter-sm">
       <div class="col-xs-12 col-sm-4">
+        
+        <q-card flat class="my-card q-py-xs q-gutter-sm">
+          <q-btn class="text-caption" outlined @click="plantilla1" dense color="indigo-6" label="IVA/F14/2020"></q-btn>
+          <q-btn class="text-caption" outlined @click="plantilla2" dense color="deep-purple-6" label="IVA/F14"></q-btn>
+          <q-btn class="text-caption" outlined @click="plantilla3" dense color="blue-6" label="IVA/2020"></q-btn>
+          <q-btn class="text-caption" outlined @click="plantilla4" dense color="cyan-6" label="F14/2020"></q-btn>
+        </q-card>
+        
         <q-card flat bordered class="my-card q-py-xs">
           <q-card-section class="q-py-xs q-px-md">
             <q-checkbox dark dense keep-color v-model="dgt" label="Exp. DGT" color="primary"></q-checkbox>
@@ -61,7 +69,7 @@
           <q-card-section class="q-py-xs q-px-md">
             <div class="row items-center q-gutter-xs">
               <div class="col-xs-4">
-                <q-select outlined clearable dense hide-dropdown-icon v-model="prevr.ejer" label="Renta Previa" options-dense :options="ejercicios" behavior="default"></q-select>
+                <q-select outlined dense v-model="prevr.ejer" label="Renta Previa" options-dense :options="premargin" behavior="default"></q-select>
               </div>
               <div class="col-xs">
                 <q-btn class="float-right text-caption" flat style="width: 100px" icon-right="note_add" color="cyan-10" dense label="Rentas" @click="rta.input.show.rt = true"></q-btn>
@@ -86,7 +94,7 @@
             </div>
             <div class="row items-center q-gutter-xs">
               <div class="col-xs-4">
-                <q-input outlined :readonly="!nfv" dense v-model="f.verf" label="F. verf. hasta"></q-input>
+                <q-input outlined :readonly="!nfv" dense v-model="f.verf" label="F. verf. hasta" mask="##/####"></q-input>
               </div>
               <div class="col-xs">
                 <q-input outlined dense :readonly="f.f14.oblig !== 0" autogrow v-model="f.f14.act" label="Actividad Economica"></q-input>
@@ -128,6 +136,7 @@
         <q-input dense outlined v-model="soli" label="Datos generales solicitud"></q-input>
         <q-checkbox keep-color v-model="solvencia" :disable="razonado" label="Solvencia" color="primary"></q-checkbox>
         <q-checkbox keep-color v-model="razonado" :disable="solvencia" label="Estado de cuenta razonado" color="primary"></q-checkbox>
+        <q-checkbox keep-color v-model="reasignado" label="Reasignado" color="primary"></q-checkbox>
         <q-input dense outlined v-model="unidad" label="Unidad"></q-input>
         <q-btn color="indigo-6" label="Generar Marginacion" @click="ShowM"></q-btn>
         <!-- Tablas -->
@@ -263,8 +272,8 @@
             <template v-if="ivas === 1">INSCRITO EN IVA{{ iva.fecha ? ' ' + iva.fecha + '. ' : '. ' }}</template>
             <template v-else-if="ivas === 2">DESINSCRITO EN IVA{{ iva.fecha ? ' ' + iva.fecha + '. ' : '. ' }}</template>
             <template v-else>NO INSCRITO EN IVA. </template>
-            <template v-if="prevr.ejer.length">RTA Y DIF F910 PREV MARG HASTA {{ prevr.ejer }}. </template>
-            <template v-if="!prevr.ejer.length && !rta.db.anti.length">SIN RTAS ANTIGUAS. </template>
+            <template v-if="prevr.ejer !== 'SIN MARG'">RTA Y DIF F910 PREV MARG HASTA {{ prevr.ejer }}. </template>
+            <template v-if="prevr.ejer == 'SIN MARG' && !rta.db.anti.length">SIN RTAS ANTIGUAS. </template>
             <template v-if="rta.db.anti.length">
               <template v-if="!prevr.ejer.length && rta.db.anti.length">CON RTAS ANTIGUAS </template>
               <template v-for="srta in rta.db.anti">
@@ -645,6 +654,7 @@
             {{ emite + '.' }}
             {{ unidad.length ? 'VIA ' + unidad + '.' : '' }}
             {{ tecnico + '.'}}
+            {{ reasignado ? 'REASIGNADO' : '' }}
           </p>
         </q-card-section>
         <template v-if="razonado || vmt.esq || obsaldo.length || rsol.input.obtext.length || obdif11.length || obdif14.length">
@@ -771,7 +781,7 @@
         </template>
         <q-card-actions align="right">
           <q-btn flat color="light-blue-6" label="Copiar marginación" @click="copy_M"></q-btn>
-          <q-btn flat v-if="vmt.esq || obsaldo.length || rsol.input.obtext.length || obdif11.length || obdif14.length" color="blue-6" label="Copiar Observación" @click="copy_O"></q-btn>
+          <q-btn flat v-if="vmt.esq || obsaldo.length || rsol.input.obtext.length || obdif11.length || obdif14.length || razonado" color="blue-6" label="Copiar Observación" @click="copy_O"></q-btn>
           <q-btn flat color="green-8" label="Copiar Todo" @click="copy_MO"></q-btn>
         </q-card-actions>
       </q-card>

@@ -7,6 +7,7 @@ const AsistenOne = {
       soli: '',
       solvencia: false,
       razonado: false,
+      reasignado: false,
       unidad: 'UNIDAD RECEPTORA VIRTUAL',
       tecnico: 'DF/AH',
       marginacion: false,
@@ -22,6 +23,7 @@ const AsistenOne = {
       ejer_vs2: [' 2020', ' 2019', ' 2018', ' 2017', ' 2016'],
 
       omisos: [
+        { periodo: '10/2021', label: 'Octubre 2021' },
         { periodo: '09/2021', label: 'Septiembre 2021' },
         { periodo: '08/2021', label: 'Agosto 2021' },
         { periodo: '07/2021', label: 'Julio 2021' },
@@ -67,7 +69,7 @@ const AsistenOne = {
         { periodo: '03/2018', label: 'Marzo 2018' },
         { periodo: '02/2018', label: 'Febrero 2018' },
         { periodo: '01/2018', label: 'Enero 2018' },
-        { periodo: '12/2017', label: 'Diciembre 017' },
+        { periodo: '12/2017', label: 'Diciembre 2017' },
         { periodo: '11/2017', label: 'Noviembre 2017' },
         { periodo: '10/2017', label: 'Octubre 2017' },
         { periodo: '09/2017', label: 'Septiembre 2017' },
@@ -80,8 +82,7 @@ const AsistenOne = {
         { periodo: '02/2017', label: 'Febrero 2017' },
         { periodo: '01/2017', label: 'Enero 2017' },
         { periodo: '12/2016', label: 'Diciembre 2016' },
-        { periodo: '11/2016', label: 'Noviembre 2016' },
-        { periodo: '10/2016', label: 'Octubre 2016' },
+        { periodo: '11/2016', label: 'Noviembre 2016' }
         ],
 
       rsol: {
@@ -98,7 +99,7 @@ const AsistenOne = {
         desinscrito: false,
       },
       prevr: {
-        ejer: '',
+        ejer: 'SIN MARG',
       },
       f: {
         input: {
@@ -128,10 +129,10 @@ const AsistenOne = {
         },
         f14: {
           oblig: 0,
-          act: 'Otros',
+          act: '',
           omisos: [],
         },
-        verf: '09/2021',
+        verf: '10/2021',
 
         f09: {
           db: [],
@@ -320,6 +321,31 @@ const AsistenOne = {
     }
   },
   methods: {
+    
+    plantilla1(){
+      this.iva.inscrito = true
+      this.f.f07.oblig = 1
+      this.f.f14.oblig = 1
+      this.prevr.ejer = '2020'
+    },
+    plantilla2() {
+      this.iva.inscrito = true
+      this.f.f07.oblig = 1
+      this.f.f14.oblig = 1
+      this.prevr.ejer = 'SIN MARG'
+    },
+    plantilla3() {
+      this.iva.inscrito = true
+      this.f.f07.oblig = 1
+      this.f.f14.oblig = 0
+      this.prevr.ejer = '2020'
+    },
+    plantilla4() {
+      this.iva.inscrito = false
+      this.f.f07.oblig = 0
+      this.f.f14.oblig = 1
+      this.prevr.ejer = '2020'
+    },
 
     ShowM() {
       this.marginacion = true
@@ -806,6 +832,10 @@ const AsistenOne = {
     }
   },
   computed: {
+    premargin(){
+      const pre = ['SIN MARG']
+      return pre.concat(this.ejercicios)
+    },
     fechaM(){
       const f = Date.now()
       const ff = date.formatDate(f, 'D/MM/YYYY')
@@ -844,6 +874,9 @@ const AsistenOne = {
       }
       if (!this.solvencia && this.razonado && this.contri.selected == 'AP') {
         return 'SE EMITE AUTORIZACIÓN DE PAGO A PLAZO'
+      }
+      if (this.solvencia && !this.razonado && this.contri.selected == 'NC') {
+        return 'SE EMITE CONSTANCIA DE NO CONTRIBUYENTE'
       }
       if (this.solvencia && !this.razonado && this.contri.selected == 'SS') {
         return 'SE EMITE SOLVENCIA PARA TRAMITES DIVERSOS'
