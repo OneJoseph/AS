@@ -33,7 +33,7 @@ const AsistenOne = {
         { periodo: '03/2021', label: 'Marzo 2021' },
         { periodo: '02/2021', label: 'Febrero 2021' },
         { periodo: '01/2021', label: 'Enero 2021' },
-        { periodo: '12/2020', label: 'Diciembre 020' },
+        { periodo: '12/2020', label: 'Diciembre 2020' },
         { periodo: '11/2020', label: 'Noviembre 2020' },
         { periodo: '10/2020', label: 'Octubre 2020' },
         { periodo: '09/2020', label: 'Septiembre 2020' },
@@ -826,6 +826,114 @@ const AsistenOne = {
           this.q.notify({
             progress: true,
             message: 'No se pudo copiar',
+            position: 'top-right',
+          })
+        })
+    }, 
+    copyFrtamultas() {
+      const formula = '( especifico_detalle = "11101" or   especifico_detalle ="11102" or especifico_detalle =  "11103" or especifico_detalle = "15301" or especifico_detalle = "15302" or especifico_detalle = "") and year  (fech_fina_peri) =20'
+      copyToClipboard(formula)
+        .then(() => {
+          this.q.notify({
+            progress: true,
+            message: 'Formula copiada',
+            position: 'top-right',
+          })
+        })
+        .catch(() => {
+          this.q.notify({
+            progress: true,
+            message: 'No se puedo copiar',
+            position: 'top-right',
+          })
+        })
+    },
+    copyFrta() {
+      const formula = 'year  (fech_fina_peri) =2020 and  ( especifico_detalle = "11101" or   especifico_detalle ="11102" or especifico_detalle =  "11103") '
+      copyToClipboard(formula)
+        .then(() => {
+          this.q.notify({
+            progress: true,
+            message: 'Formula copiada',
+            position: 'top-right',
+          })
+        })
+        .catch(() => {
+          this.q.notify({
+            progress: true,
+            message: 'No se puedo copiar',
+            position: 'top-right',
+          })
+        })
+    },
+    copyFmrtas() {
+      const formula = 'year  (fech_fina_peri) =2020 and  ( especifico_detalle = "15301" or   especifico_detalle ="15302" or especifico_detalle = "")'
+      copyToClipboard(formula)
+        .then(() => {
+          this.q.notify({
+            progress: true,
+            message: 'Formula copiada',
+            position: 'top-right',
+          })
+        })
+        .catch(() => {
+          this.q.notify({
+            progress: true,
+            message: 'No se puedo copiar',
+            position: 'top-right',
+          })
+        })
+    },
+    copyFreten() {
+      const formula = 'year  (fech_fina_peri) =2020 and  ( especifico_detalle = "11901" or   especifico_detalle ="11903" or especifico_detalle = "11104")'
+      copyToClipboard(formula)
+        .then(() => {
+          this.q.notify({
+            progress: true,
+            message: 'Formula copiada',
+            position: 'top-right',
+          })
+        })
+        .catch(() => {
+          this.q.notify({
+            progress: true,
+            message: 'No se puedo copiar',
+            position: 'top-right',
+          })
+        })
+    },
+    copyFobligvarias() {
+      const formula = 'year  (fech_fina_peri) =2020 and  ( especifico_detalle = "15301" or   especifico_detalle ="15302" or especifico_detalle = "")'
+      copyToClipboard(formula)
+        .then(() => {
+          this.q.notify({
+            progress: true,
+            message: 'Formula copiada',
+            position: 'top-right',
+          })
+        })
+        .catch(() => {
+          this.q.notify({
+            progress: true,
+            message: 'No se puedo copiar',
+            position: 'top-right',
+          })
+        })
+    },
+    copyFobligvarias() {
+      const formula = 'year  (fech_fina_peri) =2020 and  ( especifico_detalle = "15301" or   especifico_detalle ="15302" or especifico_detalle = "")'
+      copyToClipboard(formula)
+        .then(() => {
+          this.q.notify({
+            progress: true,
+            message: 'Formula copiada',
+            position: 'top-right',
+          })
+        })
+        .catch(() => {
+          this.q.notify({
+            progress: true,
+            message: 'No se puedo copiar',
             position: 'top-right',
           })
         })
