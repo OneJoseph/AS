@@ -69,7 +69,7 @@
           <q-card-section class="q-py-xs q-px-md">
             <div class="row items-center q-gutter-xs">
               <div class="col-xs-4">
-                <q-select outlined dense v-model="prevr.ejer" label="Renta Previa" options-dense :options="premargin" behavior="default"></q-select>
+                <q-select outlined dense v-model="prevr.ejer" label="Renta Previa" options-dense menu-shrink :options="premargin" behavior="default"></q-select>
               </div>
               <div class="col-xs">
                 <q-btn class="float-right text-caption" flat style="width: 100px" icon-right="note_add" color="cyan-10" dense label="Rentas" @click="rta.input.show.rt = true"></q-btn>
@@ -804,8 +804,8 @@
         <q-tab-panels v-model="tab.rta" animated transition-prev="fade" transition-next="fade">
           <q-tab-panel name="anti" class="q-pa-none">
             <q-card-section class="q-gutter-sm">
-              <q-select dense outlined v-model="rta.input.estadoanti.selected" label="Estado" :options="rta.input.estadoanti.options" option-value="value" option-label="estado" emit-value map-options options-dense behavior="default"></q-select>
-              <q-select v-if="rta.input.estadoanti.selected !== 'PGO'" dense outlined clearable multiple v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios_a" options-dense behavior="default" use-chips></q-select>
+              <q-select dense outlined v-model="rta.input.estadoanti.selected" label="Estado" :options="rta.input.estadoanti.options" option-value="value" option-label="estado" emit-value map-options options-dense menu-shrink behavior="default"></q-select>
+              <q-select v-if="rta.input.estadoanti.selected !== 'PGO'" dense outlined clearable multiple v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios_a" options-dense menu-shrink behavior="default" use-chips></q-select>
               <q-select v-else dense outlined clearable v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios_a" options-dense menu-shrink behavior="default"></q-select>
               <q-input dense outlined v-model="rta.input.mont" type="number" label="Monto"></q-input>
               <q-input dense outlined v-model="rta.input.abo" type="number" label="Abono"></q-input>
@@ -833,8 +833,8 @@
           </q-tab-panel>
           <q-tab-panel name="actu" class="q-pa-none">
             <q-card-section class="q-gutter-sm">
-              <q-select dense outlined v-model="rta.input.estado.selected" label="Estado" :options="rta.input.estado.options" option-value="value" option-label="estado" emit-value map-options options-dense behavior="default"></q-select>
-              <q-select v-if="rta.input.estado.selected === 'PGO'" dense outlined clearable v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios" behavior="default" options-dense></q-select>
+              <q-select dense outlined v-model="rta.input.estado.selected" label="Estado" :options="rta.input.estado.options" option-value="value" option-label="estado" emit-value map-options options-dense menu-shrink behavior="default"></q-select>
+              <q-select v-if="rta.input.estado.selected === 'PGO'" dense outlined clearable v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios" behavior="default" options-dense menu-shrink></q-select>
               <q-select v-else dense outlined clearable multiple v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios" behavior="default" options-dense menu-shrink use-chips></q-select>
               <q-input dense outlined v-model="rta.input.mont" type="number" label="Monto"></q-input>
               <q-input dense outlined v-model="rta.input.abo" type="number" label="Abono"></q-input>
@@ -899,9 +899,9 @@
           </q-btn>
         </q-bar>
         <q-card-section class="q-gutter-sm">
-          <q-select dense outlined v-model="amp.input.decreto.selected" label="Decreto" :options="amp.input.decreto.options" option-value="value" option-label="decreto" emit-value map-options behavior="default" options-dense></q-select>
-          <q-select dense outlined v-model="amp.input.f.selected" label="Formulario" :options="amp.input.f.options" option-value="value" option-label="form" emit-value map-options behavior="default" options-dense></q-select>
-          <q-select dense outlined readonly hide-dropdown-icon v-model="amp.input.estado.selected" label="Estado" :options="amp.input.estado.options" option-value="value" option-label="estado" emit-value map-options behavior="default" options-dense></q-select>
+          <q-select dense outlined v-model="amp.input.decreto.selected" label="Decreto" :options="amp.input.decreto.options" option-value="value" option-label="decreto" emit-value map-options behavior="default" options-dense menu-shrink></q-select>
+          <q-select dense outlined v-model="amp.input.f.selected" label="Formulario" :options="amp.input.f.options" option-value="value" option-label="form" emit-value map-options behavior="default" options-dense menu-shrink></q-select>
+          <q-select dense outlined readonly hide-dropdown-icon v-model="amp.input.estado.selected" label="Estado" :options="amp.input.estado.options" option-value="value" option-label="estado" emit-value map-options behavior="default" options-dense menu-shrink></q-select>
           <q-select dense outlined v-if="amp.input.f.selected === 'RT'" multiple clearable v-model="amp.input.ejer" label="Ejercicio" :options="ejercicios" behavior="default" options-dense menu-shrink></q-select>
           <q-input dense outlined v-else v-model="amp.input.periodo" label="Periodo" mask="##/####"></q-input>
           <q-input dense outlined v-model="amp.input.mont" type="number" label="Monto"></q-input>
@@ -954,7 +954,7 @@
           </q-btn>
         </q-bar>
         <q-card-section class="q-gutter-sm">
-          <q-select dense outlined v-model="f.f09.estado.selected" label="Estado" :options="f.f09.estado.options" option-value="value" option-label="estado" emit-value map-options behavior="default" options-dense></q-select>
+          <q-select dense outlined v-model="f.f09.estado.selected" label="Estado" :options="f.f09.estado.options" option-value="value" option-label="estado" emit-value map-options behavior="default" options-dense menu-shrink></q-select>
           <q-input dense outlined v-model="f.input.periodo" mask="##/####" label="Periodo"></q-input>
           <q-input dense outlined v-model="f.input.mont" type="number" label="Monto"></q-input>
           <q-input dense outlined v-model="f.input.abo" type="number" label="Abono"></q-input>
@@ -1051,7 +1051,7 @@
           <div class="text-caption">F07</div>
           <div class="row items-center q-gutter-md">
             <div class="col-xs">
-              <q-select use-chips dense multiple outlined v-model="f.f07.omisos" label="Seleccioné periodos omisos" :options="omisos" map-options options-dense behavior="default"></q-select>
+              <q-select use-chips dense multiple outlined v-model="f.f07.omisos" label="Seleccioné periodos omisos" :options="omisos" map-options options-dense menu-shrink behavior="default"></q-select>
             </div>
             <div class="col-xs">
               <q-card flat bordered class="my-card q-px-sm">
@@ -1072,7 +1072,7 @@
           <div class="text-caption">F14</div>
           <div class="row items-center q-gutter-md">
             <div class="col-xs">
-              <q-select use-chips dense multiple outlined v-model="f.f14.omisos" label="Seleccioné periodos omisos" :options="omisos" map-options options-dense behavior="default"></q-select>
+              <q-select use-chips dense multiple outlined v-model="f.f14.omisos" label="Seleccioné periodos omisos" :options="omisos" map-options options-dense menu-shrink behavior="default"></q-select>
             </div>
             <div class="col-xs">
               <q-card flat bordered class="my-card q-px-sm">
