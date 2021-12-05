@@ -10,22 +10,26 @@
   <title>Asistente Marginacion</title>
 </head>
 
-<body>
+<body class="bg-grey-3">
   <!-- init app-->
   <div id="app">
     <div class="row q-pa-sm q-gutter-sm">
       <div class="col-xs-12 col-sm-4">
         
-        <q-card flat class="my-card q-py-xs q-gutter-sm">
-          <q-btn class="text-caption" outlined @click="plantilla1" dense color="indigo-6" label="IVA/F14/2020"></q-btn>
-          <q-btn class="text-caption" outlined @click="plantilla2" dense color="deep-purple-6" label="IVA/F14"></q-btn>
-          <q-btn class="text-caption" outlined @click="plantilla3" dense color="blue-6" label="IVA/2020"></q-btn>
-          <q-btn class="text-caption" outlined @click="plantilla4" dense color="cyan-6" label="F14/2020"></q-btn>
-        </q-card>
-        
-        <q-card flat bordered class="my-card q-py-xs">
-          <q-card-section class="q-py-xs q-px-md">
-            <q-checkbox dark dense keep-color v-model="dgt" label="Exp. DGT" color="primary"></q-checkbox>
+        <q-card flat bordered class="my-card bg-grey-1 q-py-xs">
+          <q-card-section class="q-py-xs q-px-md q-gutter-sm">
+            <div class="row items-center q-gutter-xs">
+              <div class="col-xs-4">
+                <q-checkbox dark dense keep-color v-model="dgt" label="Exp. DGT" color="primary"></q-checkbox>
+              </div>
+              <div class="col-xs">
+                <q-btn class="text-caption" flat @click="plantilla1" dense color="indigo-6" label="IVA/F14/2020"></q-btn>
+                <q-btn class="text-caption" flat @click="plantilla2" dense color="deep-purple-6" label="IVA/F14"></q-btn>
+                <q-btn class="text-caption" flat @click="plantilla3" dense color="blue-6" label="IVA/2020"></q-btn>
+                <q-btn class="text-caption" flat @click="plantilla4" dense color="cyan-6" label="F14/2020"></q-btn>
+              </div>
+            </div>
+          
           </q-card-section>
           <q-separator inset spaced="xs"></q-separator>
           <q-card-section class="q-py-xs q-px-md">
@@ -69,7 +73,7 @@
           <q-card-section class="q-py-xs q-px-md">
             <div class="row items-center q-gutter-xs">
               <div class="col-xs-4">
-                <q-select outlined dense v-model="prevr.ejer" label="Renta Previa" options-dense menu-shrink :options="premargin" behavior="default"></q-select>
+                <q-select  outlined dense v-model="prevr.ejer" label="Renta Previa" options-dense :options="premargin" behavior="default"></q-select>
               </div>
               <div class="col-xs">
                 <q-btn class="float-right text-caption" flat style="width: 100px" icon-right="note_add" color="cyan-10" dense label="Rentas" @click="rta.input.show.rt = true"></q-btn>
@@ -130,21 +134,38 @@
           <q-card-section class="q-py-xs q-px-md">
             <q-select dense outlined v-model="contri.selected" label="Estado Contribuyente" options-dense :options="contri.options" option-value="value" option-label="estado" emit-value map-options behavior="default"></q-select>
           </q-card-section>
+
+          <q-separator inset spaced="xs"></q-separator>
+          <q-card-section class="q-gutter-sm">
+            <q-btn flat dense class="text-caption" size="sx" color="blue-6" label="F. Renta/Multas" @click="copyFrtamultas"></q-btn>
+            <q-btn flat dense class="text-caption" size="sx" color="blue-6" label="F. Renta" @click="copyFrta"></q-btn>
+            <q-btn flat dense class="text-caption" size="sx" color="blue-6" label="F. Multa" @click="copyFobligvarias"></q-btn>
+            <q-btn flat dense class="text-caption" size="sx" color="blue-6" label="F. Reten." @click="copyFreten"></q-btn>
+            <q-btn flat dense class="text-caption" size="sx" color="blue-6" label="F. Multa IVA" @click="copyFmultasiva"></q-btn>
+          </q-card-section>
         </q-card>
       </div>
       <div class="col-xs-12 col-sm q-gutter-xs">
-        <q-input dense outlined v-model="soli" label="Datos generales solicitud"></q-input>
-        <q-checkbox keep-color v-model="solvencia" :disable="razonado" label="Solvencia" color="primary"></q-checkbox>
-        <q-checkbox keep-color v-model="razonado" :disable="solvencia" label="Estado de cuenta razonado" color="primary"></q-checkbox>
-        <q-checkbox keep-color v-model="reasignado" label="Reasignado" color="primary"></q-checkbox>
-        <q-input dense outlined v-model="unidad" label="Unidad"></q-input>
-        <q-btn color="indigo-6" label="Generar Marginacion" @click="ShowM"></q-btn>
+        <q-card flat bordered class="bg-grey-1 q-pa-xs q-gutter-xs">
+          <q-input dense v-model="soli" label="Datos generales solicitud"></q-input>
+
+          <q-card-section class="q-pa-xs row q-gutter-sm">
+            <q-select class="text-caption" style="width: 300px;" dense v-model="unidad" label="Unidad" options-dense menu-shrink :options="unidades" behavior="default"></q-select>
+            <q-checkbox keep-color v-model="solvencia" :disable="razonado" label="Solvencia" color="primary"></q-checkbox>
+            <q-select class="text-caption" style="width: 380px;" v-if="solvencia" dense v-model="uso" label="Uso" options-dense menu-shrink :options="usos" behavior="default"></q-select>
+            <q-checkbox keep-color v-model="razonado" v-else label="Estado de cuenta razonado" color="primary"></q-checkbox>
+             </q-card-section>
+          
+          <q-btn color="indigo-6" label="Generar Marginacion" @click="ShowM"></q-btn>
+          <q-checkbox dense keep-color v-model="reasignado" label="Reasignado" color="primary"></q-checkbox>
+        </q-card>
+        
         <!-- Tablas -->
-        <q-card flat bordered class="q-py-xs">
+        <q-card flat bordered class="bg-grey-1 q-py-xs">
           <q-card-section v-if="rtaz" class="q-py-xs q-px-md q-gutter-xs">
             Rentas:
             <template v-for="(rta, index) in rta.db.actu">
-              <q-chip dense removable @remove="RemoveF(index, 'RT')" color="deep-purple-3" text-color="white">
+              <q-chip dense removable @remove="RemoveF(index, 'RT')" color="deep-purple-6" text-color="white">
                 <template v-if="rta.estado == 'CDA' || rta.estado == 'PTE' || rta.estado == 'ABP' || rta.estado == 'VIG' || rta.estado == 'VEN' ">
                   {{ rta.ejer }}
                 </template>
@@ -155,7 +176,7 @@
               </q-chip>
             </template>
             <template v-for="(rta, index) in rta.db.anti">
-              <q-chip dense removable @remove="RemoveF(index, 'RA')" color="lime-3" text-color="white">
+              <q-chip dense removable @remove="RemoveF(index, 'RA')" color="lime-6" text-color="white">
                 <template v-for="r in rta.ejer"> {{ r + ' ' }} </template> {{ rta.mont ? '| $' + rta.mont : '' }}
               </q-chip>
             </template>
@@ -164,7 +185,7 @@
           <q-card-section v-if="vs.f11.db.length" class="q-py-xs q-px-md q-gutter-xs">
             F910vsF11:
             <template v-for="(v, index) in vs.f11.db">
-              <q-chip dense removable @remove="RemoveF(index, 'V1')" color="cyan-3" text-color="white">
+              <q-chip dense removable @remove="RemoveF(index, 'V1')" color="cyan-6" text-color="white">
                 <template v-for="st in vs.f11.input.vs.options">
                   <template v-if="st.value == v.vsf">{{ st.vsf }}</template>
                 </template>
@@ -176,7 +197,7 @@
           <q-card-section v-if="vs.f14.db.length" class="q-py-xs q-px-md q-gutter-xs">
             F910vsF14:
             <template v-for="(v, index) in vs.f14.db">
-              <q-chip dense removable @remove="RemoveF(index, 'V2')" color="light-blue-3" text-color="white">
+              <q-chip dense removable @remove="RemoveF(index, 'V2')" color="light-blue-6" text-color="white">
                 <template v-for="st in vs.f14.input.vs.options">
                   <template v-if="st.value == v.vsf">{{ st.vsf }}</template>
                 </template>
@@ -188,7 +209,7 @@
           <q-card-section v-if="f.f06.omisos.length" class="q-py-xs q-px-md q-gutter-xs">
             F06:
             <template v-for="(f06, index) in f.f06.omisos">
-              <q-chip dense removable @remove="RemoveF(index, 'F6')" color="deep-orange-3" text-color="white">
+              <q-chip dense removable @remove="RemoveF(index, 'F6')" color="deep-orange-6" text-color="white">
                 {{ f06.periodo }}
               </q-chip>
             </template>
@@ -197,7 +218,7 @@
           <q-card-section v-if="f.f07.omisos.length" class="q-py-xs q-px-md q-gutter-xs">
             F07:
             <template v-for="(f07, index) in f.f07.omisos">
-              <q-chip dense removable @remove="RemoveF(index, 'F7')" color="light-green-3" text-color="white">
+              <q-chip dense removable @remove="RemoveF(index, 'F7')" color="light-green-6" text-color="white">
                 {{ f07.periodo }}
               </q-chip>
             </template>
@@ -206,7 +227,7 @@
           <q-card-section v-if="f.f14.omisos.length" class="q-py-xs q-px-md q-gutter-xs">
             F14:
             <template v-for="(f14, index) in f.f14.omisos">
-              <q-chip dense removable @remove="RemoveF(index, 'F4')" color="amber-3" text-color="white">
+              <q-chip dense removable @remove="RemoveF(index, 'F4')" color="amber-6" text-color="white">
                 {{ f14.periodo }}
               </q-chip>
             </template>
@@ -215,7 +236,7 @@
           <q-card-section v-if="amps" class="q-py-xs q-px-md q-gutter-xs">
             Amparadas:
             <template v-for="(am, index) in amp.db">
-              <q-chip dense removable @remove="RemoveF(index, 'DL')" color="pink-3" text-color="white">
+              <q-chip dense removable @remove="RemoveF(index, 'DL')" color="pink-6" text-color="white">
                 <template v-for="d in amp.input.decreto.options">
                   <template v-if="d.value == am.decreto">{{ d.decreto + '| ' }}</template>
                 </template>
@@ -227,7 +248,7 @@
           <q-card-section v-if="tbrs" class="q-py-xs q-px-md q-gutter-xs">
             TBR:
             <template v-for="(f09, index) in f.f09.db">
-              <q-chip dense removable @remove="RemoveF(index, 'F9')" color="red-3" text-color="white">
+              <q-chip dense removable @remove="RemoveF(index, 'F9')" color="red-6" text-color="white">
                 {{ f09.periodo }} {{ '| $' + f09.mont }}
               </q-chip>
             </template>
@@ -236,8 +257,8 @@
       </div>
     </div>
     <!-- Dialogos -->
-    <q-dialog v-model="marginacion" style="width: 500" persistent transitions-show="slide-down" transition-hide="slide-up">
-      <q-card class="my-card" flat>
+    <q-dialog v-model="marginacion" persistent transitions-show="slide-down" transition-hide="slide-up">
+      <q-card class="bg-grey-1 my-card">
         <q-bar class="bg-cyan-10 text-white">
           <div class="text-h6">Marginacion</div>
           
@@ -256,7 +277,7 @@
           <q-space></q-space>
           <q-item-section>
             <q-item-label caption>
-              <q-select dense hide-dropdown-icon outlined v-model="contri.selected" label="Estado Contribuyente" options-dense :options="contri.options" option-value="value" option-label="estado" emit-value map-options behavior="default"></q-select>
+              <q-select  dense hide-dropdown-icon outlined v-model="contri.selected" label="Estado Contribuyente" options-dense :options="contri.options" option-value="value" option-label="estado" emit-value map-options behavior="default"></q-select>
             <q-checkbox dense size="xs" keep-color v-model="detalle" label="Detallar motivo de estado" color="primary"></q-checkbox>
           
             </q-item-label>
@@ -652,7 +673,7 @@
               </template>
             </template>
             {{ emite + '.' }}
-            {{ unidad.length ? 'VIA ' + unidad + '.' : '' }}
+            {{ unidad !== 'OTRA' ? 'VIA ' + unidad + '.' : '' }}
             {{ tecnico + '.'}}
             {{ reasignado ? 'REASIGNADO' : '' }}
           </p>
@@ -786,111 +807,131 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
-    <q-dialog v-model="rta.input.show.rt" persistent transition-show="slide-up" transition-hide="slide-down">
-      <q-card flat style="width: 350px">
-        <q-bar class="bg-cyan-10 text-white">
-          <div class="text-h6">Agregar rentas</div>
-          <q-space></q-space>
-          <q-btn dense flat icon="close" v-close-popup>
-            <q-tooltip class="bg-white text-primary">Close</q-tooltip>
-          </q-btn>
-        </q-bar>
-        <q-tabs v-model="tab.rta" dense class="text-grey" active-color="primary" indicator-color="primary" align="justify" narrow-indicator>
-          <q-tab name="anti" label="Antiguas"></q-tab>
-          <q-tab name="actu" label="Actuales"></q-tab>
-          <q-tab name="vs" label="VS F910"></q-tab>
-        </q-tabs>
-        <q-separator></q-separator>
-        <q-tab-panels v-model="tab.rta" animated transition-prev="fade" transition-next="fade">
-          <q-tab-panel name="anti" class="q-pa-none">
-            <q-card-section class="q-gutter-sm">
-              <q-select dense outlined v-model="rta.input.estadoanti.selected" label="Estado" :options="rta.input.estadoanti.options" option-value="value" option-label="estado" emit-value map-options options-dense menu-shrink behavior="default"></q-select>
-              <q-select v-if="rta.input.estadoanti.selected !== 'PGO'" dense outlined clearable multiple v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios_a" options-dense menu-shrink behavior="default" use-chips></q-select>
-              <q-select v-else dense outlined clearable v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios_a" options-dense menu-shrink behavior="default"></q-select>
-              <q-input dense outlined v-model="rta.input.mont" type="number" label="Monto"></q-input>
-              <q-input dense outlined v-model="rta.input.abo" type="number" label="Abono"></q-input>
-              <q-input dense outlined v-model="rtapte" readonly label="Pendiente de pago"></q-input>
-              <q-input dense outlined class="q-pa-none" v-model="rta.input.fcda" :readonly="rta.input.abo.length > '0'" label="Fecha Cancelado" mask="##/##/####" :rules="['##/##/####']">
-                <template v-slot:append>
-                  <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                      <q-date v-model="rta.input.fcda" :readonly="rta.input.abo.length > '0'" mask="DD/MM/YYYY">
-                        <div class="row items-center justify-end">
-                          <q-btn v-close-popup label="Cerrar" color="primary" flat>
-                            </q-toggle>
-                        </div>
-                      </q-date>
-                    </q-popup-proxy>
-                  </q-icon>
+    <q-dialog  v-model="rta.input.show.rt" persistent transition-show="slide-up" transition-hide="slide-down"> 
+        <q-card flat class="bg-grey-1" style="width: 350px">
+          <q-bar class="bg-cyan-10 text-white">
+            <div class="text-h6">Agregar rentas</div>
+            <q-space></q-space>
+            <q-btn dense flat icon="close" v-close-popup>
+              <q-tooltip class="bg-white text-primary">Close</q-tooltip>
+            </q-btn>
+          </q-bar>
+          <q-tabs v-model="tab.rta" dense class="text-grey" active-color="primary" indicator-color="primary" align="justify" narrow-indicator>
+            <q-tab name="anti" label="Antiguas"></q-tab>
+            <q-tab name="actu" label="Actuales"></q-tab>
+            <q-tab name="vs" label="VS F910"></q-tab>
+          </q-tabs>
+          <q-separator></q-separator>
+          <q-tab-panels v-model="tab.rta" animated transition-prev="fade" transition-next="fade">
+            <q-tab-panel name="anti" class="bg-grey-1 q-pa-none">
+              <q-card-section class="q-gutter-sm">
+                <q-select dense outlined v-model="rta.input.estadoanti.selected" label="Estado" :options="rta.input.estadoanti.options" option-value="value" option-label="estado" emit-value map-options options-dense menu-shrink behavior="default"></q-select>
+                <template v-if="rta.input.estadoanti.selected !== 'PGO'">
+                  <q-select dense outlined clearable multiple v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios_a" options-dense menu-shrink behavior="default" ></q-select>
+                  <q-input dense outlined v-model="rta.input.ejerr" label="Ejercicio (rango)"></q-input>
                 </template>
-              </q-input>
-              <q-checkbox dense :disable="rta.input.fcda.length == '0'" keep-color v-model="rta.input.total" label="CDA EN PAGOS" color="primary"></q-checkbox>
-            </q-card-section>
-            <q-card-actions align="right">
-              <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
-              <q-btn @click="Addfranti" flat label="Agregar" color="green-8"></q-btn>
-            </q-card-actions>
-          </q-tab-panel>
-          <q-tab-panel name="actu" class="q-pa-none">
-            <q-card-section class="q-gutter-sm">
-              <q-select dense outlined v-model="rta.input.estado.selected" label="Estado" :options="rta.input.estado.options" option-value="value" option-label="estado" emit-value map-options options-dense menu-shrink behavior="default"></q-select>
-              <q-select v-if="rta.input.estado.selected === 'PGO'" dense outlined clearable v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios" behavior="default" options-dense menu-shrink></q-select>
-              <q-select v-else dense outlined clearable multiple v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios" behavior="default" options-dense menu-shrink use-chips></q-select>
-              <q-input dense outlined v-model="rta.input.mont" type="number" label="Monto"></q-input>
-              <q-input dense outlined v-model="rta.input.abo" type="number" label="Abono"></q-input>
-              <q-input dense outlined v-model="rtapte" readonly label="Pendiente de pago"></q-input>
-              <q-input dense outlined v-model="rta.input.resol" mask="######" label="No Resolucion"></q-input>
-              <q-input dense outlined class="q-pa-none" v-if="rta.input.resol.length == '0'" v-model="rta.input.fcda" :readonly="rta.input.abo.length > '0'" label="Fecha Cancelado" mask="##/##/####" :rules="['##/##/####']">
-                <template v-slot:append>
-                  <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                      <q-date v-model="rta.input.fcda" :readonly="rta.input.abo.length > '0'" mask="DD/MM/YYYY">
-                        <div class="row items-center justify-end">
-                          <q-btn v-close-popup label="Cerrar" color="primary" flat>
-                            </q-toggle>
-                        </div>
-                      </q-date>
-                    </q-popup-proxy>
-                  </q-icon>
+                <q-select v-else dense outlined clearable v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios_a" options-dense menu-shrink behavior="default"></q-select>
+                <q-input dense outlined v-model="rta.input.mont" type="number" label="Monto"></q-input>
+                <q-input dense outlined v-model="rta.input.abo" type="number" label="Abono"></q-input>
+                <q-input dense outlined v-model="rtapte" readonly label="Pendiente de pago"></q-input>
+                <q-input dense outlined class="q-pa-none" v-model="rta.input.fcda" :readonly="rta.input.abo.length > '0'" label="Fecha Cancelado" mask="##/##/####" :rules="['##/##/####']">
+                  <template v-slot:append>
+                    <q-icon name="event" class="cursor-pointer">
+                      <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                        <q-date v-model="rta.input.fcda" :readonly="rta.input.abo.length > '0'" mask="DD/MM/YYYY">
+                          <div class="row items-center justify-end">
+                            <q-btn v-close-popup label="Cerrar" color="primary" flat>
+                              </q-toggle>
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+                <q-checkbox dense :disable="rta.input.fcda.length == '0'" keep-color v-model="rta.input.total" label="CDA EN PAGOS" color="primary"></q-checkbox>
+              </q-card-section>
+              <q-card-actions align="right">
+                <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
+                <q-btn @click="Addfranti" flat label="Agregar" color="green-8"></q-btn>
+              </q-card-actions>
+            </q-tab-panel>
+            <q-tab-panel name="actu" class="bg-grey-1 q-pa-none">
+              <q-card-section class="q-gutter-sm">
+                <q-select dense outlined v-model="rta.input.estado.selected" label="Estado" :options="rta.input.estado.options" option-value="value" option-label="estado" emit-value map-options options-dense menu-shrink behavior="default"></q-select>
+                <q-select v-if="rta.input.estado.selected === 'PGO'" dense outlined clearable v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios" behavior="default" options-dense menu-shrink></q-select>
+                <template v-else >
+                    <q-select dense outlined clearable multiple v-model="rta.input.ejer" label="Ejercicio" :options="ejercicios" behavior="default" options-dense menu-shrink ></q-select>
+                    <q-input dense outlined v-model="rta.input.ejerr" label="Ejercicio (rango)"></q-input>
                 </template>
-              </q-input>
-              <q-input dense outlined class="q-pa-none" v-else v-model="rta.input.fprox" label="Fecha proximo pago" mask="##/##/####" :rules="['##/##/####']">
-                <template v-slot:append>
-                  <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                      <q-date v-model="rta.input.fprox" mask="DD/MM/YYYY">
-                        <div class="row items-center justify-end">
-                          <q-btn v-close-popup label="Cerrar" color="primary" flat>
-                            </q-toggle>
-                        </div>
-                      </q-date>
-                    </q-popup-proxy>
-                  </q-icon>
-                </template>
-              </q-input>
-              <q-checkbox dense :disable="rta.input.fcda.length == '0'" keep-color v-model="rta.input.total" label="CDA EN PAGOS" color="primary"></q-checkbox>
-            </q-card-section>
-            <q-card-actions align="right">
-              <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
-              <q-btn @click="Addfrta" flat label="Agregar" color="green-8"></q-btn>
-            </q-card-actions>
-          </q-tab-panel>
-          <q-tab-panel name="vs" class="q-pa-none">
-            <q-card-section class="q-gutter-sm">
-              <q-select dense outlined v-model="vs.f11.input.vs.selected" label="vs" :options="vs.f11.input.vs.options" option-value="value" option-label="vsf" emit-value map-options options-dense menu-shrink behavior="default"></q-select>
-              <q-select dense outlined v-model="vs.f11.input.dif.selected" :readonly="vs.f11.input.vs.selected !== 'VS'" label="Estado" :options="vs.f11.input.dif.options" option-value="value" menu-shrink option-label="estado" emit-value map-options options-dense behavior="default"></q-select>
-              <q-select dense outlined clearable multiple v-model="vs.f11.input.ejer" label="Ejercicio" :options="ejer_vs" behavior="default" options-dense menu-shrink use-chips></q-select>
-            </q-card-section>
-            <q-card-actions align="right">
-              <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
-              <q-btn @click="Addvsf11" flat label="Agregar" color="green-8"></q-btn>
-            </q-card-actions>
-          </q-tab-panel>
-        </q-tab-panels>
-      </q-card>
+                <q-input dense outlined v-model="rta.input.mont" type="number" label="Monto"></q-input>
+                <q-input dense outlined v-model="rta.input.abo" type="number" label="Abono"></q-input>
+                <q-input dense outlined v-model="rtapte" readonly label="Pendiente de pago"></q-input>
+                <q-input dense outlined v-model="rta.input.resol" mask="######" label="No Resolucion"></q-input>
+                <q-input dense outlined class="q-pa-none" v-if="rta.input.resol.length == '0'" v-model="rta.input.fcda" :readonly="rta.input.abo.length > '0'" label="Fecha Cancelado" mask="##/##/####" :rules="['##/##/####']">
+                  <template v-slot:append>
+                    <q-icon name="event" class="cursor-pointer">
+                      <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                        <q-date v-model="rta.input.fcda" :readonly="rta.input.abo.length > '0'" mask="DD/MM/YYYY">
+                          <div class="row items-center justify-end">
+                            <q-btn v-close-popup label="Cerrar" color="primary" flat>
+                              </q-toggle>
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+                <q-input dense outlined class="q-pa-none" v-else v-model="rta.input.fprox" label="Fecha proximo pago" mask="##/##/####" :rules="['##/##/####']">
+                  <template v-slot:append>
+                    <q-icon name="event" class="cursor-pointer">
+                      <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                        <q-date v-model="rta.input.fprox" mask="DD/MM/YYYY">
+                          <div class="row items-center justify-end">
+                            <q-btn v-close-popup label="Cerrar" color="primary" flat>
+                              </q-toggle>
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+                <q-checkbox dense :disable="rta.input.fcda.length == '0'" keep-color v-model="rta.input.total" label="CDA EN PAGOS" color="primary"></q-checkbox>
+              </q-card-section>
+              <template v-if="rta.input.estado.selected === 'PGO'">
+                <q-card-section class="q-gutter-sm items-center">
+                  <q-btn flat dense class="text-caption" size="sx" color="blue-grey-6" label="F. Renta/Multas" @click="copyFrtamultas"></q-btn>
+                  <q-btn flat dense class="text-caption" size="sx" color="blue-grey-6" label="F. Renta" @click="copyFrta"></q-btn>
+                  <q-btn flat dense class="text-caption" size="sx" color="blue-grey-6" label="F. Multa" @click="copyFobligvarias"></q-btn>
+                </q-card-section>
+              </template>
+              
+              <q-card-actions align="right">
+                <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
+                <q-btn @click="Addfrta" flat label="Agregar" color="green-8"></q-btn>
+              </q-card-actions>
+            </q-tab-panel>
+            <q-tab-panel name="vs" class="bg-grey-1 q-pa-none">
+              <q-card-section class="q-gutter-sm">
+                <q-select dense outlined v-model="vs.f11.input.vs.selected" label="vs" :options="vs.f11.input.vs.options" option-value="value" option-label="vsf" emit-value map-options options-dense menu-shrink behavior="default"></q-select>
+                <q-select dense outlined v-model="vs.f11.input.dif.selected" :readonly="vs.f11.input.vs.selected !== 'VS'" label="Estado" :options="vs.f11.input.dif.options" option-value="value" menu-shrink option-label="estado" emit-value map-options options-dense behavior="default"></q-select>
+                <q-select dense outlined clearable multiple v-model="vs.f11.input.ejer" label="Ejercicio" :options="ejer_vs" behavior="default" options-dense menu-shrink ></q-select>
+                <q-input dense outlined v-model="vs.f11.input.ejerr" label="Ejercicio (rango)"></q-input>
+              </q-card-section>
+              <q-card-actions align="right">
+                <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
+                <q-btn @click="Addvsf11" flat label="Agregar" color="green-8"></q-btn>
+              </q-card-actions>
+            </q-tab-panel>
+          </q-tab-panels>
+        </q-card>
+  
+
+      
+      
+
     </q-dialog>
-    <q-dialog v-model="amp.input.show" persistent transition-show="slide-up" transition-hide="slide-down">
-      <q-card flat style="width: 350px">
+    <q-dialog   v-model="amp.input.show" persistent transition-show="slide-up" transition-hide="slide-down">
+      <q-card class="bg-grey-1" flat style="width: 350px">
         <q-bar class="bg-indigo-9 text-white">
           <div class="text-h6">Agregar declaración amparada</div>
           <q-space></q-space>
@@ -944,8 +985,8 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
-    <q-dialog v-model="f.input.show.f09" persistent transition-show="slide-up" transition-hide="slide-down">
-      <q-card flat style="width: 350px">
+    <q-dialog  v-model="f.input.show.f09" persistent transition-show="slide-up" transition-hide="slide-down">
+      <q-card class="bg-grey-1" flat style="width: 350px">
         <q-bar class="bg-light-blue-10 text-white">
           <div class="text-h6">Agregar TBR (F09)</div>
           <q-space></q-space>
@@ -996,8 +1037,8 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
-    <q-dialog v-model="vs.f14.input.show" persistent transition-show="slide-up" transition-hide="slide-down">
-      <q-card flat style="width: 350px">
+    <q-dialog   v-model="vs.f14.input.show" persistent transition-show="slide-up" transition-hide="slide-down">
+      <q-card class="bg-grey-1" flat style="width: 350px">
         <q-bar class="bg-cyan-10 text-white">
           <div class="text-h6">Agregar VS F910-F14</div>
           <q-space></q-space>
@@ -1009,7 +1050,12 @@
           <q-select dense outlined v-model="vs.f14.input.vs.selected" label="vs" :options="vs.f14.input.vs.options" option-value="value" option-label="vsf" emit-value map-options options-dense menu-shrink behavior="default"></q-select>
           <q-select dense v-if="vs.f14.input.vs.selected == 'VS'" outlined v-model="vs.f14.input.dif.selected" label="Estado" :options="vs.f14.input.dif.options" option-value="value" option-label="estado" emit-value map-options options-dense menu-shrink behavior="default"></q-select>
           <q-select dense v-else outlined v-model="vs.f14.input.novs.selected" label="Estado" :options="vs.f14.input.novs.options" option-value="value" option-label="estado" emit-value map-options options-dense menu-shrink behavior="default"></q-select>
-          <q-select dense outlined clearable multiple v-model="vs.f14.input.ejer" label="Ejercicio" :options="ejer_vs2" behavior="default" options-dense menu-shrink use-chips></q-select>
+          <q-select dense outlined clearable multiple v-model="vs.f14.input.ejer" label="Ejercicio" :options="ejer_vs2" behavior="default" options-dense menu-shrink ></q-select>
+          <q-input dense outlined v-model="vs.f14.input.ejerr" label="Ejercicio (rango)"></q-input>
+        </q-card-section>
+        <q-separator></q-separator>
+        <q-card-section class="q-gutter-sm items-center">
+          <q-btn flat dense class="text-caption" size="sx" color="blue-grey-6" label="F. Rentenciones" @click="copyFreten"></q-btn>
         </q-card-section>
         <q-card-actions align="right">
           <q-btn v-close-popup flat label="Cerrar" color="red-8"></q-btn>
@@ -1017,8 +1063,8 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
-    <q-dialog v-model="f.input.show.omi" persistent transition-show="slide-up" transition-hide="slide-down">
-      <q-card flat style="width: 500px;">
+    <q-dialog  v-model="f.input.show.omi" persistent transition-show="slide-up" transition-hide="slide-down">
+      <q-card class="bg-grey-1" flat style="width: 500px;">
         <q-bar class="bg-red-8  text-white">
           <div class="text-h6">Agregar Omisos</div>
           <q-space></q-space>
@@ -1030,10 +1076,10 @@
           <div class="text-caption">F06</div>
           <div class="row items-center q-gutter-md">
             <div class="col-xs">
-              <q-select dense use-chips multiple outlined v-model="f.f06.omisos" label="Seleccioné periodos omisos" :options="omisos" map-options options-dense behavior="default"></q-select>
+              <q-select dense  multiple outlined v-model="f.f06.omisos" label="Seleccioné periodos omisos" :options="omisos" map-options options-dense behavior="default"></q-select>
             </div>
             <div class="col-xs">
-              <q-card flat bordered class="my-card q-px-sm">
+              <q-card flat bordered class="my-card bg-grey-1 q-px-sm">
                 <div class="row items-center">
                   <div class="col-xs-9">
                     <q-input dense borderless v-model="f.input.periodo6" label="Periodo (rango)"></q-input>
@@ -1051,10 +1097,10 @@
           <div class="text-caption">F07</div>
           <div class="row items-center q-gutter-md">
             <div class="col-xs">
-              <q-select use-chips dense multiple outlined v-model="f.f07.omisos" label="Seleccioné periodos omisos" :options="omisos" map-options options-dense menu-shrink behavior="default"></q-select>
+              <q-select  dense multiple outlined v-model="f.f07.omisos" label="Seleccioné periodos omisos" :options="omisos" map-options options-dense menu-shrink behavior="default"></q-select>
             </div>
             <div class="col-xs">
-              <q-card flat bordered class="my-card q-px-sm">
+              <q-card flat bordered class="my-card bg-grey-1 q-px-sm">
                 <div class="row items-center">
                   <div class="col-xs-9">
                     <q-input dense borderless v-model="f.input.periodo7" label="Periodo (rango)"></q-input>
@@ -1072,10 +1118,10 @@
           <div class="text-caption">F14</div>
           <div class="row items-center q-gutter-md">
             <div class="col-xs">
-              <q-select use-chips dense multiple outlined v-model="f.f14.omisos" label="Seleccioné periodos omisos" :options="omisos" map-options options-dense menu-shrink behavior="default"></q-select>
+              <q-select  dense multiple outlined v-model="f.f14.omisos" label="Seleccioné periodos omisos" :options="omisos" map-options options-dense menu-shrink behavior="default"></q-select>
             </div>
             <div class="col-xs">
-              <q-card flat bordered class="my-card q-px-sm">
+              <q-card flat bordered class="my-card bg-grey-1 q-px-sm">
                 <div class="row items-center">
                   <div class="col-xs-9">
                     <q-input dense borderless v-model="f.input.periodo14" label="Periodo (rango)"></q-input>
