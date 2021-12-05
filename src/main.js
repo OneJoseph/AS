@@ -11,11 +11,15 @@ const AsistenOne = {
       unidad: 'UNIDAD RECEPTORA VIRTUAL',
       tecnico: 'DF/AH',
       marginacion: false,
+      uso: 'TRAMITES DIVERSOS',
+
       tab: {
         rta: 'actu',
       },
       detalle: true,
       dgt: false,
+      unidades: ['UNIDAD RECEPTORA VIRTUAL', 'SEC ASISTENCIA, FACILITACIÓN Y CONT PRI', 'OTRA'],
+      usos: ['TRAMITES DIVERSOS', 'TRAMITES WEB ANTE UACI, SISTEMA FINANCIERO Y/O CNR'],
 
       ejercicios: ['2020', '2019', '2018', '2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010', '2009', '2008', '2007', '2006', '2005', '2004', '2003', '2002', '2001', '2000'],
       ejercicios_a: ['1999', '1998', '1997', '1996', '1995', '1994', '1993', '1992', '1991', '1990'],
@@ -41,7 +45,7 @@ const AsistenOne = {
         { periodo: '07/2020', label: 'Julio 2020' },
         { periodo: '06/2020', label: 'Junio 2020' },
         { periodo: '05/2020', label: 'Mayo 2020' },
-        { periodo: '04/2020', label: 'Abril 020' },
+        { periodo: '04/2020', label: 'Abril 2020' },
         { periodo: '03/2020', label: 'Marzo 2020' },
         { periodo: '02/2020', label: 'Febrero 2020' },
         { periodo: '01/2020', label: 'Enero 2020' },
@@ -254,6 +258,7 @@ const AsistenOne = {
                ],
           },
           ejer: [],
+          ejerr: '',
           mont: '',
           fcda: '',
           abo: '',
@@ -269,6 +274,7 @@ const AsistenOne = {
           input: {
             show: false,
             ejer: [' 2020'],
+            ejerr: '',
             vs: {
               selected: 'VS',
               options: [
@@ -290,6 +296,7 @@ const AsistenOne = {
           input: {
             show: false,
             ejer: [' 2020'],
+            ejerr: '',
             vs: {
               selected: 'NA',
               options: [
@@ -456,6 +463,15 @@ const AsistenOne = {
         s = 'VEN'
       }
 
+      if (this.rta.input.ejerr.length) {
+        this.ejercicios.push(
+          this.rta.input.ejerr
+        )
+        this.rta.input.ejer.push(
+          this.rta.input.ejerr
+        )
+      }
+
       this.rta.db.actu.push({
         tipo: t,
         ejer: this.rta.input.ejer,
@@ -490,6 +506,15 @@ const AsistenOne = {
       }
       if (this.rta.input.estadoanti.selected == 'PGO' && this.rta.input.mont.length !== 0 && this.rta.input.abo.length !== 0 && this.rta.input.fcda.length == 0) {
         s = 'ABP'
+      }
+
+      if (this.rta.input.ejerr.length) {
+        this.ejercicios_a.push(
+          this.rta.input.ejerr
+        )
+        this.rta.input.ejer.push(
+          this.rta.input.ejerr
+        )
       }
 
       this.rta.db.anti.push({
@@ -602,6 +627,16 @@ const AsistenOne = {
       this.autostatus()
     },
     Addvsf11() {
+
+      if (this.vs.f11.input.ejerr.length) {
+        this.ejer_vs.push(
+          ' ' + this.vs.f11.input.ejerr
+        )
+        this.vs.f11.input.ejer.push(
+          ' ' +  this.vs.f11.input.ejerr
+        )
+      }
+
       this.vs.f11.db.push({
           vsf: this.vs.f11.input.vs.selected,
           estado: this.vs.f11.input.vs.selected == 'VS' ? this.vs.f11.input.dif.selected : '',
@@ -614,9 +649,19 @@ const AsistenOne = {
           position: 'top-right',
         })
       this.vs.f11.input.ejer = [],
+      this.vs.f11.input.ejerr = '',
         this.autostatus()
     },
     Addvsf14() {
+      if (this.vs.f14.input.ejerr.length) {
+        this.ejer_vs.push(
+          ' ' + this.vs.f14.input.ejerr
+        )
+        this.vs.f14.input.ejer.push(
+          ' ' +  this.vs.f14.input.ejerr
+        )
+      }
+
       this.vs.f14.db.push({
           vsf: this.vs.f14.input.vs.selected,
           estado: this.vs.f14.input.vs.selected == 'VS' ? this.vs.f14.input.dif.selected : this.vs.f14.input.novs.selected,
@@ -629,6 +674,7 @@ const AsistenOne = {
           position: 'top-right',
         })
       this.vs.f14.input.ejer = [],
+      this.vs.f14.input.ejerr = '',
         this.autostatus()
     },
     filtros(db, decreto, form, estado) {
@@ -644,32 +690,33 @@ const AsistenOne = {
     },
     ClearInputs() {
       this.rta.input.ejer = [],
-        this.rta.input.mont = '',
-        this.rta.input.fcda = '',
-        this.rta.input.abo = '',
-        this.rta.input.resol = '',
-        this.rta.input.fprox = '',
-        this.rta.input.foli = '',
-        this.rta.input.total = false,
-        this.f.input.periodo = '',
-        this.f.input.periodo6 = '',
-        this.f.input.periodo7 = '',
-        this.f.input.periodo14 = '',
-        this.f.input.mont = '',
-        this.f.input.fcda = '',
-        this.f.input.abo = '',
-        this.f.input.resol = '',
-        this.f.input.fprox = '',
-        this.f.input.total = false,
-        this.amp.input.ejer = [],
-        this.amp.input.periodo = '',
-        this.amp.input.mont = '',
-        this.amp.input.fcda = '',
-        this.amp.input.abo = '',
-        this.amp.input.resol = '',
-        this.amp.input.fprox = '',
-        this.amp.input.foli = '',
-        this.amp.input.total = false
+      this.rta.input.ejerr = '',
+      this.rta.input.mont = '',
+      this.rta.input.fcda = '',
+      this.rta.input.abo = '',
+      this.rta.input.resol = '',
+      this.rta.input.fprox = '',
+      this.rta.input.foli = '',
+      this.rta.input.total = false,
+      this.f.input.periodo = '',
+      this.f.input.periodo6 = '',
+      this.f.input.periodo7 = '',
+      this.f.input.periodo14 = '',
+      this.f.input.mont = '',
+      this.f.input.fcda = '',
+      this.f.input.abo = '',
+      this.f.input.resol = '',
+      this.f.input.fprox = '',
+      this.f.input.total = false,
+      this.amp.input.ejer = [],
+      this.amp.input.periodo = '',
+      this.amp.input.mont = '',
+      this.amp.input.fcda = '',
+      this.amp.input.abo = '',
+      this.amp.input.resol = '',
+      this.amp.input.fprox = '',
+      this.amp.input.foli = '',
+      this.amp.input.total = false
     },
     RemoveF(index, tipo) {
       switch (tipo) {
@@ -866,24 +913,6 @@ const AsistenOne = {
           })
         })
     },
-    copyFmrtas() {
-      const formula = 'year  (fech_fina_peri) =2020 and  ( especifico_detalle = "15301" or   especifico_detalle ="15302" or especifico_detalle = "")'
-      copyToClipboard(formula)
-        .then(() => {
-          this.q.notify({
-            progress: true,
-            message: 'Formula copiada',
-            position: 'top-right',
-          })
-        })
-        .catch(() => {
-          this.q.notify({
-            progress: true,
-            message: 'No se puedo copiar',
-            position: 'top-right',
-          })
-        })
-    },
     copyFreten() {
       const formula = 'year  (fech_fina_peri) =2020 and  ( especifico_detalle = "11901" or   especifico_detalle ="11903" or especifico_detalle = "11104")'
       copyToClipboard(formula)
@@ -920,8 +949,8 @@ const AsistenOne = {
           })
         })
     },
-    copyFobligvarias() {
-      const formula = 'year  (fech_fina_peri) =2020 and  ( especifico_detalle = "15301" or   especifico_detalle ="15302" or especifico_detalle = "")'
+    copyFmultasiva() {
+      const formula = 'year  (fech_fina_peri) =2008 and  ( especifico_detalle = "15308" or   especifico_detalle ="15308" or especifico_detalle = "")'
       copyToClipboard(formula)
         .then(() => {
           this.q.notify({
@@ -987,7 +1016,7 @@ const AsistenOne = {
         return 'SE EMITE CONSTANCIA DE NO CONTRIBUYENTE'
       }
       if (this.solvencia && !this.razonado && this.contri.selected == 'SS') {
-        return 'SE EMITE SOLVENCIA PARA TRAMITES DIVERSOS'
+        return 'SE EMITE SOLVENCIA PARA ' + this.uso
       }
       if (this.solvencia && !this.razonado && this.contri.selected == 'IO') {
         return 'SE RECHAZA SOLVENCIA, SE EMITE ESTADO DE CUENTA INSOLVENTE PARA PUBLICO'
