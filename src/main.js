@@ -380,8 +380,8 @@ const AsistenOne = {
       } else {
         this.q.notify({
           progress: true,
-          message: 'Campo periodo omiso',
-          color: 'positive',
+          message: 'Campo periodo vacio',
+          color: 'negative',
           position: 'top-right',
         })
         this.autostatus()
@@ -408,8 +408,8 @@ const AsistenOne = {
       } else {
         this.q.notify({
           progress: true,
-          message: 'Campo periodo omiso',
-          color: 'positive',
+          message: 'Campo periodo vacio',
+          color: 'negative',
           position: 'top-right',
         })
         this.autostatus()
@@ -436,8 +436,8 @@ const AsistenOne = {
       } else {
         this.q.notify({
           progress: true,
-          message: 'Campo periodo omiso',
-          color: 'positive',
+          message: 'Campo periodo vacio',
+          color: 'negative',
           position: 'top-right',
         })
         this.autostatus()
