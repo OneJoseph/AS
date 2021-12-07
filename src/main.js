@@ -328,8 +328,8 @@ const AsistenOne = {
     }
   },
   methods: {
-    
-    plantilla1(){
+
+    plantilla1() {
       this.iva.inscrito = true
       this.f.f07.oblig = 1
       this.f.f14.oblig = 1
@@ -627,13 +627,14 @@ const AsistenOne = {
       this.autostatus()
     },
     Addvsf11() {
-
+      const rango = ' ' + this.vs.f11.input.ejerr
       if (this.vs.f11.input.ejerr.length) {
+        this.vs.f11.input.ejer = [],
         this.ejer_vs.push(
-          ' ' + this.vs.f11.input.ejerr
+          rango
         )
         this.vs.f11.input.ejer.push(
-          ' ' +  this.vs.f11.input.ejerr
+          rango
         )
       }
 
@@ -649,16 +650,18 @@ const AsistenOne = {
           position: 'top-right',
         })
       this.vs.f11.input.ejer = [],
-      this.vs.f11.input.ejerr = '',
+        this.vs.f11.input.ejerr = '',
         this.autostatus()
     },
     Addvsf14() {
+      const rango = ' ' + this.vs.f14.input.ejerr
       if (this.vs.f14.input.ejerr.length) {
-        this.ejer_vs.push(
-          ' ' + this.vs.f14.input.ejerr
-        )
+        this.vs.f14.input.ejer = [],
+          this.ejer_vs2.push(
+            rango
+          )
         this.vs.f14.input.ejer.push(
-          ' ' +  this.vs.f14.input.ejerr
+          rango
         )
       }
 
@@ -674,7 +677,7 @@ const AsistenOne = {
           position: 'top-right',
         })
       this.vs.f14.input.ejer = [],
-      this.vs.f14.input.ejerr = '',
+        this.vs.f14.input.ejerr = '',
         this.autostatus()
     },
     filtros(db, decreto, form, estado) {
@@ -690,33 +693,33 @@ const AsistenOne = {
     },
     ClearInputs() {
       this.rta.input.ejer = [],
-      this.rta.input.ejerr = '',
-      this.rta.input.mont = '',
-      this.rta.input.fcda = '',
-      this.rta.input.abo = '',
-      this.rta.input.resol = '',
-      this.rta.input.fprox = '',
-      this.rta.input.foli = '',
-      this.rta.input.total = false,
-      this.f.input.periodo = '',
-      this.f.input.periodo6 = '',
-      this.f.input.periodo7 = '',
-      this.f.input.periodo14 = '',
-      this.f.input.mont = '',
-      this.f.input.fcda = '',
-      this.f.input.abo = '',
-      this.f.input.resol = '',
-      this.f.input.fprox = '',
-      this.f.input.total = false,
-      this.amp.input.ejer = [],
-      this.amp.input.periodo = '',
-      this.amp.input.mont = '',
-      this.amp.input.fcda = '',
-      this.amp.input.abo = '',
-      this.amp.input.resol = '',
-      this.amp.input.fprox = '',
-      this.amp.input.foli = '',
-      this.amp.input.total = false
+        this.rta.input.ejerr = '',
+        this.rta.input.mont = '',
+        this.rta.input.fcda = '',
+        this.rta.input.abo = '',
+        this.rta.input.resol = '',
+        this.rta.input.fprox = '',
+        this.rta.input.foli = '',
+        this.rta.input.total = false,
+        this.f.input.periodo = '',
+        this.f.input.periodo6 = '',
+        this.f.input.periodo7 = '',
+        this.f.input.periodo14 = '',
+        this.f.input.mont = '',
+        this.f.input.fcda = '',
+        this.f.input.abo = '',
+        this.f.input.resol = '',
+        this.f.input.fprox = '',
+        this.f.input.total = false,
+        this.amp.input.ejer = [],
+        this.amp.input.periodo = '',
+        this.amp.input.mont = '',
+        this.amp.input.fcda = '',
+        this.amp.input.abo = '',
+        this.amp.input.resol = '',
+        this.amp.input.fprox = '',
+        this.amp.input.foli = '',
+        this.amp.input.total = false
     },
     RemoveF(index, tipo) {
       switch (tipo) {
@@ -876,7 +879,7 @@ const AsistenOne = {
             position: 'top-right',
           })
         })
-    }, 
+    },
     copyFrtamultas() {
       const formula = '( especifico_detalle = "11101" or   especifico_detalle ="11102" or especifico_detalle =  "11103" or especifico_detalle = "15301" or especifico_detalle = "15302" or especifico_detalle = "") and year  (fech_fina_peri) =20'
       copyToClipboard(formula)
@@ -969,11 +972,11 @@ const AsistenOne = {
     }
   },
   computed: {
-    premargin(){
+    premargin() {
       const pre = ['SIN MARG']
       return pre.concat(this.ejercicios)
     },
-    fechaM(){
+    fechaM() {
       const f = Date.now()
       const ff = date.formatDate(f, 'D/MM/YYYY')
       return ff
