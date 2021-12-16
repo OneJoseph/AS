@@ -27,6 +27,7 @@ const AsistenOne = {
       ejer_vs2: [' 2020', ' 2019', ' 2018', ' 2017', ' 2016'],
 
       omisos: [
+	{ periodo: '11/2021', label: 'Noviembre 2021' },
         { periodo: '10/2021', label: 'Octubre 2021' },
         { periodo: '09/2021', label: 'Septiembre 2021' },
         { periodo: '08/2021', label: 'Agosto 2021' },
@@ -86,7 +87,6 @@ const AsistenOne = {
         { periodo: '02/2017', label: 'Febrero 2017' },
         { periodo: '01/2017', label: 'Enero 2017' },
         { periodo: '12/2016', label: 'Diciembre 2016' },
-        { periodo: '11/2016', label: 'Noviembre 2016' }
         ],
 
       rsol: {
@@ -136,7 +136,7 @@ const AsistenOne = {
           act: '',
           omisos: [],
         },
-        verf: '10/2021',
+        verf: '11/2021',
 
         f09: {
           db: [],
