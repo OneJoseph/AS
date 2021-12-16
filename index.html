@@ -310,7 +310,7 @@
                 <template v-if="srta.estado == 'SDO'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> S/CAP. </template>
                 <template v-if="srta.estado == 'DEV'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> DEV. </template>
                 <template v-if="srta.estado == 'DIV'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> OMISA DIV. </template>
-                <template v-if="srta.estado == 'IVA'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> OMISA IVA. </template>
+                <template v-if="srta.estado == 'IVA'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> OMISA POR IVA. </template>
                 <template v-if="srta.estado == 'OMA'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> OMISA ACT ECONOMICA. </template>
                 <template v-if="srta.estado == 'OSU'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> OMISA S/SUG. </template>
                 <template v-if="srta.estado == 'BPA'">RTA <template v-for="(ejer, index) in srta.ejer"> {{ (index == '0' ? '' : ', ') + ejer }} </template> SIN OBLIG B/PARAMETROS S/CARP ELECT. </template>
@@ -386,7 +386,7 @@
                 </template>
                 <template v-if="ampd1f14.length"> DE F14:
                   <template v-for="d in ampd1f14">
-                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} {{ d.total == false ? '' : 'TOTALMENTE '}} {{ d.fcda }}. </template>
+                    <template v-if="d.estado == 'CDA'">{{ d.ejer }} ${{ d.mont }} CDA {{ d.total == false ? '' : 'TOTALMENTE '}} {{ d.fcda }}. </template>
                     <template v-if="d.estado == 'PTE'">{{ d.ejer }} ${{ d.mont }} PTE DE PAGO. </template>
                     <template v-if="d.estado == 'ABP'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE DE PAGO ${{ d.pte }}. </template>
                     <template v-if="d.estado == 'VIG'">{{ d.ejer }} ${{ d.mont }} ABO ${{ d.abo }} PTE ${{ d.pte }} C/RESOL DE PAGO A PLAZO No {{ d.resol }} PROX CUOTA VENCE EL {{ d.fprox }}. </template>
@@ -714,9 +714,9 @@
                       <template v-if="s.estado == 'VEN'">{{ s.tipo }} {{ s.periodo }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA. </template>
                     </template>
                     <template v-if="s.tipo == 'AMPARADA'">
-                      <template v-if="s.estado == 'PTE' || s.estado =='ABP'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }} MAS INTERESES, PENDIENTE DE PAGO. </template>
-                      <template v-if="s.estado == 'VIG'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}. </template>
-                      <template v-if="s.estado == 'VEN'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }} MAS INTERESES CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA. </template>
+                      <template v-if="s.estado == 'PTE' || s.estado =='ABP'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }}, PENDIENTE DE PAGO. </template>
+                      <template v-if="s.estado == 'VIG'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }} CON RESOLUCION DE PAGO A PLAZO PROXIMA CUOTA VENCE {{ s.fprox }}. </template>
+                      <template v-if="s.estado == 'VEN'">DECLARACION {{ s.tipo }} DE {{ s.form == 'F6' ? 'F06' : '' }} {{ s.form == 'F7' ? 'F07' : '' }} {{ s.form == 'F4' ? 'F14' : '' }} {{ s.ejer }} CON RESOLUCION DE PAGO A PLAZO CON CUOTA VENCIDA. </template>
                     </template>
                   </template>
                   <template v-if='rsol.posee'>{{ obsaldo.length ? ' /// ' : '' }} {{ rsol.input.obtext }}</template>
